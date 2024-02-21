@@ -1,10 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
+import './sass/Main.css'; // only need to import once. Sass code compiles to css, so we import css.
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <div className="Hello">hello, this is a sass test</div>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.

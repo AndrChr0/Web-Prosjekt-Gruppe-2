@@ -1,0 +1,5 @@
+@use "../abstracts" as *;
+.Hello {
+    background-color: $green;
+    padding: .5em;
+} /* just an example */
