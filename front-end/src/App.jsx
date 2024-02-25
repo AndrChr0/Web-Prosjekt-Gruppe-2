@@ -1,13 +1,7 @@
-import './App.css'
+import ShowMongoObjects from "./pages/ShowMongoObjects";
 
 function App() {
-
-  return (
-    <>
-     
-        <div>yoyyo</div>
-    </>
-  )
+  return <ShowMongoObjects></ShowMongoObjects>;
 }
 
-export default App
+export default App;
