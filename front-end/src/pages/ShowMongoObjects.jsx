@@ -21,7 +21,7 @@ function ShowMongoObjects() {
   }, []);
 
   return (
-    <>
+    <div className="show-mongo-objects">
       <h1>Show reflections</h1>
 
       {loading ? (
@@ -32,15 +32,21 @@ function ShowMongoObjects() {
             {reflections.map((reflection, index) => (
               <li key={reflection._id}>
                 <div>{index + 1}</div>
-                <div>{reflection.title}</div>
-                <div>{reflection.content}</div>
-                <div>{reflection.courseId}</div>
+                <div>
+                  <b> Title:</b> {reflection.title}
+                </div>
+                <div>
+                  <b>Reflection Body:</b> {reflection.content}
+                </div>
+                <div>
+                  <b>Course-ID:</b> {reflection.courseId}
+                </div>
               </li>
             ))}
           </ul>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
