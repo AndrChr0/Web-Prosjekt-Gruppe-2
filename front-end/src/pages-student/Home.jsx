@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-// import { Link } from "react-router-dom";
 
-function ShowMongoObjects() {
+function Home() {
   const [reflections, setReflections] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -50,4 +49,4 @@ function ShowMongoObjects() {
   );
 }
 
-export default ShowMongoObjects;
+export default Home;
