@@ -1,6 +1,5 @@
 import express from "express";
 import { Reflection } from "../models/reflectionModel.js";
-
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -24,6 +23,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+
 // Route for get all Reflections from database
 router.get("/", async (req, res) => {
   try {
@@ -39,13 +39,12 @@ router.get("/", async (req, res) => {
   }
 });
 
+
 // Route for get one reflection from database by id
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-
     const reflection = await Reflection.findById(id);
-
     return res.status(200).json({ reflection });
   } catch (error) {
     console.log(error.message);
@@ -53,8 +52,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// route for updating a reflection
 
+// route for updating a reflection
 router.put("/:id", async (req, res) => {
   try {
     if (!req.body.title || !req.body.content || !req.body.courseId) {
@@ -64,7 +63,6 @@ router.put("/:id", async (req, res) => {
     }
 
     const { id } = req.params;
-
     const result = await Reflection.findByIdAndUpdate(id, req.body);
 
     if (!result) {
@@ -78,8 +76,8 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// delete a reflection
 
+// delete a reflection
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;

@@ -1,11 +1,8 @@
 import express, { response } from "express";
-// import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
-import { Reflection } from "./models/reflectionModel.js";
 import ReflectionRoute from "./routes/ReflectionRoute.js";
 import cors from "cors";
-// import express from 'express';
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 const PORT = process.env.PORT || 5555;
 const MONGO_URI = process.env.MONGO_URI;
