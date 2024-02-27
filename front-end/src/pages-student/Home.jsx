@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import MainMenuButton from "../components/MainMenuButton";
+// import AddCourse from "./pages-student/AddCourse";
 
 function Home() {
   const [reflections, setReflections] = useState([]);
@@ -20,32 +22,34 @@ function Home() {
   }, []);
 
   return (
-    <div className="show-mongo-objects">
-      <h1>Show reflections</h1>
+    <main>
+      <div className="show-mongo-objects">
+        <h1>Show reflections</h1>
 
-      {loading ? (
-        <h2>please wait</h2>
-      ) : (
-        <div>
-          <ul>
-            {reflections.map((reflection, index) => (
-              <li key={reflection._id}>
-                <div>{index + 1}</div>
-                <div>
-                  <b> Title:</b> {reflection.title}
-                </div>
-                <div>
-                  <b>Reflection Body:</b> {reflection.content}
-                </div>
-                <div>
-                  <b>Course-ID:</b> {reflection.courseId}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+        {loading ? (
+          <h2>please wait</h2>
+        ) : (
+          <div>
+            <ul>
+              {reflections.map((reflection, index) => (
+                <li key={reflection._id}>
+                  <div>{index + 1}</div>
+                  <div>
+                    <b> Title:</b> {reflection.title}
+                  </div>
+                  <div>
+                    <b>Reflection Body:</b> {reflection.content}
+                  </div>
+                  <div>
+                    <b>Course-ID:</b> {reflection.courseId}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
 
