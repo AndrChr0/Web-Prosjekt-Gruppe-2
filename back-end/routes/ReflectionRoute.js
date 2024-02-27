@@ -13,6 +13,7 @@ router.post("/", async (req, res) => {
       title: req.body.title,
       content: req.body.content,
       courseId: req.body.courseId,
+      visibility: req.body.visibility,
     };
 
     const reflection = await Reflection.create(newReflection);

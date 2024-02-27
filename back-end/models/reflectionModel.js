@@ -14,6 +14,10 @@ const reflectionSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    visibility: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
