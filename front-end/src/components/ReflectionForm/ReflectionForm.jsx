@@ -63,6 +63,8 @@ const handleSubmit = async (e) => {
           onChange={handleChange}
           required
         ></textarea>
+        <label htmlFor="fileUpload">Upload a file</label>
+        <input type="file" name="fileUpload" />
       <label htmlFor="courseId">
         Course ID:
         </label>
