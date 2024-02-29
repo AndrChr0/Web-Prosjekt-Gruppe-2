@@ -18,6 +18,7 @@ const reflectionSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    files: [String]
   },
   {
     timestamps: true,
