@@ -52,13 +52,25 @@ router.post("/", upload.array("files", 5), async (req, res) => {
     }
 
     // Create new reflection object
-    const newReflection = {
-      title: req.body.title,
-      content: req.body.content,
-      courseId: req.body.courseId,
-      visibility: req.body.visibility,
-      files: req.files.map((file) => file.path),
-    };
+    // const newReflection = {
+    //   title: req.body.title,
+    //   content: req.body.content,
+    //   courseId: req.body.courseId,
+    //   visibility: req.body.visibility,
+    //   files: req.files.map((file) => file.path),
+    // };
+
+        // Map paths of files
+        const filesPaths = req.files.map((file) => file.path);
+
+        // Create new reflection object
+        const newReflection = {
+          title: req.body.title,
+          content: req.body.content,
+          courseId: req.body.courseId,
+          visibility: req.body.visibility,
+          files: filesPaths,
+        };
 
     // Save the new reflection to the database
     const reflection = await Reflection.create(newReflection);

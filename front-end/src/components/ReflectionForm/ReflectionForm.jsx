@@ -8,6 +8,7 @@ function ReflectionForm() {
     content: "",
     courseId: "",
     visibility: false,
+    files: [],
   });
 
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
@@ -22,15 +23,28 @@ function ReflectionForm() {
 const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
+        const formDataWithFiles = new FormData();
+        formDataWithFiles.append("title", formData.title);
+        formDataWithFiles.append("content", formData.content);
+        formDataWithFiles.append("courseId", formData.courseId);
+        formDataWithFiles.append("visibility", formData.visibility);
+
+        for (let i = 0; i < formData.files.length; i++) {
+            formDataWithFiles.append("files", formData.files[i]);
+        }
+
+
         const respons = await axios.post(
             "http://localhost:5151/reflections/",
-            formData
+            formDataWithFiles
         );
         setFormData({
             title: "",
             content: "",
             courseId: "",
             visibility: false,
+            files: [],
         });
         setSubmissionSuccess(true);
         console.log("Reflection created:", respons.data);
@@ -63,8 +77,18 @@ const handleSubmit = async (e) => {
           onChange={handleChange}
           required
         ></textarea>
-        <label htmlFor="fileUpload">Upload a file</label>
-        <input type="file" name="fileUpload" />
+        <label htmlFor="files">Upload a file</label>
+        <input
+          type="file"
+          name="files"
+          multiple  // Allow multiple files
+          onChange={(e) => {
+           setFormData({
+      ...formData,
+      files: e.target.files,
+    });
+  }}
+/>
       <label htmlFor="courseId">
         Course ID:
         </label>
