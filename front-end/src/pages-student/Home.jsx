@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import MainMenuButton from "../components/MainMenuButton";
+import MainMenuButton from "../components/MainmenuButton/MainMenuButton";
 // import AddCourse from "./pages-student/AddCourse";
 
 function Home() {

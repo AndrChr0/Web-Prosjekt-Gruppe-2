@@ -1,4 +1,4 @@
-import MainMenuButton from "../components/MainMenuButton";
+import MainMenuButton from "../components/MainmenuButton/MainMenuButton";
 function MyDiary() {
   return (
     <>
