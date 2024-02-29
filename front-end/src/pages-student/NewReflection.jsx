@@ -1,4 +1,4 @@
-import ReflectionForm from "../components/ReflectionForm"
+import ReflectionForm from "../components/ReflectionForm/ReflectionForm"
 
 function NewReflection(){
     return(
