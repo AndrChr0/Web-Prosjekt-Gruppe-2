@@ -18,6 +18,27 @@ main {
   height: 100%;
 }
 
+.Courses-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2em; // gap between header and list
+  width: 100%;
+  margin-top: 5em;
+  flex-direction: column;
+
+}
+
+.Course-item {
+  margin-bottom: 2em;
+  line-height: 1.5;
+  padding: 1em;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  list-style-type: none;
+}
+
 nav {
   background-color: rgb(214 126 24);
   padding: 1em 0;
