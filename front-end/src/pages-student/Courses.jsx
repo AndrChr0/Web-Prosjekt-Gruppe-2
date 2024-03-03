@@ -21,22 +21,23 @@ function Courses(){
     }, []);
 
     return(
-        <div className="Courses-list">
+        <main>
             <h1>My Courses</h1>
-            <ul>
+            <ul className="Courses-list">
             {courses.map((course, i) => (
                 <li className="Course-item" key={course._id}>
                     <div>{i + 1}</div>
                     <div>
-                        <span><b>Course name:</b></span> {course.courseCode} {course.title} 
+                        <span><b> {course.courseCode} </b></span> {course.title} 
                     </div>
                     <div>
-                        <span><b>Course description:</b></span> {course.description} 
+                        <span><b>Description:</b></span> {course.description} 
                     </div>
                 </li>
             ))}
             </ul>
-        </div>
+
+        </main>
     )}
     
     export default Courses;
