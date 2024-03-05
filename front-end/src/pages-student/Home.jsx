@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import MainMenuButton from "../components/MainMenuButton";
 import "../assets/styles/homeStyles.css";
+
 // import AddCourse from "./pages-student/AddCourse";
 
 function Home() {
