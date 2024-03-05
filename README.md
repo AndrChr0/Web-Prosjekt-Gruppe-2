@@ -8,7 +8,7 @@
 6. Start epiphanying sustainability
 
 ---
-
+.
 ### Prerequisites
 
 - Docker installed on your machine.
