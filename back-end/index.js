@@ -1,6 +1,7 @@
 import express, { response } from "express";
 import mongoose from "mongoose";
 import ReflectionRoute from "./routes/ReflectionRoute.js";
+import courseRoute from "./routes/courseRoute.js";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 app.use(cors());
 
 app.use("/reflections", ReflectionRoute);
+app.use("/courses", courseRoute);
 
 // custom origins
 // app.use(cors(
