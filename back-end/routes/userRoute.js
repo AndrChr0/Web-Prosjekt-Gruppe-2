@@ -1,11 +1,12 @@
+import jwt from 'jsonwebtoken';//Import jsonwebtoken
 import express from "express";
 import { User } from "../models/userModel.js";
 const router = express.Router();
 
+// Get route for fetching all users
 router.get("/", async (req, res) => {
     try {
         const users = await User.find({});
-
         return res.status(200).json({
             count: users.length,
             data: users,
@@ -15,16 +16,16 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+// Updated post for User Registration 
+router.post('/register', async (req, res) => { //Changed this line to use '/register'
     try {
         const newUser = new User({
-            email:req.body.email,
-            password:req.body.password,
-            role:req.body.role
+            email: req.body.email,
+            password: req.body.password,
+            role: req.body.role
         });
 
         const savedUser = await newUser.save();
-
         res.status(201).json(savedUser);
         console.log('User registered successfully');
     } catch (error) {
@@ -33,7 +34,28 @@ router.post('/', async (req, res) => {
     }
 });
 
-// put method... update a user
+// Placeholder for PUT route to update a user
+
+
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid credentials' });
+        }
+        // Placeholder for password verification logic
+        // -TODO: Replace this with bcrypt password comparison
+        //Like every developer said: Educational purposes only, dont do what i did below here
+        if (user.password !== password) {
+            return res.status(400).json({ error: 'Invalid credentials' });
+        }
+        const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
+        res.json({ token });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
 
 export default router;

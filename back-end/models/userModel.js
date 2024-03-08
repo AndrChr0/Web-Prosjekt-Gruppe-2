@@ -1,27 +1,27 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs'; // har installert package "npm install bcryptjs" 
 
-const userSchema = mongoose.Schema({
+// import bcrypt from 'bcryptjs'; // Temporarily disabled for development speed
+
+const userSchema = new mongoose.Schema({
     email: {
-         type: String, 
-         unique: true, 
-         required: true 
-        },
-    password: { 
-        type: String, 
-        required: true 
+        type: String,
+        unique: true,
+        required: true
     },
-    role: { 
-        type: String, enum: ['teacher', 'student'], 
-        required: true 
+    password: {
+        type: String,
+        required: true
+    },
+    role: {
+        type: String, enum: ['teacher', 'student'],
+        required: true
     },
 },
-{
-  timestamps: true,
-});
-
-export const User = mongoose.model('User', userSchema);
-/* module.exports = User; */
+    {
+        timestamps: true,
+    });
+/* - Temporarily disable password hashing middleware for development speed
+// module.exports = User;
 
 // Hashes the password before saving the user model.. funker ikke enda
 userSchema.pre('save', async function (next) {
@@ -36,3 +36,5 @@ userSchema.pre('save', async function (next) {
         return next(error);
     }
 });
+*/
+export const User = mongoose.model('User', userSchema); // Moved
