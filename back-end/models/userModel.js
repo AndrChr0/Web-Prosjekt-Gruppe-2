@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-
-// import bcrypt from 'bcryptjs'; // Temporarily disabled for development speed
+import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -20,21 +19,21 @@ const userSchema = new mongoose.Schema({
     {
         timestamps: true,
     });
-/* - Temporarily disable password hashing middleware for development speed
-// module.exports = User;
 
-// Hashes the password before saving the user model.. funker ikke enda
+// Hashes the password before saving the user model.. funker ikke enda. Nej ikke med den instillingen se her 
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         next();
     }
     try {
+        //Generate a salt
         const salt = await bcrypt.genSalt(10);
+        //Hash pass
         this.password = await bcrypt.hash(this.password, salt);
+        //Continue with next middleware
         next();
     } catch (error) {
         return next(error);
     }
 });
-*/
-export const User = mongoose.model('User', userSchema); // Moved
+export const User = mongoose.model('User', userSchema); 
