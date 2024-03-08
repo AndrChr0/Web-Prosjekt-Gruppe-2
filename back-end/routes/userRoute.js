@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';//Import jsonwebtoken
 import express from "express";
 import { User } from "../models/userModel.js";
+import bcrypt from 'bcryptjs';
 const router = express.Router();
 
 // Get route for fetching all users
@@ -44,13 +45,14 @@ router.post('/login', async (req, res) => {
         if (!user) {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
-        // Placeholder for password verification logic
-        // -TODO: Replace this with bcrypt password comparison
-        //Like every developer said: Educational purposes only, dont do what i did below here
-        if (user.password !== password) {
+        // Password verification logic
+        // Compare the provided password with the stored hashed password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
-        const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
+        //Generate token
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         res.json({ token });
     } catch (error) {
         res.status(400).json({ error: error.message });
