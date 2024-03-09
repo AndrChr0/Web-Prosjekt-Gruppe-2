@@ -1,4 +1,3 @@
-// import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages-student/Home";
 import MyDiary from "./pages-student/MyDiary";
@@ -8,6 +7,8 @@ import NewReflection from "./pages-student/NewReflection";
 import AddCourse from "./pages-student/AddCourse";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import ReflectionDetail from "./components/ReflectionDetail/ReflectionDetail"; 
+
 import "./assets/styles/App.scss";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/new_reflection" element={<NewReflection/>}/>
           <Route path="/add_course" element={<AddCourse/>}/>
+          <Route path="/reflections/:reflectionId" element={<ReflectionDetail/>} /> 
         </Routes>
         <Footer></Footer>
     </>
