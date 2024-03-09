@@ -104,9 +104,11 @@ function ReflectionForm() {
           className="custom-file-input"
           multiple // Allow multiple files
           onChange={(e) => {
+            // Convert FileList to array and concatenate with the existing files
+            const newFiles = Array.from(e.target.files);
             setFormData({
               ...formData,
-              files: e.target.files,
+              files: [...formData.files, ...newFiles],
             });
           }}
         />

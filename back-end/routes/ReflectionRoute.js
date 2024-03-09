@@ -1,7 +1,6 @@
 import express from "express";
 import { Reflection } from "../models/reflectionModel.js";
 import multer from "multer";
-
 const router = express.Router();
 
 // Multer configuration for file upload functionality
@@ -11,10 +10,15 @@ const storage = multer.diskStorage({
     cb(null, "uploads");
   },
   filename: (req, file, cb) => {
-    // Generate unique filename with timestamp and random number
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const extension = file.originalname.split(".").pop(); // Get the file extension
-    const filename = `${uniqueSuffix}.${extension}`;
+    // Get current date and time
+    const now = new Date();
+    // Format the date and time
+    const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
+    const time = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS, replace colons with dashes
+    // Combine date, time, and original filename
+    const dateTimePrefix = `${date}_${time}`; // Date-time prefix
+    const originalFileName = file.originalname.replace(/\s/g, '_'); // Replace spaces in original filename with underscores to avoid issues
+    const filename = `${dateTimePrefix}-${originalFileName}`;
     cb(null, filename);
   },
 });
