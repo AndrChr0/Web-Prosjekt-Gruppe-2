@@ -8,7 +8,7 @@ footer {
     margin-top: 5vh;
 }
 
-p {
+.footer-text {
     color: white;
     font-weight: 500;
 }

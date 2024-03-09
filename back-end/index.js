@@ -24,6 +24,7 @@ app.use(cors());
 app.use("/reflections", ReflectionRoute);
 app.use("/courses", courseRoute);
 app.use("/users", userRoute)
+app.use('/uploads', express.static('uploads')); // make the uploads folder public
 
 mongoose
   .connect(process.env.MONGO_URI)
