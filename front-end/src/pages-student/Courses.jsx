@@ -28,11 +28,9 @@ function Courses(){
             {courses.map((course, i) => (
                 <Link className='Text-link' to={`/courses/${course._id}`}>
                 <li className="Course-item" key={course._id}>
-                    <div>{i + 1}</div>
                     <div>
                         <span><b> {course.courseCode} </b></span> {course.title} 
                     </div>
-
                 </li>
                 </Link>
             ))}

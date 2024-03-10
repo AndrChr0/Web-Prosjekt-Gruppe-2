@@ -35,6 +35,21 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.get('/', async (req, res) => {
+    try {
+        const userId = req.user._id;
+  
+      // Find courses for a specific user
+      const courses = await Course.find({ user: userId })
+        .populate('user', 'email');
+  
+      res.json({ courses });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
 // add new course to db
 router.post("/", async (req, res) => {
 
