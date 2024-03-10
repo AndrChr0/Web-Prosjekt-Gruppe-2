@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import ActionButton from '../ActionButton/ActionButton';
 import axios from 'axios';
 
 function ReflectionDetail() {
@@ -40,7 +41,8 @@ function ReflectionDetail() {
           </a>
         </div>
       ))}
-       <button onClick={handleEdit}>Edit Reflection</button>
+       {/* <button onClick={handleEdit}>Edit Reflection</button> */}
+       <ActionButton onClick={handleEdit} btnType="button" btnValue="Edit Reflection" />
     </div>
   );
 }

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ActionButton from '../ActionButton/ActionButton';
 
 function EditReflection() {
   const { reflectionId } = useParams();
@@ -94,7 +95,8 @@ function EditReflection() {
           onChange={handleChange}
         />
       </label>
-      <button type="submit">Save</button>
+      {/* <button type="submit">Save</button> */}
+        <ActionButton btnType="submit" btnValue="Save" />
       <button type="button" onClick={handleDelete}>Delete Reflection</button>
     </form>
   );

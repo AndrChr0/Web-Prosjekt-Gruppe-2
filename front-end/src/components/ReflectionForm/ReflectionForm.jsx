@@ -2,6 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import "./ReflectionForm.css";
+import ActionButton from "../ActionButton/ActionButton";
 
 // Functional component for the ReflectionForm
 function ReflectionForm() {
@@ -148,7 +149,7 @@ function ReflectionForm() {
             }
           />
         </div>
-        <button type="submit">Submit</button>
+        <ActionButton btnType="submit" btnValue="Submit" />
       </form>
       {/* Displaying a success message if submission is successful */}
       {submissionSuccess && (
