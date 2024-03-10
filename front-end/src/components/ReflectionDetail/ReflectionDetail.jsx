@@ -11,7 +11,6 @@ function ReflectionDetail() {
     axios.get(`http://localhost:5151/reflections/${reflectionId}`)
       .then(res => {
         setReflection(res.data.reflection); // Adjust based on your API response structure
-        console.log(res.data.reflection.content);
         setLoading(false);
       })
       .catch(error => {
@@ -20,10 +19,12 @@ function ReflectionDetail() {
       });
   }, [reflectionId]);
 
-  // Show loading indicator while loading
-  if (loading) return <div>Loading...</div>;
+  const handleEdit = () => {
+    history.push(`/edit-reflection/${reflectionId}`);
+  };
 
-  // Show not found message if not loading and reflection is null
+
+  if (loading) return <div>Loading...</div>;
   if (!reflection) return <div>Reflection not found</div>;
 
   return (
@@ -38,6 +39,7 @@ function ReflectionDetail() {
           </a>
         </div>
       ))}
+       <button onClick={handleEdit}>Edit Reflection</button>
     </div>
   );
 }
