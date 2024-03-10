@@ -24,7 +24,7 @@ function App() {
           <Route path="/new_reflection" element={<NewReflection/>}/>
           <Route path="/add_course" element={<AddCourse/>}/>
           <Route path="/diary/:reflectionId" element={<ReflectionDetail/>} /> 
-          <Route path="/edit_reflection" element={<EditReflection/>}/>
+          <Route path="/edit_reflection/:reflectionId" element={<EditReflection/>}/>
         </Routes>
         <Footer></Footer>
     </>

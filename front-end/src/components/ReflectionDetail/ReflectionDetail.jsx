@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function ReflectionDetail() {
   const { reflectionId } = useParams();
   const [reflection, setReflection] = useState(null);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true); // Start with loading true
 
   useEffect(() => {
@@ -20,7 +21,7 @@ function ReflectionDetail() {
   }, [reflectionId]);
 
   const handleEdit = () => {
-    history.push(`/edit-reflection/${reflectionId}`);
+    navigate(`/edit_reflection/${reflectionId}`);
   };
 
 
