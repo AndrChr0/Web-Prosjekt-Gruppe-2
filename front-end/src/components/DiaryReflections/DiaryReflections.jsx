@@ -35,6 +35,8 @@ function DiaryReflections() {
                 {reflections.map((reflection, index) => (
                   <li key={reflection._id}>
                     <Link to={`/diary/${reflection._id}`}>View</Link>
+                    <br />
+                    <Link to={`/edit_reflection/${reflection._id}`}>Edit</Link>
                     <div>
                       <b> Title:</b> {reflection.title}
                     </div>
