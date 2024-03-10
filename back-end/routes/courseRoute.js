@@ -17,6 +17,24 @@ router.get("/", async (req, res) => {
         }
     });
 
+
+// get a specific course from db
+router.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const course = await Course.findById(id);
+
+        if (!course) {
+            return res.status(404).json({ message: "Course not found" });
+        }
+
+        return res.status(200).json({ data: course });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send({ message: error.message });
+    }
+});
+
 // add new course to db
 router.post("/", async (req, res) => {
 

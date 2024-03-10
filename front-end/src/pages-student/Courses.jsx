@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Courses(){
 
@@ -25,15 +26,15 @@ function Courses(){
             <h1>My Courses</h1>
             <ul className="Courses-list">
             {courses.map((course, i) => (
+                <Link className='Text-link' to={`/courses/${course._id}`}>
                 <li className="Course-item" key={course._id}>
                     <div>{i + 1}</div>
                     <div>
                         <span><b> {course.courseCode} </b></span> {course.title} 
                     </div>
-                    <div>
-                        <span><b>Description:</b></span> {course.description} 
-                    </div>
+
                 </li>
+                </Link>
             ))}
             </ul>
 

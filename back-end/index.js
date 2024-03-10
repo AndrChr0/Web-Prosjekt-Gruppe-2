@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import ReflectionRoute from "./routes/ReflectionRoute.js";
 import courseRoute from "./routes/courseRoute.js";
 import userRoute from "./routes/userRoute.js";
+import reflectionActivityRoute from "./routes/reflectionActivityRoute.js";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
@@ -24,6 +25,9 @@ app.use(cors());
 app.use("/reflections", ReflectionRoute);
 app.use("/courses", courseRoute);
 app.use("/users", userRoute)
+
+// reflection activities
+app.use("/activities", reflectionActivityRoute);
 
 // custom origins
 // app.use(cors(
