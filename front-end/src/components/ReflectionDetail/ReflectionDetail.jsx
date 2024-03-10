@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import ActionButton from '../ActionButton/ActionButton';
 import axios from 'axios';
 
+import './ReflectionDetail.css';
+
 function ReflectionDetail() {
   const { reflectionId } = useParams();
   const [reflection, setReflection] = useState(null);
@@ -32,11 +34,11 @@ function ReflectionDetail() {
   return (
     <div>
       <h1>{reflection.title}</h1>
-      <p>{reflection.content}</p>
-      <p>Course ID: {reflection.courseId}</p>
+      <p className='content'>{reflection.content}</p>
+      <p className='course-id'>Course ID: {reflection.courseId}</p>
       {reflection.files && reflection.files.map((file, index) => (
         <div key={index}>
-          <a target='_blank' href={`http://localhost:5151/${file}`} download>
+          <a className='file-link' target='_blank' href={`http://localhost:5151/${file}`} download>
             Download File {index + 1}
           </a>
         </div>

@@ -97,7 +97,7 @@ function EditReflection() {
       </label>
       {/* <button type="submit">Save</button> */}
         <ActionButton btnType="submit" btnValue="Save" />
-      <button type="button" onClick={handleDelete}>Delete Reflection</button>
+        <ActionButton onClick={handleDelete} btnType="button" btnValue="Delete Reflection" />
     </form>
   );
 }

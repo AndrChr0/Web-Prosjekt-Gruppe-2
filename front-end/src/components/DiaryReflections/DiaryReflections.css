@@ -1,7 +1,7 @@
 .reflection-card {
     margin: 1em;
     padding: 1em;
-    border: 1px solid #e0e0e0;
+    /* border: 1px solid #e0e0e0; */
     border-radius: 5px;
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
     background-color: #fff;
