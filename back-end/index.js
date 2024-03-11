@@ -43,11 +43,11 @@ app.use("/activities", reflectionActivityRoute);
 
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(MONGO_URI)
   .then(() => {
     console.log("app connected to DB");
-    app.listen(process.env.PORT, () => {
-      console.log(`app is listening on ${process.env.PORT}`);
+    app.listen(PORT, () => {
+      console.log(`app is listening on ${PORT}`);
     });
   })
   .catch((error) => {
