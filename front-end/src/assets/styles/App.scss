@@ -3,6 +3,11 @@
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
 main {
   margin: 0 10vw;
@@ -24,14 +29,39 @@ main {
 }
 
 .Course-item {
+  display: flex;
+  flex-direction: column;
+  height: 12vh;
+  width: 300px;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 2em;
+  background-color: white;
   line-height: 1.5;
   padding: 1em;
   border-radius: 10px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.2);
   list-style-type: none;
+  color: black;
+  text-align: center;
 }
 
+.Course-item::after {
+  content: "";
+  display: block;
+  width: calc(100% - 2em);
+  height: 2px;
+  background-color: rgb(253, 179, 42);
+  position: relative;
+}
+
+.Text-link {
+  text-decoration: none;
+}
+.Course-item:hover {
+  background-color: rgb(236, 236, 236);
+  transition: all .2s ease;
+}
 
 .main-menu-btn {
   background-color: rgb(253, 179, 42);

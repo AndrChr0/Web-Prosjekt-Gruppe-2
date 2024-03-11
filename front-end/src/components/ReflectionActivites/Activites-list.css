@@ -1,0 +1,53 @@
+.Activities-List ul {
+    line-height: 1.5;
+    list-style: none;
+}
+
+
+.Activities-List h2 {
+    font-size: 1.5em;
+    font-weight: 300;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.Activity {
+    border-bottom: 1px solid #dbdbdb;
+    padding: 1em 0;
+    margin-bottom: 2em;
+}
+
+.Activity-title {
+    margin-bottom: .5em;
+}
+
+.Description-button-row {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 6em;
+}
+
+.Description-button-row button {
+    background-color: rgb(255, 166, 0);
+    padding: .7em;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bolder;
+    border: none;
+}
+.Description-button-row button:hover {
+    background-color: rgb(253, 179, 42);
+    color: white;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .Description-button-row {
+        flex-direction: column;
+        gap: 2em;
+        align-items: center;
+    }
+    
+}
