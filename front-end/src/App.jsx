@@ -7,7 +7,10 @@ import ProtectedRoute from "./components/ProtectedRoute"; // If you're using a P
 // Import all your page components
 import Home from "./pages-student/Home";
 import MyDiary from "./pages-student/MyDiary";
+
 import Courses from "./pages-student/Courses";
+import Course from "./pages-student/Course";
+
 import Inbox from "./pages-student/Inbox";
 import NewReflection from "./pages-student/NewReflection";
 import AddCourse from "./pages-student/AddCourse";
@@ -16,6 +19,13 @@ import Profile from "./components/Profile";
 import Registration from "./components/Register"; // Assuming Register is the correct import
 import { useAuth } from "./components/context/AuthContext";
 //Testcommit
+import Profile from "./pages-student/Profile";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import ReflectionDetail from "./components/ReflectionDetail/ReflectionDetail"; 
+import EditReflection from "./components/EditReflection/EditReflection";
+
+import "./assets/styles/App.scss";
 function App() {
   const { currentUser } = useAuth(); // Use useAuth to access currentUser
   
@@ -36,14 +46,35 @@ function App() {
             <Courses />
           </ProtectedRoute>
         } />
+          <Route path="/courses/:id" element={
+          <ProtectedRoute>
+            <Course />
+          </ProtectedRoute>
+        } />
         <Route path="/inbox" element={
           <ProtectedRoute>
             <Inbox />
           </ProtectedRoute>
         } />
+          
+        <Route path="/diary/:reflectionId" element={
+          <ProtectedRoute>
+            <ReflectionDetail/>
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Profile/>
+          </ProtectedRoute>
+        } />
         <Route path="/new_reflection" element={
           <ProtectedRoute>
             <NewReflection />
+          </ProtectedRoute>
+        } />
+          <Route path="/edit_reflection/:reflectionId" element={
+          <ProtectedRoute>
+            <EditReflection/>
           </ProtectedRoute>
         } />
         {/* AddCourse might be restricted to teachers only */}

@@ -24,12 +24,10 @@ textarea {
     height: 30vh;
     margin-top: 1vh;
     padding: 1vh;
-    /* border: 2px solid #000000; */
     border-radius: 5px;
 }
 
 label, button[type="submit"] {
-    /* font-size: 1em; */
     font-weight: bold;
 }
 
@@ -49,17 +47,9 @@ label, button[type="submit"] {
     border-radius: 5px;
 }
 
-/* button {
-    background-color: white;
-    padding: .5em;
-    border-radius: 5px;
-    border: 1px solid #000000;
-    font-weight: bold;
-} */
 
 button:hover {
     background-color: #e6e6e6;
-    /* color: white; */
 }
 
 
@@ -67,18 +57,7 @@ input[type="file"] {
     display: none;
 }
 
-/* label[for="files"] {
-    background-color: white;
-    padding: .5em;
-    border-radius: 5px;
-    border: 1px solid #000000;
-    font-weight: bold;
-    cursor: pointer;
-}
- */
 
-
-/* CSS */
 #filesBtn, button[type="submit"] {
   align-items: center;
   background-color: rgb(255, 217, 0);
@@ -130,24 +109,3 @@ input[type="file"] {
 }
 
 
-  /* .custom-file-input::before {
-    content: 'Select some files';
-    display: inline-block;
-    background: linear-gradient(top, #f9f9f9, #e3e3e3);
-    border: 1px solid #999;
-    border-radius: 3px;
-    padding: 5px 8px;
-    outline: none;
-    white-space: nowrap;
-    --webkit-user-select: none;
-    cursor: pointer;
-    text-shadow: 1px 1px #fff;
-    font-weight: 700;
-    font-size: 10pt;
-  }
-  .custom-file-input:hover::before {
-    border-color: black;
-  }
-  .custom-file-input:active::before {
-    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
-  } */

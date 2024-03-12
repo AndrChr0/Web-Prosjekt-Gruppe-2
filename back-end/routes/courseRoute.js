@@ -17,6 +17,39 @@ router.get("/", async (req, res) => {
         }
     });
 
+
+// get a specific course from db
+router.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const course = await Course.findById(id);
+
+        if (!course) {
+            return res.status(404).json({ message: "Course not found" });
+        }
+
+        return res.status(200).json({ data: course });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send({ message: error.message });
+    }
+});
+
+router.get('/', async (req, res) => {
+    try {
+        const userId = req.user._id;
+  
+      // Find courses for a specific user
+      const courses = await Course.find({ user: userId })
+        .populate('user', 'email');
+  
+      res.json({ courses });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
 // add new course to db
 router.post("/", async (req, res) => {
 
