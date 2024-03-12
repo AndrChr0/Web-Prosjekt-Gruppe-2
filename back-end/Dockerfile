@@ -6,6 +6,10 @@ WORKDIR /app
 
 COPY . . 
 
+RUN pwd
+
+RUN ls
+
 RUN npm install
 
 EXPOSE 5151
