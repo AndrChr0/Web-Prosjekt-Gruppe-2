@@ -3,12 +3,20 @@
    in back-end folder
    in front end folder
 3. Create .env in backend route folder and add secret
-4. run "run dev" command in terminal in both front end and back end
-5. go to http://localhost:5173/
-6. Start epiphanying sustainability
+4. - Open a terminal in backend, run the following commands:
+   - npm install
+   - npm run dev
+5. - Open a terminal in backend, run the following commands:
+   - npm install
+   - npm run dev
+
+6. go to http://localhost:5173/
+7. Start epiphanying sustainability
 
 ---
+
 .
+
 ### Prerequisites
 
 - Docker installed on your machine.

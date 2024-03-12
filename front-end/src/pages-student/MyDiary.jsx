@@ -1,3 +1,4 @@
+import DiaryReflections from "../components/DiaryReflections/DiaryReflections";
 import MainMenuButton from "../components/MainmenuButton/MainMenuButton";
 function MyDiary() {
   return (
@@ -14,6 +15,9 @@ function MyDiary() {
           buttonName="Add Course"
         ></MainMenuButton>
       </div>
+
+    <DiaryReflections></DiaryReflections>
+
       </main>
     </>
   );
