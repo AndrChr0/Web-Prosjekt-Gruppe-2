@@ -11,7 +11,8 @@ services:
     build:
       context: ./back-end
       dockerfile: Dockerfile
-    env_file: ./back-end/.env
+    env_file: 
+        - ./back-end/.env 
     # volumes:
       # - ./back-end:/app
       # - /app/node_modules
