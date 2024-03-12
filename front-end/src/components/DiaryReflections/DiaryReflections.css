@@ -1,0 +1,38 @@
+.reflection-card {
+    margin: 1em;
+    padding: 1em;
+    /* border: 1px solid #e0e0e0; */
+    border-radius: 5px;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    width: 25vw;
+}
+
+.reflection-card:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+.diary-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.link-container {
+    margin-top: 1vh;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+}
+
+.link-container a {
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    background-color: orange;
+    padding: 0.2em 0.5em;
+}
+
+.link-container a:hover {
+    text-decoration: underline;
+    background-color: #ff8c00;
+}

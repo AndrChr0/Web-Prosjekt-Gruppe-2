@@ -9,7 +9,7 @@ footer {
     margin-top: auto;
 }
 
-p {
+.footer-text {
     color: white;
     font-weight: 500;
 }

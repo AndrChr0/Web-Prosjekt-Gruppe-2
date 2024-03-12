@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "./MainMenuButton.css";
 
 function MainMenuButton(props) {
   const path = props.path;

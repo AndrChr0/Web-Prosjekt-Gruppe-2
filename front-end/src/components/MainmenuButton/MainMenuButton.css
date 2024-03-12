@@ -1,0 +1,17 @@
+.main-menu-btn {
+    background-color: rgb(253, 179, 42);
+    padding: 0.7em;
+    border-radius: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bolder;
+    display: block;
+    width: 100%;
+  }
+
+
+  .main-menu-btn:hover {
+    background-color: #ff8c00;
+  }
+  
+

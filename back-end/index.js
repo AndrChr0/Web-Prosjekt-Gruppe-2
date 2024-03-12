@@ -16,7 +16,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   console.log(req);
-  return res.status(234).send("halla brro");
+  // return res.status(234).send("halla brro");
 });
 
 // Middelware for handeling CORS policy
@@ -25,6 +25,9 @@ app.use(cors());
 app.use("/reflections", ReflectionRoute);
 app.use("/courses", courseRoute);
 app.use("/users", userRoute)
+
+app.use('/uploads', express.static('uploads')); // make the uploads folder public
+
 
 // reflection activities
 app.use("/activities", reflectionActivityRoute);
@@ -38,12 +41,13 @@ app.use("/activities", reflectionActivityRoute);
 // }
 //     ))
 
+
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(MONGO_URI)
   .then(() => {
     console.log("app connected to DB");
-    app.listen(process.env.PORT, () => {
-      console.log(`app is listening on ${process.env.PORT}`);
+    app.listen(PORT, () => {
+      console.log(`app is listening on ${PORT}`);
     });
   })
   .catch((error) => {

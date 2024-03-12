@@ -1,0 +1,15 @@
+.content {
+    width: 60%;
+    line-height: 1.4;
+}
+
+.course-id {
+    margin-top: 1em;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+.file-link {
+    font-style: italic;
+}
