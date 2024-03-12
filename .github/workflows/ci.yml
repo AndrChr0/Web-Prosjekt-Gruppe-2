@@ -18,7 +18,7 @@ jobs:
       - name: build and push a docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./back-end
+          context: back-end
           file: Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest
