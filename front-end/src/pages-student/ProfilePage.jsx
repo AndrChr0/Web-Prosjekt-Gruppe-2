@@ -1,7 +1,7 @@
 // import React, { useState } from 'react';
 import '../assets/styles/profile.css'; 
 
-function Profile() {
+function ProfilePage() {
 
     // IMPORTANT! Alt som er kommentert ut er forslag til løsning for backend biten(ChatGPT)
 
@@ -59,4 +59,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default ProfilePage;

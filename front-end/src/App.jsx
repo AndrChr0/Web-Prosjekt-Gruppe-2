@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Import other components here, like Header, Footer, ProtectedRoute, etc.
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
+// import Header from "./components/Header/Header";
+// import Footer from "./components/Footer/Footer";
 import ProtectedRoute from "./components/ProtectedRoute"; // If you're using a ProtectedRoute component
 // Import all your page components
 import Home from "./pages-student/Home";
@@ -19,7 +19,7 @@ import Profile from "./components/Profile";
 import Registration from "./components/Register"; // Assuming Register is the correct import
 import { useAuth } from "./components/context/AuthContext";
 //Testcommit
-import Profile from "./pages-student/Profile";
+import ProfilePage from "./pages-student/ProfilePage";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ReflectionDetail from "./components/ReflectionDetail/ReflectionDetail"; 
@@ -87,9 +87,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
         {/* Profile could be for authenticated users only */}
-        <Route path="/profile" element={
+        <Route path="/profile-page" element={
           <ProtectedRoute>
-            <Profile />
+            <ProfilePage />
           </ProtectedRoute>
         } />
       </Routes>
