@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [ andreas-docker ]
+  pull_request:
+    branches: [ andreas-docker ]
+
+jobs:
+  back-end-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.13.0'
+
+    - name: Install back-end dependencies
+      run: npm install
+      working-directory: ./back-end
+
+    - name: Run back-end tests
+      run: npm test
+      working-directory: ./back-end
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+
+  front-end-tests:
+    needs: back-end-tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.13.0'
+
+    - name: Install front-end dependencies
+      run: npm install
+      working-directory: ./front-end
+
+# todo
+  # add secrets on github
+  # test it
+  
