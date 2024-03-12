@@ -8,6 +8,7 @@ import Course from "./pages-student/Course";
 import Inbox from "./pages-student/Inbox";
 import NewReflection from "./pages-student/NewReflection";
 import AddCourse from "./pages-student/AddCourse";
+import Profile from "./pages-student/Profile";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ReflectionDetail from "./components/ReflectionDetail/ReflectionDetail"; 
@@ -30,6 +31,7 @@ function App() {
           <Route path="/add_course" element={<AddCourse/>}/>
           <Route path="/diary/:reflectionId" element={<ReflectionDetail/>} /> 
           <Route path="/edit_reflection/:reflectionId" element={<EditReflection/>}/>
+          <Route path="/profile" element={<Profile/>}/>
         </Routes>
         <Footer></Footer>
       </body>
