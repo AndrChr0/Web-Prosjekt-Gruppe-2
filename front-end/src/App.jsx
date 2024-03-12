@@ -15,7 +15,7 @@ import Login from "./components/loginComponent";
 import Profile from "./components/Profile";
 import Registration from "./components/Register"; // Assuming Register is the correct import
 import { useAuth } from "./components/context/AuthContext";
-
+//Testcommit
 function App() {
   const { currentUser } = useAuth(); // Use useAuth to access currentUser
   
