@@ -3,8 +3,8 @@
 set -ex
 
 
-REPO_URL="https://raw.githubusercontent.com/aliakseix/IDG2671-Docker/master"
-WD="/home/tst/test-project"
+REPO_URL="https://raw.githubusercontent.com/AndrChr0/Web-Prosjekt-Gruppe-2/main"
+WD="/home/team2/team2-project"
 
 # checking if another url has been given
 if [[ -z "$1" ]]; then
@@ -14,11 +14,11 @@ else
 fi
 
 # silent defaults
-COMPOSE_FNAME="${2:-remote.compose.yaml}"
+COMPOSE_FNAME="${2:-docker-compose.yaml}"
 
 # get the rest of params as an array of env files
 if [[  $# -lt 3  ]]; then
-	ENV_FNAME=(".env" ".mongo.env")
+	ENV_FNAME=(".env")
 else
 	echo "shifting"
 	shift
@@ -27,14 +27,15 @@ else
 fi
 
 curl -sS "${REPO_URL}/${COMPOSE_FNAME}" |
-	sed '/build: ./d' |
-	sed 's|image: yt-app-comp:0.2|image: aliakseix/idg2671:latest|' > "${WD}/compose.yaml"
+    sed '/build: ./d' |
+    sed 's|image: sustainability-diary-g2-front-end|image: andrchr0/sustainability-diary-g2-front-end:latest|' |
+    sed 's|image: sustainability-diary-g2|image: andrchr0/sustainability-diary-g2:latest|' > "${WD}/docker-compose.yaml"
 for envF in "${ENV_FNAME[@]}"; do
 	# echo "$envF"
 	curl -sS "${REPO_URL}/${envF}" > "${WD}/${envF}"
 done
 
-echo "Donwloaded compose.yaml"
+echo "Donwloaded docker-compose.yml"
 
 set +ex
 
