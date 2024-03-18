@@ -1,11 +1,21 @@
-// ProtectedRoute.js
-import React from "react"
-import { Navigate } from "react-router-dom"
+// src/components/ProtectedRoute.jsx
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
-const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem("authToken") // Simplified authentication check
 
-  return isAuthenticated ? children : <Navigate to="/login" replace />
-}
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const token = localStorage.getItem('authToken');
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
 
-export default ProtectedRoute
+  const decodedToken = jwtDecode(token);
+  if (allowedRoles && !allowedRoles.includes(decodedToken.role)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  return children;
+};
+
+export default ProtectedRoute;

@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
-      axios.get('http://localhost:5151/api/user/profile', {
+      axios.get('http://localhost:5151/profile', {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

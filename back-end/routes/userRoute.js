@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
 
 
 // Profile user test
-router.get('/api/user/profile', async (req, res) => {
+router.get('/profile', async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1]; // Assuming 'Bearer <token>'
         const decoded = jwt.verify(token, process.env.JWT_SECRET);

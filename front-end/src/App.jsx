@@ -24,8 +24,9 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ReflectionDetail from "./components/ReflectionDetail/ReflectionDetail"; 
 import EditReflection from "./components/EditReflection/EditReflection";
-
+import StudentDashboard from "./pages-student/StudentDashboard";
 import "./assets/styles/App.scss";
+import Unauthorized from "./components/Unauthorized";
 function App() {
   const { currentUser } = useAuth(); // Use useAuth to access currentUser
   
@@ -33,6 +34,13 @@ function App() {
     <>
       <Header />
       <Routes>
+      <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="/student-dashboard" element={
+  <ProtectedRoute allowedRoles={['student']}>
+    <StudentDashboard />
+  </ProtectedRoute>
+} />
+
         <Route path="/" element={<Home />} />
         {/* Wrap routes with ProtectedRoute as necessary */}
         <Route path="/diary" element={
