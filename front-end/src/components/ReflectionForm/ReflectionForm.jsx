@@ -1,12 +1,9 @@
-// Importing necessary dependencies and styles
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./ReflectionForm.css";
 import ActionButton from "../ActionButton/ActionButton";
 
-// Functional component for the ReflectionForm
 function ReflectionForm() {
-  // State to manage form data and submission success
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -14,50 +11,43 @@ function ReflectionForm() {
     visibility: false,
     files: [],
   });
-
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
 
-  // Function to handle changes in form inputs
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Function to handle removing files from the form
   const handleRemoveFile = (indexToRemove) => {
-    const updatedFiles = [...formData.files];
-    updatedFiles.splice(indexToRemove, 1);
-    setFormData({
-      ...formData,
-      files: updatedFiles,
-    });
+    const updatedFiles = formData.files.filter(
+      (_, index) => index !== indexToRemove
+    );
+    setFormData({ ...formData, files: updatedFiles });
   };
-  // Function to handle form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("authToken"); // Retrieve the JWT token from storage
+    const formDataWithFiles = new FormData();
+    formDataWithFiles.append("title", formData.title);
+    formDataWithFiles.append("content", formData.content);
+    formDataWithFiles.append("courseId", formData.courseId);
+    formDataWithFiles.append("visibility", formData.visibility);
+    formData.files.forEach((file) => {
+      formDataWithFiles.append("files", file);
+    });
+
     try {
-      // Creating a FormData object for handling files
-      const formDataWithFiles = new FormData();
-      formDataWithFiles.append("title", formData.title);
-      formDataWithFiles.append("content", formData.content);
-      formDataWithFiles.append("courseId", formData.courseId);
-      formDataWithFiles.append("visibility", formData.visibility);
-
-      // Appending each file to the FormData object
-      for (let i = 0; i < formData.files.length; i++) {
-        formDataWithFiles.append("files", formData.files[i]);
-      }
-
-      // Sending a POST request to the server using axios
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5151/reflections/",
-        formDataWithFiles
+        formDataWithFiles,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the JWT token
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-
-      // Resetting the form data and setting submission success to true
       setFormData({
         title: "",
         content: "",
@@ -66,16 +56,13 @@ function ReflectionForm() {
         files: [],
       });
       setSubmissionSuccess(true);
-
-      // Logging the created reflection data
-      console.log("Reflection created:", response.data);
     } catch (error) {
-      // Handling errors and logging them
       console.error(error);
-      setSubmissionError(error.message || "An error occurred. Please try again.)");
+      setSubmissionError(
+        error.message || "An error occurred. Please try again."
+      );
     }
-  }
-
+  };
   // Rendering the form with input fields and submission button
   return (
     <>
@@ -97,7 +84,9 @@ function ReflectionForm() {
           onChange={handleChange}
           required
         ></textarea>
-        <label id="filesBtn" htmlFor="files">Upload a file</label>
+        <label id="filesBtn" htmlFor="files">
+          Upload a file
+        </label>
         <input
           type="file"
           id="files"
@@ -115,18 +104,18 @@ function ReflectionForm() {
         />
         {/* Adds remove button to selected files */}
         {formData.files.length > 0 && (
-        <div>
-          Selected Files:
-          {Array.from(formData.files).map((file, index) => (
-            <div key={index}>
-              {file.name}
-              <button type="button" onClick={() => handleRemoveFile(index)}>
-                Remove
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
+          <div>
+            Selected Files:
+            {Array.from(formData.files).map((file, index) => (
+              <div key={index}>
+                {file.name}
+                <button type="button" onClick={() => handleRemoveFile(index)}>
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
         <label htmlFor="courseId">Course ID:</label>
         <input
           type="number"
@@ -155,12 +144,12 @@ function ReflectionForm() {
       {submissionSuccess && (
         <div className="submission-success">REFLECTION SUBMITTED</div>
       )}
-       {submissionError && (
-        <div className="submission-error">{submissionError}</div>)}
+      {submissionError && (
+        <div className="submission-error">{submissionError}</div>
+      )}
     </>
   );
 }
-      
 
 // Exporting the ReflectionForm component
 export default ReflectionForm;
