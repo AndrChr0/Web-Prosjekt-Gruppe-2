@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ andreas-docker ]
+    branches: [ andreas-deploy ]
   pull_request:
-    branches: [ andreas-docker ]
+    branches: [ andreas-deploy ]
 
 jobs:
   build-back-end:

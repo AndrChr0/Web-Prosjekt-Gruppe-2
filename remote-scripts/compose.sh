@@ -14,7 +14,7 @@ else
 fi
 
 # silent defaults
-COMPOSE_FNAME="${2:-docker-compose.yaml}"
+COMPOSE_FNAME="${2:-docker-compose.yml}"
 
 # get the rest of params as an array of env files
 if [[  $# -lt 3  ]]; then
@@ -29,7 +29,7 @@ fi
 curl -sS "${REPO_URL}/${COMPOSE_FNAME}" |
     sed '/build: ./d' |
     sed 's|image: sustainability-diary-g2-front-end|image: andrchr0/sustainability-diary-g2-front-end:latest|' |
-    sed 's|image: sustainability-diary-g2|image: andrchr0/sustainability-diary-g2:latest|' > "${WD}/docker-compose.yaml"
+    sed 's|image: sustainability-diary-g2|image: andrchr0/sustainability-diary-g2:latest|' > "${WD}/docker-compose.yml"
 for envF in "${ENV_FNAME[@]}"; do
 	# echo "$envF"
 	curl -sS "${REPO_URL}/${envF}" > "${WD}/${envF}"
