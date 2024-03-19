@@ -1,0 +1,48 @@
+.Recent-reflections {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    list-style: none;
+    padding: 2em 3em;
+    background-color: #e9e8e8;
+    width: 80%;
+    text-align: start;
+}
+
+.Recent-reflections h2 {
+    margin-bottom: 20px;
+    color: #4d4d4d;
+}
+
+.Recent-reflection {
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    color: black ;
+    background-color: white;
+    padding: 1.5em;
+}
+.Recent-reflection:hover {
+    background-color: #f8f8f8;
+}
+
+.Recent-reflection div {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1.5fr;
+    gap: 2em;
+    align-items:start;
+    justify-items: center;
+}
+
+.submissions_link {
+    margin-bottom: 3em;
+}
+
+@media screen and (max-width: 768px) {
+    .Recent-reflections {
+        width: 100%;
+        background-color: transparent ;
+    }
+    .Recent-reflection div {
+        grid-template-columns: 1fr;
+    }
+    
+}
