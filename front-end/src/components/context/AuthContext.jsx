@@ -1,6 +1,5 @@
 // src/components/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -14,15 +13,18 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
-      axios.get('http://localhost:5151/profile', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      }).then((response) => {
-        setCurrentUser(response.data);
-      }).catch((error) => {
-        console.error("Error fetching user profile:", error);
-      });
+      const base64Url = token.split('.')[1]; // Get the payload part of the token
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Convert base64url to base64
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map((c) => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      try {
+        const decoded = JSON.parse(jsonPayload); // Now contains the JWT payload
+        setCurrentUser(decoded);
+      } catch (error) {
+        console.error("Error decoding user token:", error);
+      }
     }
   }, []);
 
