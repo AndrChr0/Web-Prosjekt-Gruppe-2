@@ -1,32 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import ActionButton from '../ActionButton/ActionButton';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import ActionButton from "../ActionButton/ActionButton";
+import axios from "axios";
 
-import './ReflectionDetail.css';
+import "./ReflectionDetail.css";
 
 function ReflectionDetail() {
   const { reflectionId } = useParams();
-  const [reflection, setReflection] = useState(null);
   const navigate = useNavigate();
+  const [reflection, setReflection] = useState(null);
   const [loading, setLoading] = useState(true); // Start with loading true
 
   useEffect(() => {
-    axios.get(`http://localhost:5151/reflections/${reflectionId}`)
-      .then(res => {
-        setReflection(res.data.reflection); // Adjust based on your API response structure
+    const token = localStorage.getItem("authToken");
+    setLoading(true);
+    axios
+      .get(`http://localhost:5151/reflections/${reflectionId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include JWT token in request headers
+        },
+      })
+      .then((res) => {
+        setReflection(res.data.reflection);
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         setLoading(false);
+        if (error.response && error.response.status === 401) {
+          navigate("/login");
+        }
       });
-  }, [reflectionId]);
+  }, [reflectionId, navigate]);
 
   const handleEdit = () => {
     navigate(`/edit_reflection/${reflectionId}`);
   };
-
 
   if (loading) return <div>Loading...</div>;
   if (!reflection) return <div>Reflection not found</div>;
@@ -34,17 +43,27 @@ function ReflectionDetail() {
   return (
     <div>
       <h1>{reflection.title}</h1>
-      <p className='content'>{reflection.content}</p>
-      <p className='course-id'>Course ID: {reflection.courseId}</p>
-      {reflection.files && reflection.files.map((file, index) => (
-        <div key={index}>
-          <a className='file-link' target='_blank' href={`http://localhost:5151/${file}`} download>
-            Download File {index + 1}
-          </a>
-        </div>
-      ))}
-       {/* <button onClick={handleEdit}>Edit Reflection</button> */}
-       <ActionButton onClick={handleEdit} btnType="button" btnValue="Edit Reflection" />
+      <p className="content">{reflection.content}</p>
+      <p className="course-id">Course ID: {reflection.courseId}</p>
+      {reflection.files &&
+        reflection.files.map((file, index) => (
+          <div key={index}>
+            <a
+              className="file-link"
+              target="_blank"
+              rel="noopener noreferrer" // Added for security
+              href={`http://localhost:5151/uploads/${file}`}
+              download
+            >
+              Download File {index + 1}
+            </a>
+          </div>
+        ))}
+      <ActionButton
+        onClick={handleEdit}
+        btnType="button"
+        btnValue="Edit Reflection"
+      />
     </div>
   );
 }
