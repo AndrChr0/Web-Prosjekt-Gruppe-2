@@ -1,0 +1,48 @@
+.Reflection_card {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: #ffffff;
+    min-height: 300px;
+    max-height: 100%;
+    line-height: 1.5;
+}
+
+.Reflection_card_title {
+    margin: 2em;
+}
+.Reflection_card_title h3{
+    margin-bottom: 1em;
+}
+.Reflection_card_title b {
+    margin-left: 2em;
+    opacity: 0.8;
+}
+
+.Reflection_card_content {
+    padding: .8em;
+    margin: 2em;
+    border: 1px solid #e0e0e0;
+    background-color: rgb(238, 238, 238);
+}
+
+.feedback-btn {
+    padding: 0 3em;
+    font-size: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+    .Reflection_card {
+        padding: 0;
+    }
+    .Reflection_card h2 {
+        text-align: center;
+        padding-top: 1em;
+    }
+    .Reflection_card_title {
+        text-align: center;
+    }
+    .Reflection_card_content {
+        margin: 0;
+    }
+}
