@@ -5,25 +5,40 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import Footer from "./components/Footer/Footer";
 import ProtectedRoute from "./components/ProtectedRoute"; // If you're using a ProtectedRoute component
 // Import all your page components
+
+//student pages
 import Home from "./pages-student/Home";
 import MyDiary from "./pages-student/MyDiary";
-
 import Courses from "./pages-student/Courses";
 import Course from "./pages-student/Course";
-
 import Inbox from "./pages-student/Inbox";
 import NewReflection from "./pages-student/NewReflection";
 import AddCourse from "./pages-student/AddCourse";
+import ProfilePage from "./pages-student/ProfilePage";
+
+//teacher pages
+import TeachersHome from "./pages-teacher/Home/Home";
+import RecentReflectionPage from "./pages-teacher/RecentReflectionPage/RecentReflectionPage";
+import TeacherCourses from "./pages-teacher/MyCourses/MyCourses";
+import TeacherCourse from "./pages-teacher/MyCourses/Course";
+import SubmissionsPage from "./pages-teacher/SubmissionPage/SubmissionsPage";
+import TeacherProfile from "./pages-teacher/TeacherProfile/TeacherProfile";
+import NewCourse from "./pages-teacher/NewCourse/NewCourse";
+
+
 import Login from "./components/loginComponent";
 import Profile from "./components/Profile";
 import Registration from "./components/Register"; // Assuming Register is the correct import
 import { useAuth } from "./components/context/AuthContext";
 //Testcommit
-import ProfilePage from "./pages-student/ProfilePage";
+
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ReflectionDetail from "./components/ReflectionDetail/ReflectionDetail"; 
 import EditReflection from "./components/EditReflection/EditReflection";
+
+// teacher ui components
+import TeacherNav from "./components/Header/NavTeacher";
 
 import "./assets/styles/App.scss";
 function App() {
@@ -32,6 +47,8 @@ function App() {
   return (
     <>
       <Header />
+      <TeacherNav />
+
       <Routes>
         <Route path="/" element={<Home />} />
         {/* Wrap routes with ProtectedRoute as necessary */}
@@ -92,6 +109,22 @@ function App() {
             <ProfilePage />
           </ProtectedRoute>
         } />
+
+
+        {/* routes to teacher pages.  */}
+{/*     Hopefully we can get protected routes for this interface using
+        same paths as student routes - "/" for home and "/courses" course pages. 
+        If not, its not the end of the world.
+        */}
+        
+        <Route path="/teacher_dashboard" element={<TeachersHome />} />
+        <Route path="/submissions/:id" element={<RecentReflectionPage />} />
+        <Route path="/my_courses" element={<TeacherCourses />} />
+        <Route path="/my_courses/:id" element={<TeacherCourse />} />
+        <Route path="/new_course" element={<NewCourse />} />
+        <Route path="/submissions" element={<SubmissionsPage />} />
+        <Route path="/teacher/profile" element={<TeacherProfile />} />
+
       </Routes>
       <Footer />
     </>
