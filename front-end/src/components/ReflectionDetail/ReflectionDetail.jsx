@@ -52,7 +52,7 @@ function ReflectionDetail() {
               className="file-link"
               target="_blank"
               rel="noopener noreferrer" // Added for security
-              href={`http://localhost:5151/uploads/${file}`}
+              href={`http://localhost:5151/${file}`}
               download
             >
               Download File {index + 1}
