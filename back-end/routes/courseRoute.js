@@ -4,18 +4,18 @@ const router = express.Router();
 
 // get all courses from db
 router.get("/", async (req, res) => {
-        try {
-            const courses = await Course.find({});
-    
-            return res.status(200).json({
-                count: courses.length,
-                data: courses,
-            });
-        } catch (error) {
-            console.log(error.message);
-            res.status(500).send({ message: error.message });
-        }
-    });
+    try {
+        const courses = await Course.find({});
+
+        return res.status(200).json({
+            count: courses.length,
+            data: courses,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send({ message: error.message });
+    }
+});
 
 
 // get a specific course from db
@@ -38,17 +38,17 @@ router.get("/:id", async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const userId = req.user._id;
-  
-      // Find courses for a specific user
-      const courses = await Course.find({ user: userId })
-        .populate('user', 'email');
-  
-      res.json({ courses });
+
+        // Find courses for a specific user
+        const courses = await Course.find({ user: userId })
+            .populate('user', 'email');
+
+        res.json({ courses });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-  });
+});
 
 // add new course to db
 router.post("/", async (req, res) => {
@@ -100,18 +100,18 @@ router.put("/:id", async (req, res) => {
 // delete a course
 router.delete("/:id", async (req, res) => {
     try {
-      const { id } = req.params;
-      const result = await Course.findByIdAndDelete(id);
-  
-      if (!result) {
-        return res.status(404).json({ message: "course not found" });
-      }
-  
-      return res.status(200).send({ message: "course deleted successfully" });
+        const { id } = req.params;
+        const result = await Course.findByIdAndDelete(id);
+
+        if (!result) {
+            return res.status(404).json({ message: "course not found" });
+        }
+
+        return res.status(200).send({ message: "course deleted successfully" });
     } catch (error) {
-      console.log(error.message);
-      res.status(500).send({ message: error.message });
+        console.log(error.message);
+        res.status(500).send({ message: error.message });
     }
-  });
+});
 
 export default router;
