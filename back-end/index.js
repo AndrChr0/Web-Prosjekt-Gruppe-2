@@ -5,6 +5,7 @@ import courseRoute from "./routes/courseRoute.js";
 import userRoute from "./routes/userRoute.js";
 import reflectionActivityRoute from "./routes/reflectionActivityRoute.js";
 import cors from "cors";
+import { verifyToken, requireRole } from "./middlewares/authMiddleware.js";
 import dotenv from "dotenv";
 dotenv.config();
 const PORT = process.env.PORT || 5555;
@@ -22,12 +23,11 @@ app.get("/", (req, res) => {
 // Middelware for handeling CORS policy
 app.use(cors());
 
-app.use("/reflections", ReflectionRoute);
+app.use("/reflections", verifyToken, ReflectionRoute);
 app.use("/courses", courseRoute);
-app.use("/users", userRoute)
+app.use("/users", userRoute);
 
-app.use('/uploads', express.static('uploads')); // make the uploads folder public
-
+app.use("/uploads", express.static("uploads")); // make the uploads folder public
 
 // reflection activities
 app.use("/activities", reflectionActivityRoute);
@@ -40,7 +40,6 @@ app.use("/activities", reflectionActivityRoute);
 //     allowedHeaders: "Content-Type"
 // }
 //     ))
-
 
 mongoose
   .connect(MONGO_URI)
