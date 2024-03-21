@@ -1,0 +1,48 @@
+.card-container {
+    width: 80%;
+    margin: 2vh auto;
+    /* margin-left: 5%; */
+    border: solid 2px black;
+    padding:1em;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5em;
+    line-height: 1.3;
+    
+}
+
+.home-card-text {
+width: 90%;
+}
+
+i {
+    margin-top: .3em;
+    width: 90%;
+    font-size: 1.1em;
+}
+
+.remove-text-button {
+    background-color: transparent;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+}
+
+.remove-text-button:hover {
+    cursor: pointer;
+    background-color: whitesmoke;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        width: 95%;
+        
+        & .home-card-text {
+            width: 95%;
+            }
+    }
+}

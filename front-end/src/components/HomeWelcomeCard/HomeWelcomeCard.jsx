@@ -1,7 +1,21 @@
+import "./HomeWelcomeCard.css";
+
 function HomeWelcomeCard() {
-  return (
+ 
+const showWelcomeCard = localStorage.getItem('showWelcomeCard');
+
+if(showWelcomeCard === 'false'){
+    return null;
+}
+
+function doNotShow(){
+    localStorage.setItem('showWelcomeCard', false);
+}
+
+    return (
     <div className="card-container">
-      <h2 className="home-card-header">Welcome to the sustainability diary</h2>
+
+      <h2 className="home-card-header">Welcome to the sustainability diary &#127793;</h2>
       <p className="home-card-text">
         Welcome to the Sustainability Diary, your new space for growth and
         reflection on sustainability! Created as part of NTNU's initiative to
@@ -13,12 +27,17 @@ function HomeWelcomeCard() {
         Track your progress, and become part of a community dedicated to making
         a difference. Dive in and start your sustainability diary today, where
         every entry is a step towards a more sustainable future.
-        <i>
+  
+      </p>
+      <i>
           Please note that you're exploring the beta version of our site, where
           we're still fine-tuning features and not all functionalities are fully
           implemented yet.
         </i>
-      </p>
+        <button className="remove-text-button" onClick={()=>{
+            doNotShow()
+            document.querySelector('.card-container').style.display = 'none';
+            }}>Do not show this again</button>
     </div>
   );
 }
