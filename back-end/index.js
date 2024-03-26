@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
 app.use(cors());
 
 app.use("/reflections", verifyToken, ReflectionRoute);
-app.use("/courses", courseRoute);
+app.use("/courses", verifyToken, courseRoute);
 app.use("/users", userRoute);
 
 app.use("/uploads", express.static("uploads")); // make the uploads folder public

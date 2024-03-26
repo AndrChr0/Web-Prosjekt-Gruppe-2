@@ -37,11 +37,10 @@ router.get("/:id", async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        const userId = req.user._id;
+        const userId = req.user.userId;
 
         // Find courses for a specific user
-        const courses = await Course.find({ user: userId })
-            .populate('user', 'email');
+        const courses = await Course.find({ userId: userId });
 
         res.json({ courses });
     } catch (error) {
@@ -57,6 +56,7 @@ router.post("/", async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         courseCode: req.body.courseCode,
+        userId: req.user.userId,
     });
 
     try {

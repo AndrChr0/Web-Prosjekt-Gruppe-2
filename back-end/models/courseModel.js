@@ -7,13 +7,14 @@ const courseSchema = mongoose.Schema(
         required: true 
     },
     description: {
-        type: String
+        type: String,
+        default: "Give this course a description.."
     },
     courseCode: { //IDG2001 f.ex
         type: String,
         required: true
     },
-    user: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },

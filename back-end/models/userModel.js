@@ -25,6 +25,18 @@ const userSchema = new mongoose.Schema(
       enum: ["teacher", "student"],
       required: true,
     },
+    courses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+      },
+    ],
+    reflections: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Reflection",
+      },
+    ]
   },
   {
     timestamps: true,

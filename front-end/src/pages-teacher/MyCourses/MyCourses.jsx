@@ -10,9 +10,14 @@ const TeacherCourses = () =>{
     const [loading, setLoading] = useState(false);
   
     useEffect(() => {
+        const token = localStorage.getItem("authToken");
       setLoading(true);
       axios
-        .get("http://localhost:5151/courses")
+      .get(`http://localhost:5151/courses`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
         .then((res) => {
           setCourses(res.data.data);
           setLoading(false);
@@ -37,7 +42,7 @@ const TeacherCourses = () =>{
             <ul className="Courses-list">
             {courses.map((course, i) => (
                 <Link className='Text-link' to={`/my_courses/${course._id}`}>
-                <li className="Course-item" key={course._id}>
+                <li key={course._id} className="Course-item" >
                     <div>
                         <span><b> {course.courseCode} </b></span> {course.title} 
                     </div>
