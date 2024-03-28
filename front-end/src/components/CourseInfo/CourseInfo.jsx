@@ -13,11 +13,11 @@ const CourseInfo = () => {
     useEffect(() => {
         setLoading(true);
         axios
-            .get(`http://localhost:5151/courses/${id}`) //getting the specific course route
-            .then((res) => {
-                setCourse(res.data.data);
-                setLoading(false);
-            })
+        .get(`http://localhost:5151/courses/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`, // Include JWT token in request headers
+            },
+          })
             .catch((error) => {
                 console.log(error);
                 setLoading(false);

@@ -8,9 +8,14 @@ function Courses(){
     const [loading, setLoading] = useState(false);
   
     useEffect(() => {
+      const token = localStorage.getItem("authToken");
       setLoading(true);
       axios
-        .get("http://localhost:5151/courses")
+      .get(`http://localhost:5151/courses`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include JWT token in request headers
+        },
+      })
         .then((res) => {
           setCourses(res.data.data);
           setLoading(false);
@@ -25,7 +30,7 @@ function Courses(){
         <main>
             <h1>My Courses</h1>
             <ul className="Courses-list">
-            {courses.map((course, i) => (
+            {courses.map((course) => (
                 <Link className='Text-link' to={`/courses/${course._id}`}>
                 <li className="Course-item" key={course._id}>
                     <div>

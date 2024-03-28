@@ -14,11 +14,10 @@ const TeacherCourses = () =>{
       const token = localStorage.getItem("authToken");
 
       axios
-      .get(`http://localhost:5151/courses`, {
+      .get("http://localhost:5151/courses", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-
       })
         .then((res) => {
           setCourses(res.data.data);

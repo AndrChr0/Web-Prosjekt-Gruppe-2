@@ -3,7 +3,7 @@ import { Course } from "../models/courseModel.js";
 const router = express.Router();
 
 // get all courses from db
-router.get("/", async (req, res) => {
+/* router.get("/", async (req, res) => {
     try {
         const courses = await Course.find({});
 
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
         console.log(error.message);
         res.status(500).send({ message: error.message });
     }
-});
+}); */
 
 
 // get a specific course from db
@@ -35,19 +35,22 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+// Route for handling GET requests to retrieve all reflections from the database
+router.get("/", async (req, res) => {
     try {
-        const userId = req.user.userId;
-
-        // Find courses for a specific user
-        const courses = await Course.find({ userId: userId });
-
-        res.json({ courses });
+      
+      const userId = req.user.userId;
+      const courses = await Course.find({ userId: userId });
+  
+      return res.status(200).json({
+        count: courses.length,
+        data: courses,
+      });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+      console.log(error.message);
+      res.status(500).send({ message: error.message });
     }
-});
+  });
 
 // add new course to db
 router.post("/", async (req, res) => {
