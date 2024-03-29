@@ -2,21 +2,6 @@ import express from "express";
 import { Course } from "../models/courseModel.js";
 const router = express.Router();
 
-// get all courses from db
-/* router.get("/", async (req, res) => {
-    try {
-        const courses = await Course.find({});
-
-        return res.status(200).json({
-            count: courses.length,
-            data: courses,
-        });
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).send({ message: error.message });
-    }
-}); */
-
 
 // get a specific course from db
 router.get("/:id", async (req, res) => {
@@ -35,7 +20,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// Route for handling GET requests to retrieve all reflections from the database
+
 router.get("/", async (req, res) => {
     try {
       

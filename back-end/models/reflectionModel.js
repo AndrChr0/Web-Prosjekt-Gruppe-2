@@ -28,6 +28,12 @@ const reflectionSchema = mongoose.Schema(
       ref: "User", // reference to the User model
       required: true,
     },
+    feedback: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Feedback",
+      },
+    ],
   },
 
   {

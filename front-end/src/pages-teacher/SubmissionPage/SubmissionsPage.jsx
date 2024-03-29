@@ -12,9 +12,14 @@ const SubmissionsPage = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+      const token = localStorage.getItem("authToken");
         setLoading(true);
         axios
-          .get("http://localhost:5151/reflections")
+        .get("http://localhost:5151/reflections", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
           .then((res) => {
         
 

@@ -11,6 +11,7 @@ const CourseInfo = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        const token = localStorage.getItem("authToken");
         setLoading(true);
         axios
         .get(`http://localhost:5151/courses/${id}`, {
@@ -18,6 +19,10 @@ const CourseInfo = () => {
               Authorization: `Bearer ${token}`, // Include JWT token in request headers
             },
           })
+          .then((res) => {
+            setCourse(res.data.data);
+            setLoading(false);
+            })
             .catch((error) => {
                 console.log(error);
                 setLoading(false);

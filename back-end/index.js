@@ -4,6 +4,7 @@ import ReflectionRoute from "./routes/ReflectionRoute.js";
 import courseRoute from "./routes/courseRoute.js";
 import userRoute from "./routes/userRoute.js";
 import reflectionActivityRoute from "./routes/reflectionActivityRoute.js";
+import FeedbackRoute from "./routes/feedbackRoute.js";
 import cors from "cors";
 import { verifyToken, requireRole } from "./middlewares/authMiddleware.js";
 import dotenv from "dotenv";
@@ -31,6 +32,8 @@ app.use("/uploads", express.static("uploads")); // make the uploads folder publi
 
 // reflection activities
 app.use("/activities", reflectionActivityRoute);
+
+app.use("/feedback", FeedbackRoute);
 
 // custom origins
 // app.use(cors(

@@ -14,3 +14,11 @@
 .courseInfo-btn {
     width: 5em;
 }
+.edit-save-btns {
+    display: flex;
+    gap: 1em;
+}
+.success-message {
+    opacity: .8;
+    font-style: italic;
+}

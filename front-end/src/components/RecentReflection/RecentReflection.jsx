@@ -9,7 +9,13 @@ const RecentReflection = () => {
     const [loading, setLoading] = useState(true);
   
     useEffect(() => {
-      axios.get(`http://localhost:5151/reflections/${id}`)
+    const token = localStorage.getItem("authToken");
+      axios
+      .get(`http://localhost:5151/reflections/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include JWT token in request headers
+        },
+      })
         .then(res => {
           setReflection(res.data.reflection);
           setLoading(false);
@@ -40,10 +46,10 @@ const RecentReflection = () => {
     return (
         <div>
             <div className="Reflection_card">
-            <h2>Guest Lecture: Grigor Perelman</h2>
+            
 
                 <div className="Reflection_card_title">
-                    <h3>" {reflection.title} "</h3>
+                    <h2>" {reflection.title} "</h2>
                     <b>By: Student-Name</b>
                 </div>
                 <div className="Reflection_card_content">

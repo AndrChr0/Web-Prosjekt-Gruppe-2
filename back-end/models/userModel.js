@@ -31,12 +31,6 @@ const userSchema = new mongoose.Schema(
         ref: "Course",
       },
     ],
-    reflections: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Reflection",
-      },
-    ]
   },
   {
     timestamps: true,
