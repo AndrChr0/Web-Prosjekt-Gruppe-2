@@ -1,4 +1,3 @@
-// src/components/Register.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -41,8 +40,8 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="register-container">
+      <form className="register-form" onSubmit={handleSubmit}>
         <input
           type="email"
           name="email"
@@ -50,6 +49,7 @@ const Register = () => {
           value={credentials.email}
           onChange={handleChange}
           required
+          className="register-input"
         />
         <input
           type="password"
@@ -58,6 +58,7 @@ const Register = () => {
           value={credentials.password}
           onChange={handleChange}
           required
+          className="register-input"
         />
         <input
           type="password"
@@ -66,12 +67,19 @@ const Register = () => {
           value={confirmPassword}
           onChange={handleChange}
           required
+          className="register-input"
         />
-        <select name="role" value={credentials.role} onChange={handleChange} required>
+        <select
+          name="role"
+          value={credentials.role}
+          onChange={handleChange}
+          required
+          className="register-input"
+        >
           <option value="student">Student</option>
           <option value="teacher">Teacher</option>
         </select>
-        <button type="submit">Register</button>
+        <button type="submit" className="register-button">Register</button>
       </form>
       {registrationError && <p className="error-message">{registrationError}</p>}
     </div>

@@ -1,8 +1,8 @@
-
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import './Login.css'; // Import the CSS file for styling
+
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState("");
@@ -27,8 +27,8 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
         <input
           type="email"
           name="email"
@@ -36,6 +36,7 @@ const Login = () => {
           value={credentials.email}
           onChange={handleChange}
           required
+          className="login-input"
         />
         <input
           type="password"
@@ -44,8 +45,9 @@ const Login = () => {
           value={credentials.password}
           onChange={handleChange}
           required
+          className="login-input"
         />
-        <button type="submit">Log In</button>
+        <button type="submit" className="login-button">Log In</button>
       </form>
       {loginError && <p className="error-message">{loginError}</p>}
     </div>

@@ -12,6 +12,85 @@ import { User } from "../models/userModel.js";
 import bcrypt from 'bcryptjs';
 const router = express.Router();
 
+
+
+router.get('/profile', async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1]; // Assuming 'Bearer <token>'
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findById(decoded.userId).select('-password');
+        console.log(decoded.userId);
+        if (!user) return res.status(404).send('User not found.');
+
+        res.json({ email: user.email });
+    } catch (error) {
+        res.status(500).send('Error fetching user profile.');
+    }
+});
+
+router.put('/update-email', async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId;
+        const newEmail = req.body.email;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found.');
+        }
+
+        user.email = newEmail;
+        await user.save();
+
+        return res.status(200).json({ message: 'Email updated successfully' });
+    } catch (error) {
+        return res.status(500).send('Error updating email.');
+    }
+});
+
+router.put('/update-password', async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+    const { password } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send('User not found.');
+    }
+
+    // Update password
+    user.password = password;
+    await user.save();
+
+    return res.status(200).json({ message: 'Password updated successfully' });
+  } catch (error) {
+    return res.status(500).send('Error updating password.');
+  }
+});
+
+router.delete('/delete', async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.userId;
+
+    // Delete the user account
+    const deletedUser = await User.findByIdAndDelete(userId);
+    if (!deletedUser) {
+      return res.status(404).send('User not found.');
+    }
+
+    return res.status(200).json({ message: 'User account deleted successfully' });
+  } catch (error) {
+    return res.status(500).send('Error deleting user account.');
+  }
+});
+
+  
+
 //Get user by id
 router.get('/:id', async (req, res) => {
     try {
@@ -28,22 +107,9 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Profile user
 
 
-// Profile user test
-router.get('/profile', async (req, res) => {
-    try {
-        const token = req.headers.authorization.split(' ')[1]; // Assuming 'Bearer <token>'
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.userId).select('-password');
-        console.log(decoded.userId);
-        if (!user) return res.status(404).send('User not found.');
-
-        res.json({ email: user.email });
-    } catch (error) {
-        res.status(500).send('Error fetching user profile.');
-    }
-});
 
 // Get route for fetching all users
 router.get("/", async (req, res) => {
@@ -76,7 +142,7 @@ router.post('/register', async (req, res) => { //Changed this line to use '/regi
     }
 });
 
-// Placeholder for PUT route to update a user
+
 
 
 router.post('/login', async (req, res) => {
