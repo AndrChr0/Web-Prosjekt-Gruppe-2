@@ -10,6 +10,9 @@ body {
   flex-direction: column;
 }
 
+button {
+  border: none;
+}
 main {
   margin: 0 10vw;
   margin-top: 3vh;
@@ -75,6 +78,8 @@ main {
   font-weight: bolder;
   cursor: pointer;
 }
+
+
 .main-btn-container {
   display: flex;
   // width: 100%;

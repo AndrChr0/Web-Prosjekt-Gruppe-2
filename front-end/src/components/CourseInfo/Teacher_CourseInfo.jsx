@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./CourseInfo.css";
 
@@ -76,63 +77,77 @@ const TeacherCourseInfo = () => {
     };
   
     return (
-      <div className="Course-Information">
-        <h2>
-          {isEditing ?
-          (
-            <input
-              type="text"
-              name="courseCode"
-              value={editedCourse.courseCode || ''}
-              onChange={handleInputChange}
-              className="edit-input"
-            />
-          ) : (
-            <span>{course.courseCode} </span>
-          )}
+      
+        <div className="Course-Information">
 
-          <span>
-            {isEditing ? (
+          
+          <h2>
+            {isEditing ?
+            (
               <input
                 type="text"
-                name="title"
-                value={editedCourse.title || ''}
+                name="courseCode"
+                value={editedCourse.courseCode || ''}
                 onChange={handleInputChange}
                 className="edit-input"
               />
             ) : (
-              <span>{course.title}</span>
+              <span>{course.courseCode} </span>
             )}
-          </span>
-        </h2>
-        {isEditing ? (
-          <textarea
-            name="description"
-            value={editedCourse.description || ''}
-            onChange={handleInputChange}
-          />
-        ) : (
-          <span>{course.description}</span>
-        )}
-        
-        {isEditing ? (
-          <div className='edit-save-btns'>
-            <button className="main-menu-btn courseInfo-btn" onClick={handleSave}>
-              Save
+
+            <span>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="title"
+                  value={editedCourse.title || ''}
+                  onChange={handleInputChange}
+                  className="edit-input"
+                />
+              ) : (
+                <span>{course.title}</span>
+              )}
+            </span>
+          </h2>
+          {isEditing ? (
+            <textarea
+              name="description"
+              value={editedCourse.description || ''}
+              onChange={handleInputChange}
+            />
+          ) : (
+            <span className='course-description'>{course.description}</span>
+          )}
+          
+          {isEditing ? (
+            <div className='edit-save-btns'>
+              <button className="main-menu-btn courseInfo-btn" onClick={handleSave}>
+                Save
+              </button>
+              <button className="main-menu-btn courseInfo-btn" onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <button className="main-menu-btn courseInfo-btn" onClick={handleEdit}>
+              Edit
             </button>
-            <button className="main-menu-btn courseInfo-btn" onClick={handleCancel}>
-              Cancel
-            </button>
+          )}
+          {successMessage && (
+            <div className="success-message">{successMessage}</div>
+          )}
+          
+            <div className="manage-students-link">
+            <Link className="Text-link"  to="/manage">
+              <button className="main-menu-btn">Manage students</button>
+            </Link>
+            </div>
+
+
+
           </div>
-        ) : (
-          <button className="main-menu-btn courseInfo-btn" onClick={handleEdit}>
-            Edit
-          </button>
-        )}
-        {successMessage && (
-          <div className="success-message">{successMessage}</div>
-        )}
-      </div>
+
+
     );
   };
 

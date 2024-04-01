@@ -26,15 +26,18 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1000000, // 1MB
+    fileSize: 2000000, // 2MB
   },
   fileFilter: (req, file, cb) => {
+
+    console.log("Mimetype:", file.mimetype);
     // Check file mimetype for allowed file types
     if (
       file.mimetype.startsWith("application/pdf") ||
-      file.mimetype.startsWith("application/gz") ||
+      file.mimetype.startsWith("application/gzip") ||
       file.mimetype.startsWith("application/zip") ||
-      file.mimetype.startsWith("image/jpg") ||
+      file.mimetype.startsWith("application/x-zip-compressed") ||
+      file.mimetype.startsWith("image/jpeg") ||
       file.mimetype.startsWith("image/png") ||
       file.mimetype.startsWith("video/mp4")
     ) {

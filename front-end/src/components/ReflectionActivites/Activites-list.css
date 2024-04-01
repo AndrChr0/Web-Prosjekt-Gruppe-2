@@ -43,6 +43,20 @@
     cursor: pointer;
 }
 
+.add-activity-link {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: end;
+
+}
+
+.add-activity-link button {
+    width: fit-content;
+}
+
+
+
 @media screen and (max-width: 768px) {
     .Description-button-row {
         flex-direction: column;
