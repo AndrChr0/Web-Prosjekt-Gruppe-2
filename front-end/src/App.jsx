@@ -48,7 +48,7 @@ function App() {
   return (
     <>
       <Header />
-      <TeacherNav />
+      
 
       <Routes>
       <Route path="/unauthorized" element={<Unauthorized />} />
