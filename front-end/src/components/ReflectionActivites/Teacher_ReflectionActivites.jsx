@@ -17,12 +17,18 @@ const ReflectionActivites = () => {
   }, []);
 
 
-  // I guess we could toggle show hide certain descriptions if needed.
+  
 
   return (
     <div className="Activities-List">
+
       <div>
         <h2>Reflection activities</h2>
+        <div className="add-activity-link">
+        <Link className="Text-link" to="/add-activity">
+          <button className="main-menu-btn" >New activity</button>
+        </Link>
+        </div>
         <ul>
           {activities.map((activity, i) => (
             <li className="Activity" key={activity._id}>

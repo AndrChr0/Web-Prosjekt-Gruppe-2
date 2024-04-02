@@ -12,9 +12,14 @@ const SubmissionsPage = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+      const token = localStorage.getItem("authToken");
         setLoading(true);
         axios
-          .get("http://localhost:5151/reflections")
+        .get("http://localhost:5151/reflections", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
           .then((res) => {
         
 
@@ -29,11 +34,9 @@ const SubmissionsPage = () => {
 
     return(
     <main>
-        <h1>Home</h1>
-
-        {/* RECENT REFLECTIONS */}
+        <h1>Student submissions</h1>
         <ul className="Recent-reflections">
-            <h2>Recent reflections</h2>    
+            <h2>All submissions</h2>    
             {reflections.map((reflection, i) => (
             <Link className="Text-link" to={`/submissions/${reflection._id}`}>
                 <li className="Recent-reflection" key={reflection._id}>
