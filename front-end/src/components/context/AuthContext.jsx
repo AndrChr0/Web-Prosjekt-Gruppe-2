@@ -1,5 +1,7 @@
-// src/components/context/AuthContext.jsx
-import React, { createContext, useContext, useState, useEffect } from 'react';
+// AuthProvider component
+import { createContext, useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types'; 
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -9,28 +11,88 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      const base64Url = token.split('.')[1]; // Get the payload part of the token
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Convert base64url to base64
-      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map((c) => {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-
+    async function fetchUserData() {
       try {
-        const decoded = JSON.parse(jsonPayload); // Now contains the JWT payload
-        setCurrentUser(decoded);
+        const token = localStorage.getItem('authToken');
+        if (token) {
+          const response = await axios.get('http://localhost:5151/users/profile', {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          setCurrentUser(response.data);
+        }
+        setLoading(false);
       } catch (error) {
-        console.error("Error decoding user token:", error);
+        console.error("Error fetching user data:", error);
+        setLoading(false);
       }
     }
+
+    fetchUserData();
   }, []);
 
+  async function updateUserEmail(newEmail) {
+    try {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        await axios.put('http://localhost:5151/users/update-email', { email: newEmail }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setCurrentUser(prevUser => ({ ...prevUser, email: newEmail }));
+      }
+    } catch (error) {
+      console.error("Error updating user email:", error);
+    }
+  }
+
+  async function updateUserPassword(newPassword) {
+    try {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        await axios.put('http://localhost:5151/users/update-password', { password: newPassword }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error updating user password:", error);
+    }
+  }
+
+  async function deleteUser() {
+    try {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        await axios.delete('http://localhost:5151/users/delete', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setCurrentUser(null);
+      }
+    } catch (error) {
+      console.error("Error deleting user account:", error);
+    }
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+    <AuthContext.Provider value={{ currentUser, updateUserEmail, updateUserPassword, deleteUser }}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired
 };

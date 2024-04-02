@@ -1,135 +1,147 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios'; 
-import '../assets/styles/profile.css'; 
+import { useEffect, useState } from 'react';
+import { useAuth } from '../components/context/AuthContext';
+import '../assets/styles/profilePage.css';
 
 function ProfilePage() {
-  // State variables to store user data
-  const [userData, setUserData] = useState(null);
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isEditingEmail, setIsEditingEmail] = useState(false);
-  const [isEditingPassword, setIsEditingPassword] = useState(false);
+  const { currentUser, updateUserEmail, updateUserPassword, deleteUser } = useAuth();
+  const [editableEmail, setEditableEmail] = useState(false);
+  const [editablePassword, setEditablePassword] = useState(false);
+  const [newEmail, setNewEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('********');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [passwordLabel, setPasswordLabel] = useState('Password');
 
-  // Fetch user profile data on component mount
   useEffect(() => {
-    fetchUserProfile();
-  }, []);
+    if (currentUser) {
+      setNewEmail(currentUser.email);
+    }
+  }, [currentUser]);
 
-  // Function to fetch user profile data
-  const fetchUserProfile = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('/api/user/profile', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const userData = response.data;
-      // Fill the email and password inputs
-      setUserData({
-        ...userData,
-        password: '', // Clear password field for security reasons
-      });
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
+  const handleEdit = (field) => {
+    if (field === 'newEmail') {
+      setEditableEmail(true);
+      setNewEmail(currentUser.email);
+    } else if (field === 'newPassword') {
+      setEditablePassword(true);
+      setPasswordLabel('New Password');
+      setNewPassword('');
+      setConfirmNewPassword('');
     }
   };
 
-  // Function to handle saving changes
-  const handleSaveChanges = async () => {
-    try {
-      const token = localStorage.getItem('token'); // Get the authentication token from localStorage
-      await axios.put(
-        '/api/user/profile-page', // Correct endpoint for profile updates
-        { fullName: userData.fullName, email: userData.email, password: userData.password }, // Send updated user profile data
-        { headers: { Authorization: `Bearer ${token}` } } // Include the token in the request headers
-      );
-      console.log('Changes saved successfully');
-    } catch (error) {
-      console.error('Error saving changes:', error);
+  const handleSave = async () => {
+    const isEmailChanged = newEmail !== currentUser.email;
+    const isPasswordChanged = newPassword !== '' && newPassword === confirmNewPassword;
+
+    if (isEmailChanged || isPasswordChanged) {
+      const confirmation = window.confirm("Are you sure you want to save the changes?");
+      if (confirmation) {
+        if (isEmailChanged) {
+          await updateUserEmail(newEmail);
+        }
+        if (isPasswordChanged) {
+          await updateUserPassword(newPassword);
+        }
+        setNewEmail(newEmail);
+      } else {
+        setNewEmail(currentUser.email);
+        setNewPassword('');
+        setConfirmNewPassword('');
+        return;
+      }
+    } else {
+      alert("No changes made.");
+      return;
     }
+
+    setEditableEmail(false);
+    setEditablePassword(false);
+    setPasswordLabel('Password');
   };
 
-  // Function to handle deleting account
   const handleDeleteAccount = async () => {
     try {
-      const token = localStorage.getItem('token'); // Get the authentication token from localStorage
-      await axios.delete(
-        '/api/user/delete-account', // Endpoint for deleting account
-        { headers: { Authorization: `Bearer ${token}` } } // Include the token in the request headers
-      );
-      console.log('Account deleted successfully');
+        const confirmation = window.confirm("Are you sure you want to delete your account?");
+        if (confirmation) {
+            await deleteUser();
+            window.location.href = '/register'; 
+        }
     } catch (error) {
-      console.error('Error deleting account:', error);
+        console.error('Error deleting user account:', error);
+        alert('Error deleting user account.');
+    }
+};
+
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'newEmail') {
+      setNewEmail(value);
+    } else if (name === 'newPassword') {
+      setNewPassword(value);
+    } else if (name === 'confirmNewPassword') {
+      setConfirmNewPassword(value);
     }
   };
+
+  if (!currentUser) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="profile-container">
       <h1 className="profile-heading">Profile</h1>
       <div className="profile-settings">
         <div className="profile-field">
-          <label>Full Name:</label>
-          {isEditingName ? (
-            <input
-              type="text"
-              value={userData ? userData.fullName : ''}
-              onChange={(e) => setUserData({ ...userData, fullName: e.target.value })}
-              className="profile-value"
-            />
-          ) : (
-            <span className="profile-value">{userData ? userData.fullName : ''}</span>
-          )}
-          <button
-            className="edit-button"
-            onClick={() => setIsEditingName(!isEditingName)}
-          >
-            {isEditingName ? 'Save' : 'Edit'}
-          </button>
-        </div>
-        <div className="profile-field">
-          <label>Email:</label>
-          {isEditingEmail ? (
+          <p>Email: </p>
+          {editableEmail ? (
             <input
               type="email"
-              value={userData ? userData.email : ''}
-              onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-              className="profile-value"
+              name="newEmail"
+              placeholder="Enter new email"
+              value={newEmail}
+              onChange={handleInputChange}
+              className="profile-value editable"
             />
           ) : (
-            <span className="profile-value">{userData ? userData.email : ''}</span>
+            <span className="profile-value">{currentUser.email}</span>
           )}
-          <button
-            className="edit-button"
-            onClick={() => setIsEditingEmail(!isEditingEmail)}
-          >
-            {isEditingEmail ? 'Save' : 'Edit'}
-          </button>
+          {!editableEmail && <button onClick={() => handleEdit('newEmail')} className="edit-button">Edit</button>}
         </div>
-      <div className="profile-field">
-        <label>Password:</label>
-        {isEditingPassword ? (
-          <input
-            type="text" // Change input type to text when editing
-            value={userData ? userData.password : ''}
-            onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-            className="profile-value"
-          />
-        ) : (
-          <span className="profile-value">••••••••</span> // Display dots when not editing
-        )}
-        <button
-          className="edit-button"
-          onClick={() => setIsEditingPassword(!isEditingPassword)}
-        >
-          {isEditingPassword ? 'Save' : 'Edit'}
-        </button>
-      </div>
-
         <div className="profile-field">
-          <button className="save-button" onClick={handleSaveChanges}>
+          <p>{passwordLabel}: </p>
+          {editablePassword ? (
+            <input
+              type="password"
+              name="newPassword"
+              placeholder="Enter new password"
+              value={newPassword}
+              onChange={handleInputChange}
+              className="profile-value editable"
+            />
+          ) : (
+            <span className="profile-value">{'*'.repeat(newPassword.length)}</span>
+          )}
+          {!editablePassword && <button onClick={() => handleEdit('newPassword')} className="edit-button">Edit</button>}
+        </div>
+        {editablePassword && (
+          <div className="profile-field">
+            <p>Confirm new password: </p>
+            <input
+              type="password"
+              name="confirmNewPassword"
+              placeholder="Confirm new password"
+              value={confirmNewPassword}
+              onChange={handleInputChange}
+              className="profile-value editable"
+            />
+          </div>
+        )}
+        <div className="profile-buttons">
+          <button onClick={handleSave} className="save-button">
             Save Changes
           </button>
-          <button className="delete-button" onClick={handleDeleteAccount}>
-            Delete Account
-          </button>
+          <button onClick={handleDeleteAccount} className="delete-button">Delete Account</button>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-//Had issues using decode jwt so used a manual decode
+import { useState, useEffect } from 'react';
+import './Profile.css';
+
 const Profile = () => {
     const [userEmail, setUserEmail] = useState('');
     
@@ -22,7 +23,6 @@ const Profile = () => {
         }
     }, []);
 
-    // Optional: useEffect to log userEmail when it changes
     useEffect(() => {
         if (userEmail) {
             console.log("User email updated:", userEmail);
@@ -30,9 +30,9 @@ const Profile = () => {
     }, [userEmail]);
 
     return (
-        <div>
-            <h1>Profile Page</h1>
-            <h2>Hello, {userEmail || "Guest"}</h2>
+        <div className="profile-container">
+            <h1 className="profile-heading">Profile Page</h1>
+            <h2 className="profile-email">Hello, {userEmail || "Guest"}</h2>
         </div>
     );
 };
