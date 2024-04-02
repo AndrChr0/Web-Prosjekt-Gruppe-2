@@ -31,6 +31,30 @@
     font-size: 1rem;
 }
 
+.feedback-form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 1px solid #949494;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+
+}
+.feedback-form button {
+    width: fit-content;
+}
+
+.feedback-section {
+    margin-bottom: 2em;
+    margin-top: 3em;
+    width: 100%;
+    
+}
+
+.feedback-section h3 {
+    margin-bottom: .5em;
+}
 .reflection-image {
     min-width: 20%;
     max-width: 100px;

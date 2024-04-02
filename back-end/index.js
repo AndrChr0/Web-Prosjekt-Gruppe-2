@@ -33,7 +33,7 @@ app.use("/uploads", express.static("uploads")); // make the uploads folder publi
 // reflection activities
 app.use("/activities", reflectionActivityRoute);
 
-app.use("/feedback", FeedbackRoute);
+app.use("/feedback", verifyToken, FeedbackRoute);
 
 // custom origins
 // app.use(cors(

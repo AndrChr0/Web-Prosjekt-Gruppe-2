@@ -9,6 +9,9 @@ const RecentReflection = () => {
     const [reflection, setReflection] = useState(null);
     const [loading, setLoading] = useState(true);
     const [enlargedImage, setEnlargedImage] = useState(null);
+    const [feedbackText, setFeedbackText] = useState("");
+    const [feedback, setFeedback] = useState([]);
+    const [showFeedbackForm, setShowFeedbackForm] = useState(false);
   
     useEffect(() => {
         const token = localStorage.getItem("authToken");
@@ -21,17 +24,33 @@ const RecentReflection = () => {
             .then(res => {
                 setReflection(res.data.reflection);
                 setLoading(false);
+                fetchFeedback(id);
+                
             })
             .catch(error => {
                 console.error(error);
                 setLoading(false);
             });
     }, [id]);
+
+    const fetchFeedback = () => {
+        const token = localStorage.getItem("authToken");
+        axios
+            .get(`http://localhost:5151/feedback?reflectionId=${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(res => {
+                setFeedback(res.data.data);
+            })
+            .catch(error => {
+                console.error("Error fetching feedback:", error);
+            });
+    };
   
 
     if (!reflection) return <div>Reflection not found</div>;
-
-
 
     const handleClick = (image) => {
         setEnlargedImage(image);
@@ -40,6 +59,43 @@ const RecentReflection = () => {
     const handleClose = () => {
         setEnlargedImage(null);
     }
+
+    const handleFeedbackChange = (event) => {
+        setFeedbackText(event.target.value);
+    }
+
+    const handleSubmitFeedback = () => {
+        const token = localStorage.getItem("authToken");
+        axios
+            .post(
+                `http://localhost:5151/feedback`, 
+                { content: feedbackText, reflectionId: id },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Include JWT token in request headers
+                    },
+                }
+            )
+            .then(res => {
+                console.log("Feedback submitted:", res.data.feedbackText);
+                setShowFeedbackForm(false);
+            })
+            .catch(error => {
+                console.error("Error submitting feedback:", error);
+            });
+    }
+ const renderFeedback = () => {
+        if (feedback.length === 0) {
+            return <p>No feedback for this reflection yet</p>;
+        }
+
+        return feedback.map((item) => (
+            <div>
+                <p> <b>content:</b> {item.content}</p>
+                <p> <b>user: </b>{item.userId}</p>
+            </div>
+        ));
+    }; 
 
     return (
         <div>
@@ -111,9 +167,12 @@ const RecentReflection = () => {
                     }
                     {reflection.files.length === 0 && <p>No files attached</p>}
                     </div>
+                    <div className="feedback-section">
+                    <h3>Feedback </h3>
+                    {renderFeedback()}
+                    
+                </div>
             </div>
-            <button className="action-btn feedback-btn">Give feedback</button>
-
 
             {enlargedImage && (
                 <div className="popup">
@@ -123,6 +182,13 @@ const RecentReflection = () => {
                     </div>
                 </div>
             )}
+            {showFeedbackForm && (
+                <form className="feedback-form">
+                    <textarea value={feedbackText} onChange={handleFeedbackChange} placeholder="Enter your feedback here"></textarea>
+                    <button className="main-menu-btn" onClick={handleSubmitFeedback}>Submit Feedback</button>
+                </form>
+            )}
+            <button className="action-btn feedback-btn" onClick={() => setShowFeedbackForm(true)}>Give feedback</button>
         </div>
     );
 };

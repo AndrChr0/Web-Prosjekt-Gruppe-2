@@ -21,8 +21,9 @@ router.get("/:id", async (req, res) => {
 
 // get all feedback from db
 router.get("/", async (req, res) => {
+  const userId = req.user.userId;
     try {
-        const feedback = await Feedback.find();
+        const feedback = await Feedback.find({ userId: userId });
 
         return res.status(200).json({
             count: feedback.length,
@@ -34,12 +35,15 @@ router.get("/", async (req, res) => {
     }
 });
 
+
+
 //make new feedback
 router.post("/", async (req, res) => {
 
     const newFeedback = new Feedback({
         content: req.body.content,
         reflectionId: req.body.reflectionId,
+        userId: req.user.userId
     });
 
     try {
