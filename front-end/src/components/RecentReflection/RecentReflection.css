@@ -77,26 +77,15 @@
     padding: 1em;
     width: fit-content; 
   }
+
+  .popup-content button {
+    width: fit-content;
+    margin-top: 1em;
+  }
   
   .popup img {
     max-width: 50vw;
-
     height: auto;
-  }
-  
-  .popup button {
-    display: block;
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .popup button:hover {
-    background-color: #0056b3;
   }
   
 

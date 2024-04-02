@@ -178,7 +178,7 @@ const RecentReflection = () => {
                 <div className="popup">
                     <div className="popup-content">
                     <img src={`http://localhost:5151/${enlargedImage}`} alt="Enlarged Image" />
-                    <button onClick={handleClose}>Close</button>
+                    <button className="main-menu-btn" onClick={handleClose}>Close</button>
                     </div>
                 </div>
             )}
