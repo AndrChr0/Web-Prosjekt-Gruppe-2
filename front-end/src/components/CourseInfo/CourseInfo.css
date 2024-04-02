@@ -5,12 +5,60 @@
     flex-direction: column;
     gap: 1em;
     line-height: 1.5;
-    padding: 2em 8em;
+    padding: 2em 5em;
     border-bottom: 1px solid #e0e0e0;
     border-radius: 5px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
+.manage-students-link {
+    width: 100%;
+    display: flex;
+    justify-content:end;
+}
+
+.manage-students-link button {
+    width: fit-content;
+    padding: 1em;
+}
+
+.course-description {
+    width: 90vw;
+    text-wrap: balance;
+}
+
 .courseInfo-btn {
     width: 5em;
+}
+.edit-save-btns {
+    display: flex;
+    gap: 1em;
+}
+.success-message {
+    opacity: .8;
+    font-style: italic;
+}
+
+@media screen and (max-width: 768px) {
+
+    .Course-Information {
+        padding: 1em;
+    }
+
+    .course-description {
+        width: 100%;
+    }
+
+    .manage-students-link {
+        justify-content: center;
+    }
+
+    .manage-students-link button {
+        width: 100%;
+    }
+
+    .edit-save-btns {
+        flex-direction: column;
+        gap: 1em;
+    }
 }

@@ -13,11 +13,11 @@ const storage = multer.diskStorage({
     // Get current date and time
     const now = new Date();
     // Format the date and time
-    const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
-    const time = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS, replace colons with dashes
+    const date = now.toISOString().split("T")[0]; // YYYY-MM-DD
+    const time = now.toTimeString().split(" ")[0].replace(/:/g, "-"); // HH-MM-SS, replace colons with dashes
     // Combine date, time, and original filename
     const dateTimePrefix = `${date}_${time}`; // Date-time prefix
-    const originalFileName = file.originalname.replace(/\s/g, '_'); // Replace spaces in original filename with underscores to avoid issues
+    const originalFileName = file.originalname.replace(/\s/g, "_"); // Replace spaces in original filename with underscores to avoid issues
     const filename = `${dateTimePrefix}-${originalFileName}`;
     cb(null, filename);
   },
@@ -26,21 +26,27 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1000000, // 1MB
+    fileSize: 2000000, // 2MB
   },
   fileFilter: (req, file, cb) => {
+
+    console.log("Mimetype:", file.mimetype);
     // Check file mimetype for allowed file types
     if (
       file.mimetype.startsWith("application/pdf") ||
-      file.mimetype.startsWith("application/gz") ||
+      file.mimetype.startsWith("application/gzip") ||
       file.mimetype.startsWith("application/zip") ||
-      file.mimetype.startsWith("image/jpg") ||
+      file.mimetype.startsWith("application/x-zip-compressed") ||
+      file.mimetype.startsWith("image/jpeg") ||
       file.mimetype.startsWith("image/png") ||
       file.mimetype.startsWith("video/mp4")
     ) {
       cb(null, true);
     } else {
-      cb(new Error("Only .pdf, .gz, .zip .jpg, .png and .mp4 files are allowed"), false);
+      cb(
+        new Error("Only .pdf, .gz, .zip .jpg, .png and .mp4 files are allowed"),
+        false
+      );
     }
   },
 });
@@ -54,18 +60,18 @@ router.post("/", upload.array("files", 5), async (req, res) => {
         message: "Send all required fields: title, content, courseId",
       });
     }
+    // Map paths of files
+    const filesPaths = req.files.map((file) => file.path);
 
-        // Map paths of files
-        const filesPaths = req.files.map((file) => file.path);
-
-        // Create new reflection object
-        const newReflection = {
-          title: req.body.title,
-          content: req.body.content,
-          courseId: req.body.courseId,
-          visibility: req.body.visibility,
-          files: filesPaths,
-        };
+    // Create new reflection object
+    const newReflection = {
+      title: req.body.title,
+      content: req.body.content,
+      courseId: req.body.courseId,
+      visibility: req.body.visibility,
+      files: filesPaths,
+      userId: req.user.userId,
+    };
 
     // Save the new reflection to the database
     const reflection = await Reflection.create(newReflection);
@@ -80,7 +86,8 @@ router.post("/", upload.array("files", 5), async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     // Retrieve all reflections from the database
-    const reflections = await Reflection.find({});
+    const userId = req.user.userId;
+    const reflections = await Reflection.find({ userId: userId });
 
     return res.status(200).json({
       count: reflections.length,

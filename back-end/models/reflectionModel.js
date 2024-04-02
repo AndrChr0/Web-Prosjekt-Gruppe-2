@@ -14,16 +14,26 @@ const reflectionSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    courseCode: {
-      type: String,
-      required: true,
-    },
+    // courseCode: {
+    //   type: String,
+    //   required: true,
+    // },
     visibility: {
       type: Boolean,
       default: false,
     },
-    files: [String]
+    files: [String],
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // reference to the User model
+      required: true,
+    },
+/*     feedbackId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Feedback",
+    }, */
   },
+
   {
     timestamps: true,
   }

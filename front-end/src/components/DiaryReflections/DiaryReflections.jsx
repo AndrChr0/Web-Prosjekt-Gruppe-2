@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./DiaryReflections.css";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function DiaryReflections() {
   const [reflections, setReflections] = useState([]);
@@ -9,10 +9,15 @@ function DiaryReflections() {
 
   useEffect(() => {
     setLoading(true);
+    const token = localStorage.getItem("authToken"); // Retrieve JWT token from storage
     axios
-      .get("http://localhost:5151/reflections")
+      .get("http://localhost:5151/reflections", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include token in the Authorization header
+        },
+      })
       .then((res) => {
-        setReflections(res.data.data);
+        setReflections(res.data.data); // Assuming your backend response has a 'data' object
         setLoading(false);
       })
       .catch((error) => {
@@ -25,16 +30,15 @@ function DiaryReflections() {
     <main>
       <div>
         <h1>My reflections</h1>
-
         {loading ? (
           <h2>please wait</h2>
         ) : (
           <div>
             <ul className="diary-list">
-              {reflections.map((reflection, index) => (
+              {reflections.map((reflection) => (
                 <li key={reflection._id} className="reflection-card">
                   <div>
-                    <b> Title:</b> {reflection.title}
+                    <b>Title:</b> {reflection.title}
                   </div>
                   <div>
                     <b>Course:</b> {reflection.courseId}

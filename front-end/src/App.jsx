@@ -1,9 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Import other components here, like Header, Footer, ProtectedRoute, etc.
-// import Header from "./components/Header/Header";
-// import Footer from "./components/Footer/Footer";
-import ProtectedRoute from "./components/ProtectedRoute"; // If you're using a ProtectedRoute component
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // If you're using a ProtectedRoute component
 // Import all your page components
 
 //student pages
@@ -26,12 +24,10 @@ import TeacherProfile from "./pages-teacher/TeacherProfile/TeacherProfile";
 import NewCourse from "./pages-teacher/NewCourse/NewCourse";
 
 
-import Login from "./components/loginComponent";
-import Profile from "./components/Profile";
-import Registration from "./components/Register"; // Assuming Register is the correct import
+import Login from "./components/Login/loginComponent";
+import Profile from "./components/Profile/Profile";
+import Register from "./components/Register/Register"; 
 import { useAuth } from "./components/context/AuthContext";
-//Testcommit
-
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ReflectionDetail from "./components/ReflectionDetail/ReflectionDetail"; 
@@ -45,7 +41,7 @@ import TeacherNav from "./components/Header/NavTeacher";
 
 
 import "./assets/styles/App.scss";
-import Unauthorized from "./components/Unauthorized";
+import Unauthorized from "./components/Unauthorized/Unauthorized";
 function App() {
   const { currentUser } = useAuth(); // Use useAuth to access currentUser
   
@@ -114,7 +110,7 @@ function App() {
         } />
         {/* No need to protect login and register routes */}
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Registration />} />
+        <Route path="/register" element={<Register />} />
         {/* Profile could be for authenticated users only */}
         <Route path="/profile-page" element={
           <ProtectedRoute>

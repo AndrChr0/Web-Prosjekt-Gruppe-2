@@ -2,21 +2,6 @@ import express from "express";
 import { Course } from "../models/courseModel.js";
 const router = express.Router();
 
-// get all courses from db
-router.get("/", async (req, res) => {
-    try {
-        const courses = await Course.find({});
-
-        return res.status(200).json({
-            count: courses.length,
-            data: courses,
-        });
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).send({ message: error.message });
-    }
-});
-
 
 // get a specific course from db
 router.get("/:id", async (req, res) => {
@@ -35,20 +20,22 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+
+router.get("/", async (req, res) => {
     try {
-        const userId = req.user._id;
-
-        // Find courses for a specific user
-        const courses = await Course.find({ user: userId })
-            .populate('user', 'email');
-
-        res.json({ courses });
+      
+      const userId = req.user.userId;
+      const courses = await Course.find({ userId: userId });
+  
+      return res.status(200).json({
+        count: courses.length,
+        data: courses,
+      });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+      console.log(error.message);
+      res.status(500).send({ message: error.message });
     }
-});
+  });
 
 // add new course to db
 router.post("/", async (req, res) => {
@@ -57,6 +44,7 @@ router.post("/", async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         courseCode: req.body.courseCode,
+        userId: req.user.userId,
     });
 
     try {
