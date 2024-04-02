@@ -84,15 +84,38 @@ const RecentReflection = () => {
                 console.error("Error submitting feedback:", error);
             });
     }
+
+    const handleDelete = (feedbackId) => {
+        const token = localStorage.getItem("authToken");
+        const isConfirmed = window.confirm(
+            "Are you sure you want to delete this feedback?"
+        );
+        if (isConfirmed) {
+            axios
+            .delete(`http://localhost:5151/feedback/${feedbackId}`, {
+                headers: {
+                Authorization: `Bearer ${token}`, // Include the JWT token
+                },
+            })
+            .then(() => {
+                fetchFeedback(id);
+            })
+            .catch((error) => {
+                console.error(error);
+                setLoading(false);
+            });
+        }
+    };
  const renderFeedback = () => {
         if (feedback.length === 0) {
             return <p>No feedback for this reflection yet</p>;
         }
 
         return feedback.map((item) => (
-            <div>
+            <div className="feedback-item" key={item._id}>
                 <p> <b>content:</b> {item.content}</p>
                 <p> <b>user: </b>{item.userId}</p>
+                <button onClick={() => handleDelete(item._id)}>Remove</button>
             </div>
         ));
     }; 

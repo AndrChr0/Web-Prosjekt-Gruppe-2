@@ -31,20 +31,6 @@ function ReflectionDetail() {
           navigate("/login");
         }
       });
-
-      // Fetch feedback for this reflection
-    /* axios
-    .get(`http://localhost:5151/feedback?reflectionId=${reflectionId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`, // Include JWT token in request headers
-      },
-    })
-    .then((res) => {
-      setFeedback(res.data.feedback);
-    })
-    .catch((error) => {
-      console.error(error);
-    }); */
   }, [reflectionId, navigate]);
 
 
