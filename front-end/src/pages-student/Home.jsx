@@ -25,6 +25,7 @@ function Home() {
 
   return (
     <>
+    <h1>Home.jsx | Student</h1>
     <HomeWelcomeCard></HomeWelcomeCard>
     </>
     // <main>

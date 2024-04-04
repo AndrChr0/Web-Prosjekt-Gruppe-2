@@ -1,3 +1,4 @@
+import { verifyToken } from '../middlewares/authMiddleware.js';
 import express from "express";
 import { Reflection } from "../models/reflectionModel.js";
 import multer from "multer";
@@ -76,6 +77,7 @@ router.post("/", upload.array("files", 5), async (req, res) => {
     // Save the new reflection to the database
     const reflection = await Reflection.create(newReflection);
     return res.status(201).send(reflection);
+
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ message: error.message });
@@ -99,6 +101,28 @@ router.get("/", async (req, res) => {
   }
 });
 
+/* 
+// GET request for a single reflection, verifying ownership
+router.get("/:id", verifyToken, async (req, res) => {
+  try {
+    // Corrected to use req.params.id to get the reflection ID from the URL
+    const reflection = await Reflection.findById(req.params.id);
+    if (!reflection) {
+      return res.status(404).json({ message: "Reflection not found" });
+    }
+    // Now correctly checks if the logged-in user's ID matches the studentId in the reflection
+    // Make sure to convert both to strings for a proper comparison, as one might be an ObjectId
+    if (reflection.studentId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+    res.json(reflection);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+*/
+
 // Route for handling GET requests to retrieve a single reflection by ID
 router.get("/:id", async (req, res) => {
   try {
@@ -111,6 +135,7 @@ router.get("/:id", async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 });
+
 
 // Route for handling PUT requests to update a reflection by ID
 router.put("/:id", async (req, res) => {

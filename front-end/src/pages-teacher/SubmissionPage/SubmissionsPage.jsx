@@ -34,6 +34,9 @@ const SubmissionsPage = () => {
 
     return(
     <main>
+
+
+        {/* RECENT REFLECTIONS */}
         <h1>Student submissions</h1>
         <ul className="Recent-reflections">
             <h2>All submissions</h2>    

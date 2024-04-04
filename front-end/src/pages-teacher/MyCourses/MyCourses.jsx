@@ -31,7 +31,7 @@ const TeacherCourses = () =>{
 
     return(
         <main>
-            <h1>My Courses</h1>
+            <h1>My Courses | Teacher</h1>
             <div className="addCourse-btn">
                 <MainMenuButton
                     path="/new_course"

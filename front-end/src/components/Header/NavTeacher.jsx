@@ -6,6 +6,8 @@ import "./Header.css";
 const TeacherNav = () => {
   return (
     <header>
+      
+
       <nav>
         <ul>
             <li><Link to="/teacher_dashboard" className="nav-link" id="nav-logo">Sustainability Diary</Link></li>
