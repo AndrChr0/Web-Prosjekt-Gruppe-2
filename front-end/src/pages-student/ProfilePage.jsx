@@ -62,6 +62,8 @@ function ProfilePage() {
   };
 
   return (
+    
+    
     <div className="profile-container">
       <h1 className="profile-heading">Profile</h1>
       <div className="profile-settings">
@@ -132,7 +134,9 @@ function ProfilePage() {
           </button>
         </div>
       </div>
+      <h1>ProfilePage.jsx | Student</h1>
     </div>
+    
   );
 }
 

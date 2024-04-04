@@ -29,7 +29,7 @@ const SubmissionsPage = () => {
 
     return(
     <main>
-        <h1>Home</h1>
+        <h1>Submissions page | Teacher</h1>
 
         {/* RECENT REFLECTIONS */}
         <ul className="Recent-reflections">

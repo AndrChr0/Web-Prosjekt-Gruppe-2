@@ -35,15 +35,11 @@ const Header = () => {
           )}
           {currentUser?.role === 'student' && (
             <>
-              <li><Link to="/student-dashboard" className="nav-link">Dashboard</Link></li>
-              <li><Link to="/Home" className="nav-link">hOME</Link></li>
-              <li><Link to="/Courses" className="nav-link">My Diary</Link></li>
-              <li><Link to="/Course" className="nav-link">My Diary</Link></li>
-              <li><Link to="/Inbox" className="nav-link">Inbox</Link></li>
-              <li><Link to="/NewReflection" className="nav-link">NewReflection</Link></li>
-              <li><Link to="/AddCourse" className="nav-link">AddCourse</Link></li>
-              <li><Link to="/ProfilePage" className="nav-link">ProfilePage</Link></li>
-              {/* Additional student-specific links */}
+     <li><Link to="/" className="nav-link">Home</Link></li>
+              <li><Link to="/diary" className="nav-link">My Diary</Link></li>
+              <li><Link to="/courses" className="nav-link">Courses</Link></li>
+              <li><Link to="/inbox" className="nav-link">Inbox</Link></li>
+              <li><Link to="/profile-page" className="nav-link">Profile</Link></li>
             </>
           )}
           {currentUser && (

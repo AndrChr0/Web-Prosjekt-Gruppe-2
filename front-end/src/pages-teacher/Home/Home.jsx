@@ -29,7 +29,7 @@ const TeachersHome = () => {
 
     return(
     <main>
-        <h1>Home</h1>
+        <h1>Home | Teacher</h1>
 
         {/* RECENT REFLECTIONS */}
         <ul className="Recent-reflections">

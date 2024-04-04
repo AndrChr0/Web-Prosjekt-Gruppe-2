@@ -58,43 +58,62 @@ function App() {
   </ProtectedRoute>
 } />
 
-  {/* Routes without protection */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-  
-  {/* Protected routes requiring student role */}
-        <Route path="/diary" element={ <ProtectedRoute allowedRoles={['student']}><MyDiary /></ProtectedRoute>} />
-        
-  {/* Protected routes requiring TEACHER role */}
-        <Route path="/teacher_dashboard" element={ <ProtectedRoute allowedRoles={['teacher', 'student']}><TeachersHome /> </ProtectedRoute>} />
-        <Route path="/submissions/:id" element={<ProtectedRoute allowedRoles={['teacher']}><RecentReflectionPage /></ProtectedRoute>} />
-        <Route path="/my_courses" element={<ProtectedRoute allowedRoles={['teacher']}><TeacherCourses /></ProtectedRoute>} />
-        <Route path="/my_courses/:id" element={<ProtectedRoute allowedRoles={['teacher']}><TeacherCourse /></ProtectedRoute>} />
-        <Route path="/new_course" element={<ProtectedRoute allowedRoles={['teacher']}><NewCourse /></ProtectedRoute>} />
-        <Route path="/submissions" element={<ProtectedRoute allowedRoles={['teacher']}><SubmissionsPage /></ProtectedRoute>} />
-        <Route path="/teacher/profile" element={<ProtectedRoute allowedRoles={['teacher']}><TeacherProfile /></ProtectedRoute>} />
-
-
-
         <Route path="/" element={<Home />} />
         {/* Wrap routes with ProtectedRoute as necessary */}
-        {/* Assume Courses and Inbox are accessible to logged-in users only */}
-        <Route path="/courses" element={<ProtectedRoute><Courses /></ProtectedRoute>
+        <Route path="/diary" element={
+          <ProtectedRoute>
+            <MyDiary />
+          </ProtectedRoute>
         } />
-          <Route path="/courses/:id" element={<ProtectedRoute><Course /></ProtectedRoute>} />
-          <Route path="/inbox" element={<ProtectedRoute><Inbox /></ProtectedRoute>} />
-          <Route path="/diary/:reflectionId" element={<ProtectedRoute><ReflectionDetail/></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>} />
-          <Route path="/new_reflection" element={<ProtectedRoute><NewReflection /></ProtectedRoute>} />
-          <Route path="/edit_reflection/:reflectionId" element={<ProtectedRoute><EditReflection/></ProtectedRoute>} />
-          <Route path="/add_course" element={<ProtectedRoute allowedRoles={['student']}> {/* This assumes your ProtectedRoute supports role checking */}
+        {/* Assume Courses and Inbox are accessible to logged-in users only */}
+        <Route path="/courses" element={
+          <ProtectedRoute>
+            <Courses />
+          </ProtectedRoute>
+        } />
+          <Route path="/courses/:id" element={
+          <ProtectedRoute>
+            <Course />
+          </ProtectedRoute>
+        } />
+        <Route path="/inbox" element={
+          <ProtectedRoute>
+            <Inbox />
+          </ProtectedRoute>
+        } />
+          
+        <Route path="/diary/:reflectionId" element={
+          <ProtectedRoute>
+            <ReflectionDetail/>
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Profile/>
+          </ProtectedRoute>
+        } />
+        <Route path="/new_reflection" element={
+          <ProtectedRoute>
+            <NewReflection />
+          </ProtectedRoute>
+        } />
+          <Route path="/edit_reflection/:reflectionId" element={
+          <ProtectedRoute>
+            <EditReflection/>
+          </ProtectedRoute>
+        } />
+        {/* AddCourse might be restricted to teachers only */}
+        <Route path="/add_course" element={
+          <ProtectedRoute allowedRoles={['teacher']}> {/* This assumes your ProtectedRoute supports role checking */}
             <AddCourse />
           </ProtectedRoute>
         } />
-
+        {/* No need to protect login and register routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         {/* Profile could be for authenticated users only */}
         <Route path="/profile-page" element={
-          <ProtectedRoute allowedRoles={['student']}>
+          <ProtectedRoute>
             <ProfilePage />
           </ProtectedRoute>
         } />
@@ -106,6 +125,13 @@ function App() {
         If not, its not the end of the world.
         */}
         
+        <Route path="/teacher_dashboard" element={<TeachersHome />} />
+        <Route path="/submissions/:id" element={<RecentReflectionPage />} />
+        <Route path="/my_courses" element={<TeacherCourses />} />
+        <Route path="/my_courses/:id" element={<TeacherCourse />} />
+        <Route path="/new_course" element={<NewCourse />} />
+        <Route path="/submissions" element={<SubmissionsPage />} />
+        <Route path="/teacher/profile" element={<TeacherProfile />} />
 
       </Routes>
       <Footer />

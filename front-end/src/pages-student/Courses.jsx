@@ -23,7 +23,7 @@ function Courses(){
 
     return(
         <main>
-            <h1>My Courses</h1>
+            <h1>My Courses | Student</h1>
             <ul className="Courses-list">
             {courses.map((course, i) => (
                 <Link className='Text-link' to={`/courses/${course._id}`}>
