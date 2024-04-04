@@ -11,8 +11,14 @@ const TeacherCourses = () =>{
   
     useEffect(() => {
       setLoading(true);
+      const token = localStorage.getItem("authToken");
+
       axios
-        .get("http://localhost:5151/courses")
+      .get("http://localhost:5151/courses", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
         .then((res) => {
           setCourses(res.data.data);
           setLoading(false);
@@ -32,20 +38,19 @@ const TeacherCourses = () =>{
                     buttonName="New Course"
                 ></MainMenuButton>
             </div>
-
-            
             <ul className="Courses-list">
-            {courses.map((course, i) => (
-                <Link className='Text-link' to={`/my_courses/${course._id}`}>
-                <li className="Course-item" key={course._id}>
-                    <div>
-                        <span><b> {course.courseCode} </b></span> {course.title} 
+                {courses.map((course) => (
+                    <div key={course._id}>
+                    <Link className="Text-link" to={`/my_courses/${course._id}`}>
+                        <li className="Course-item">
+                        <div>
+                            <span><b>{course.courseCode}</b></span> {course.title} 
+                        </div>
+                        </li>
+                    </Link>
                     </div>
-                </li>
-                </Link>
-            ))}
+                ))}
             </ul>
-
         </main>
     )}
     

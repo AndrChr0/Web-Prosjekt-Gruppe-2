@@ -3,7 +3,7 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f0f0f0;
+  background-color: #f8f8f8;
   width: 500px;
 }
 
@@ -25,50 +25,65 @@
   margin-bottom: 15px;
 }
 
-.profile-field label {
-  margin-right: 10px;
+.profile-field p {
   flex-shrink: 0;
-  width: 100px; 
+  width: 100px;
+  margin-right: 10px;
 }
 
-.profile-field .profile-value {
+.profile-value {
   flex-grow: 1;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 3px;
+  width: calc(100% - 110px); 
 }
 
 .edit-button {
   padding: 8px 12px;
-  background-color: #0396df;
-  color: #fff;
-  border: none;
+  background-color: rgb(255, 217, 0);
+  color: #111;
   border-radius: 3px;
+  border: 2px solid #111;
   cursor: pointer;
   margin-left: 10px;
+  font-weight: bold;
 }
 
 .edit-button:hover {
-  background-color: #0056b3;
+  background-color: rgb(233, 199, 4);
 }
 
 .save-button, .delete-button {
   padding: 10px 20px;
-  background-color: #0396df;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
+  color: #111;
   cursor: pointer;
+  border: 2px solid #111;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-weight: bold;
 }
 
-.save-button:hover, .delete-button:hover {
-  background-color: #0056b3;
+.save-button {
+  background-color: rgb(255, 217, 0);
+}
+
+.save-button:hover {
+  background-color: rgb(233, 199, 4);
 }
 
 .delete-button {
   background-color: #e74c3c; 
+  color: white;
 }
 
 .delete-button:hover {
-  background-color: #c0392b; 
+  background-color: #b83527; 
 }
+
+.profile-buttons {
+  display: flex;
+  justify-content: space-between; 
+}
+
+

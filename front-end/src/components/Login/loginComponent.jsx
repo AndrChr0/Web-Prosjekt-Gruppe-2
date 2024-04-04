@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext"; // Adjust the path as needed
 import './Login.css';
 
+
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState("");
@@ -33,12 +34,28 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type="email" name="email" placeholder="Email" value={credentials.email} onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" value={credentials.password} onChange={handleChange} required />
-        <button type="submit">Log In</button>
-        
+
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={credentials.email}
+          onChange={handleChange}
+          required
+          className="login-input"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={credentials.password}
+          onChange={handleChange}
+          required
+          className="login-input"
+        />
+        <button type="submit" className="login-button">Log In</button>
       </form>
       {loginError && <p className="error-message">{loginError}</p>}
     </div>

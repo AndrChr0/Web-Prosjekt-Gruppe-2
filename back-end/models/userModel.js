@@ -25,6 +25,12 @@ const userSchema = new mongoose.Schema(
       enum: ["teacher", "student"],
       required: true,
     },
+    courses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+      },
+    ],
   },
   {
     timestamps: true,

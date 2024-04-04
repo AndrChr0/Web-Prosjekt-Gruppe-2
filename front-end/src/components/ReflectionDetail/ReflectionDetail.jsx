@@ -33,6 +33,7 @@ function ReflectionDetail() {
       });
   }, [reflectionId, navigate]);
 
+
   const handleEdit = () => {
     navigate(`/edit_reflection/${reflectionId}`);
   };

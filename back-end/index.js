@@ -4,6 +4,7 @@ import ReflectionRoute from "./routes/ReflectionRoute.js";
 import courseRoute from "./routes/courseRoute.js";
 import userRoute from "./routes/userRoute.js";
 import reflectionActivityRoute from "./routes/reflectionActivityRoute.js";
+import FeedbackRoute from "./routes/feedbackRoute.js";
 import cors from "cors";
 import { verifyToken, requireRole } from "./middlewares/authMiddleware.js";
 import dotenv from "dotenv";
@@ -24,13 +25,15 @@ app.get("/", (req, res) => {
 app.use(cors());
 
 app.use("/reflections", verifyToken, ReflectionRoute);
-app.use("/courses", courseRoute);
+app.use("/courses", verifyToken, courseRoute);
 app.use("/users", userRoute);
 
 app.use("/uploads", express.static("uploads")); // make the uploads folder public
 
 // reflection activities
 app.use("/activities", reflectionActivityRoute);
+
+app.use("/feedback", verifyToken, FeedbackRoute);
 
 // custom origins
 // app.use(cors(
