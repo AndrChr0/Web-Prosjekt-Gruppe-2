@@ -117,7 +117,8 @@ export const AuthProvider = ({ children }) => {
       logout, 
       updateUserEmail, 
       updateUserPassword, 
-      deleteUser
+      deleteUser,
+      decodeAndSetUser
     }}>
       {!loading ? children : <div>Loading...</div>}
     </AuthContext.Provider>

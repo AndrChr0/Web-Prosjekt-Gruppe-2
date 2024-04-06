@@ -124,17 +124,27 @@ router.get("/:id", verifyToken, async (req, res) => {
 */
 
 // Route for handling GET requests to retrieve a single reflection by ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     // Retrieve a reflection by its ID from the database
     const reflection = await Reflection.findById(id);
+
+    // Check if the reflection belongs to the logged-in user
+    if (!reflection) {
+      return res.status(404).json({ message: "Reflection not found" });
+    }
+    if (reflection.userId.toString() !== req.user.userId) {
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
+
     return res.status(200).json({ reflection });
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ message: error.message });
   }
 });
+
 
 
 // Route for handling PUT requests to update a reflection by ID
