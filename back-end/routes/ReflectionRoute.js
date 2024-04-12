@@ -56,7 +56,7 @@ const upload = multer({
 router.post("/", upload.array("files", 5), async (req, res) => {
   try {
     // Check if all required fields are provided
-    if (!req.body.title || !req.body.content || !req.body.courseId) {
+    if (!req.body.title || !req.body.content) {
       return res.status(400).send({
         message: "Send all required fields: title, content, courseId",
       });
@@ -73,6 +73,7 @@ router.post("/", upload.array("files", 5), async (req, res) => {
       userId: req.user.userId,
       courseId: req.body.courseId,
     };
+
 
     // Save the new reflection to the database
     const reflection = await Reflection.create(newReflection);

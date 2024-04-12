@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import ActionButton from "../ActionButton/ActionButton";
 import axios from "axios";
 
@@ -45,7 +45,7 @@ function ReflectionDetail() {
     <div>
       <h1>{reflection.title}</h1>
       <p className="content">{reflection.content}</p>
-      <p className="course-id">Course ID: {reflection.courseId}</p>
+      {reflection.courseId && <p className="course-id">Course: <Link to={`/courses/${reflection.courseId}`}>Course link</Link> </p>}
       {reflection.files &&
         reflection.files.map((file, index) => (
           <div key={index}>
