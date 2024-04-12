@@ -11,7 +11,7 @@ function ReflectionForm() {
     content: "",
     visibility: false,
     files: [],
-    courseId: "",
+    courseId: "No course selected",
   });
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
@@ -52,20 +52,14 @@ function ReflectionForm() {
     fetchCourses();
   }, []);
 
+
+
 const handleChange = (e) => {
   const { name, value } = e.target;
-
-  if (name === "courses") {
-    const selectedCourseId = value;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      courseId: selectedCourseId,
-    }));
-  } else {
-    
-    setFormData({ ...formData, [name]: value });
-  }
-  console.log(formData);
+  setFormData(prevFormData => ({
+    ...prevFormData,
+    [name]: value
+  }));
 };
 
   const handleRemoveFile = (indexToRemove) => {
@@ -76,18 +70,25 @@ const handleChange = (e) => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("Title:", formData.title);
+console.log("Content:", formData.content);
+console.log("Course ID:", formData.courseId);  // Check if this is "no course selected"
+console.log("Visibility:", formData.visibility);
     e.preventDefault();
     const token = localStorage.getItem("authToken"); // Retrieve the JWT token from storage
     const formDataWithFiles = new FormData();
     formDataWithFiles.append("title", formData.title);
     formDataWithFiles.append("content", formData.content);
-    formDataWithFiles.append("courseId", formData.courseId);
     formDataWithFiles.append("visibility", formData.visibility);
+    if (formData.courseId !== "No course selected") {
+      formDataWithFiles.append("courseId", formData.courseId);
+    }
+
     formData.files.forEach((file) => {
       formDataWithFiles.append("files", file);
     
     });
-    formDataWithFiles.append("courseId", formData.courseId); // also adding courseId
+
 
     try {
       await axios.post(
@@ -103,10 +104,10 @@ const handleChange = (e) => {
       setFormData({
         title: "",
         content: "",
-        courseId: "",
+        // courseId: "",
         visibility: false,
         files: [],
-        courseId: "",
+        courseId: "No course selected",
       });
       setSubmissionSuccess(true);
     } catch (error) {
@@ -183,23 +184,18 @@ const handleChange = (e) => {
 
         {/* // NEW ADDITION */}
 
-        <select
-          name="courses"
-          value={formData.courseId}
-          onChange={handleChange}
-        >
-          <option value="">Select a course</option>
-          {courses.map((course) => (
+        <select name="courseId" value={formData.courseId} onChange={handleChange}>
+          <option value="no course selected">Select a course</option>
+          {courses.map(course => (
             <option key={course._id} value={course._id}>
-             {course.courseCode} - {course.title}
+              {course.courseCode} - {course.title}
             </option>
           ))}
         </select>
-          
 
 
         <div className="checkBox-container">
-          <label htmlFor="visibility">Visibility:</label>
+          <label htmlFor="visibility">Share with teacher:</label>
           <input
             type="checkbox"
             name="visibility"

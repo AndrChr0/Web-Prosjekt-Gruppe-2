@@ -10,10 +10,10 @@ const reflectionSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-/*     courseId: {
-      type: Number,
-      required: true,
-    }, */
+    //   courseId: {
+    //   type: String,
+    //   required: true,
+    // }, 
     // courseCode: {
     //   type: String,
     //   required: true,
@@ -31,6 +31,7 @@ const reflectionSchema = mongoose.Schema(
     courseId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Course",
+      required: false
     },
   },
 
