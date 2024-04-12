@@ -90,33 +90,36 @@ function EditReflection() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
+
+      <label for="title">
         Title:
+      </label>
         <input
           type="text"
           name="title"
           value={reflection.title}
           onChange={handleChange}
         />
-      </label>
-      <label>
+
+      <label for="courseId">
         Course ID:
+      </label>
         <input
           type="text"
           name="courseId"
           value={reflection.courseId}
           onChange={handleChange}
         />
-      </label>
+
       <label>
         Content:
+      </label>
         <textarea
           name="content"
           value={reflection.content}
           onChange={handleChange}
         />
-      </label>
-      {/* <button type="submit">Save</button> */}
+
       <ActionButton btnType="submit" btnValue="Save" />
       <ActionButton
         onClick={handleDelete}

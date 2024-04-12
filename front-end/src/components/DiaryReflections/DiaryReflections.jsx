@@ -6,18 +6,24 @@ import { Link } from "react-router-dom";
 function DiaryReflections() {
   const [reflections, setReflections] = useState([]);
   const [loading, setLoading] = useState(false);
+  
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return `${date.toLocaleDateString()}/${date.toLocaleTimeString()}`;
+  }
 
   useEffect(() => {
     setLoading(true);
-    const token = localStorage.getItem("authToken"); // Retrieve JWT token from storage
+    const token = localStorage.getItem("authToken"); 
     axios
       .get("http://localhost:5151/reflections", {
         headers: {
-          Authorization: `Bearer ${token}`, // Include token in the Authorization header
+          Authorization: `Bearer ${token}`, 
         },
       })
       .then((res) => {
-        setReflections(res.data.data); // Assuming your backend response has a 'data' object
+        setReflections(res.data.data); 
+        console.log(res.data.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -41,7 +47,7 @@ function DiaryReflections() {
                     <b>Title:</b> {reflection.title}
                   </div>
                   <div>
-                    <b>Course:</b> {reflection.courseId}
+                    <b>Last updated:</b> {formatDate(reflection.updatedAt)}
                   </div>
                   <div className="link-container">
                     <Link to={`/diary/${reflection._id}`}>View</Link>
