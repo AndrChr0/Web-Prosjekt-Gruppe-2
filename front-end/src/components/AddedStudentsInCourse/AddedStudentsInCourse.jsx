@@ -20,20 +20,6 @@ const AddedStudentsInCourse = () => {
       });
   }, []);
 
-  const handleAddStudent = (studentId) => {
-    axios.put(`http://localhost:5151/users/${studentId}/add_course`, { courseId }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
-    })
-    .then(() => {
-      alert('Student added to course successfully');
-      
-    })
-    .catch(error => {
-      console.error('Error adding student to course:', error);
-      alert('Student already in course');
-    });
-  };
-
   return (
     <div>
 

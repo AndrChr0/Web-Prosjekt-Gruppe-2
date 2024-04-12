@@ -21,8 +21,8 @@ const ListOfStudents = () => {
 
   }, []);
 
-  const handleAddStudent = (studentId) => {
-    axios.put(`http://localhost:5151/users/${studentId}/add_course`, { courseId }, {
+  const handleAddStudent = (userId) => {
+    axios.put(`http://localhost:5151/users/${userId}/add_course`, { courseId }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
     })
     .then(() => {
