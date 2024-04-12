@@ -7,6 +7,7 @@ import './Header.css';
 const Header = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
+  console.log("NAAAV", currentUser);
 
   const handleLogout = () => {
     logout(); // Use the logout function from AuthContext
@@ -30,7 +31,7 @@ const Header = () => {
             <li><Link to="/teacher_dashboard" className="nav-link">Home</Link></li>
             <li><Link to="/my_courses" className="nav-link">My courses</Link></li>
             <li><Link to="/submissions" className="nav-link">SubmissionsPage</Link></li>
-            <li><Link to="/teacher/profile" className="nav-link">TeacherProfile</Link></li>
+            <li><Link to="/profile-page" className="nav-link">Profile</Link></li>
               {/* Additional teacher-specific links */}
             </>
           )}

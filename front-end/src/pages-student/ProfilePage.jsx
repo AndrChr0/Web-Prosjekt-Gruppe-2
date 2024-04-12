@@ -146,7 +146,6 @@ function ProfilePage() {
           <button onClick={handleDeleteAccount} className="delete-button">Delete Account</button>
         </div>
       </div>
-      <h1>ProfilePage.jsx | Student</h1>
     </div>
     
   );

@@ -21,6 +21,7 @@ router.get('/profile', async (req, res) => {
         return res.status(200).json({
             id: user._id, 
             email: user.email,
+            role: user.role,
             courses: user.courses, 
            
         });
