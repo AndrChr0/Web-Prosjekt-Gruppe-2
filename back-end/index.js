@@ -53,6 +53,10 @@ const handleSearch = async (req, res) => {
 
   if (req.query.role === "student") {
     users = await User.find({ role: "student" });
+
+    if (req.query.courseId) {
+      users = users.filter((user) => user.courses.includes(req.query.courseId));
+    }
   }
 
   if (!users || users.length === 0) {

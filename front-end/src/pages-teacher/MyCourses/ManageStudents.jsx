@@ -1,52 +1,19 @@
 // src/pages-teacher/MyCourses/ManageStudents.jsx
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import './ManageStudents.css';
-
+import React from 'react';
+import ListOfStudents from '../../components/ListOfStudents/ListOfStudents';
+import AddedStudentsInCourse from '../../components/AddedStudentsInCourse/AddedStudentsInCourse';
+import './Manage-students.css';
 const ManageStudents = () => {
-  const [students, setStudents] = useState([]);
-  const { courseId } = useParams(); // Use useParams to get courseId from URL
 
-  useEffect(() => {
-    axios.get('http://localhost:5151/search?role=student', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
-    }) // Fetch only students
-      .then(response => {
-        setStudents(response.data); // Set students state with fetched data
-      })
-      .catch(error => {
-        console.error('Error fetching students:', error);
-      });
-  }, []);
-
-  const handleAddStudent = (studentId) => {
-    axios.put(`http://localhost:5151/users/${studentId}/add_course`, { courseId }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
-    })
-    .then(() => {
-      alert('Student added to course successfully');
-      
-    })
-    .catch(error => {
-      console.error('Error adding student to course:', error);
-      alert('Student already in course');
-    });
-  };
 
   return (
-    <div>
-      <h1>Manage Students</h1>
-      <ul className='Student-list'>
-        {students.map(student => (
-          <li key={student._id}>
-            {student.email}
-            <p>{student.role}</p>
-             <button onClick={() => handleAddStudent(student._id)}>Add</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <main>
+      <h1>Manage students</h1>
+      <div className='Manage-students-wrapper'>
+      <ListOfStudents />
+      <AddedStudentsInCourse />
+      </div>
+    </main>
   );
 };
 
