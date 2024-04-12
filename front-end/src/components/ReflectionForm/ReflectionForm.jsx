@@ -52,21 +52,7 @@ function ReflectionForm() {
     fetchCourses();
   }, []);
 
-// const handleChange = (e) => {
-//   const { name, value } = e.target;
 
-//   if (name === "courses") {
-//     const selectedCourseId = value;
-//     setFormData((prevFormData) => ({
-//       ...prevFormData,
-//       courseId: selectedCourseId,
-//     }));
-//   } else {
-    
-//     setFormData({ ...formData, [name]: value });
-//   }
-//   console.log(formData);
-// };
 
 const handleChange = (e) => {
   const { name, value } = e.target;
@@ -93,7 +79,6 @@ console.log("Visibility:", formData.visibility);
     const formDataWithFiles = new FormData();
     formDataWithFiles.append("title", formData.title);
     formDataWithFiles.append("content", formData.content);
-    // formDataWithFiles.append("courseId", formData.courseId);
     formDataWithFiles.append("visibility", formData.visibility);
     if (formData.courseId !== "No course selected") {
       formDataWithFiles.append("courseId", formData.courseId);
@@ -103,7 +88,7 @@ console.log("Visibility:", formData.visibility);
       formDataWithFiles.append("files", file);
     
     });
-    // formDataWithFiles.append("courseId", formData.course'dId); // also adding courseId
+
 
     try {
       await axios.post(
@@ -210,7 +195,7 @@ console.log("Visibility:", formData.visibility);
 
 
         <div className="checkBox-container">
-          <label htmlFor="visibility">Visibility:</label>
+          <label htmlFor="visibility">Share with teacher:</label>
           <input
             type="checkbox"
             name="visibility"
