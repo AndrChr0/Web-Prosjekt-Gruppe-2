@@ -1,22 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ReflectionForm.css";
 import ActionButton from "../ActionButton/ActionButton";
-
 function ReflectionForm() {
+
+
+
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    courseId: "",
     visibility: false,
     files: [],
+    courseId: "",
   });
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+          setError('Not authorized. Please login.');
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get('http://localhost:5151/users/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        });
+
+        if(response.data && response.data.courses) {
+          setCourses(response.data.courses);
+        } else {
+          setError('No courses found.');
+        }
+
+        setLoading(false);
+      } catch (error) {
+        setError('Failed to load courses. Please try again.');
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  if (name === "courses") {
+    const selectedCourseId = value;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      courseId: selectedCourseId,
+    }));
+  } else {
+    
+    setFormData({ ...formData, [name]: value });
+  }
+  console.log(formData);
+};
 
   const handleRemoveFile = (indexToRemove) => {
     const updatedFiles = formData.files.filter(
@@ -35,7 +85,9 @@ function ReflectionForm() {
     formDataWithFiles.append("visibility", formData.visibility);
     formData.files.forEach((file) => {
       formDataWithFiles.append("files", file);
+    
     });
+    formDataWithFiles.append("courseId", formData.courseId); // also adding courseId
 
     try {
       await axios.post(
@@ -54,6 +106,7 @@ function ReflectionForm() {
         courseId: "",
         visibility: false,
         files: [],
+        courseId: "",
       });
       setSubmissionSuccess(true);
     } catch (error) {
@@ -64,9 +117,11 @@ function ReflectionForm() {
     }
   };
 
+
   // Rendering the form with input fields and submission button
   return (
     <>
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title:</label>
         <input
@@ -117,14 +172,32 @@ function ReflectionForm() {
             ))}
           </div>
         )}
-        <label htmlFor="courseId">Course ID:</label>
+{/*         <label htmlFor="courseId">Course ID:</label>
         <input
           type="number"
           name="courseId"
           value={formData.courseId}
           onChange={handleChange}
           required
-        />
+        /> */}
+
+        {/* // NEW ADDITION */}
+
+        <select
+          name="courses"
+          value={formData.courseId}
+          onChange={handleChange}
+        >
+          <option value="">Select a course</option>
+          {courses.map((course) => (
+            <option key={course._id} value={course._id}>
+             {course.courseCode} - {course.title}
+            </option>
+          ))}
+        </select>
+          
+
+
         <div className="checkBox-container">
           <label htmlFor="visibility">Visibility:</label>
           <input

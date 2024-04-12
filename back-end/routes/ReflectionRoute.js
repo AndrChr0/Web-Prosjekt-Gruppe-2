@@ -68,10 +68,10 @@ router.post("/", upload.array("files", 5), async (req, res) => {
     const newReflection = {
       title: req.body.title,
       content: req.body.content,
-      courseId: req.body.courseId,
       visibility: req.body.visibility,
       files: filesPaths,
       userId: req.user.userId,
+      courseId: req.body.courseId,
     };
 
     // Save the new reflection to the database
