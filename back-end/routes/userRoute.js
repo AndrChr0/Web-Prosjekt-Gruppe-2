@@ -10,6 +10,8 @@ import jwt from 'jsonwebtoken';//Import jsonwebtoken
 import express from "express";
 import { User } from "../models/userModel.js";
 import bcrypt from 'bcryptjs';
+
+/* import { verifyToken, requireRole } from "../middlewares/authMiddleware.js"; */
 const router = express.Router();
 
 
@@ -143,18 +145,20 @@ router.post('/register', async (req, res) => { //Changed this line to use '/regi
     }
 });
 
+
+
+
+
 // back-end/routes/userRoute.js
-router.get('/students', async (req, res) => {
+/* router.get('/:role', async (req, res) => {
     try {
-        // Fetch only users with role "student"
         const students = await User.find({ role: 'student' });
-        res.json(students);
+        return res.status(200).json(students);
     } catch (error) {
         console.error('Failed to fetch students:', error);
-        res.status(500).send('Error fetching students');
+        return res.status(500).send('Error fetching students');
     }
-});
-
+}); */
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;

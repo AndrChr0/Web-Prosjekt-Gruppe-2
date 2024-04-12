@@ -1,0 +1,14 @@
+.Student-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 20px;
+}
+
+.Student-list button {
+    padding: .5em;
+    background-color: rgb(167, 167, 167);
+    border-radius: 5px;
+    cursor: pointer;
+}
