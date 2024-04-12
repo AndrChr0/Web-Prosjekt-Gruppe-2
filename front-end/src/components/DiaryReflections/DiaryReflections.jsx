@@ -35,7 +35,7 @@ function DiaryReflections() {
   return (
     <main>
       <div>
-        <h1>My reflections</h1>
+        <h2>My reflections</h2>
         {loading ? (
           <h2>please wait</h2>
         ) : (
