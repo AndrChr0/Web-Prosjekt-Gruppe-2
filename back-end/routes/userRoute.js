@@ -181,4 +181,28 @@ router.post('/login', async (req, res) => {
 });
 
 
+
+router.put('/:userId/add_course', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { courseId } = req.body;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        if (user.courses.includes(courseId)) {
+            return res.status(400).send('User already in course');
+        } else {
+            user.courses.push(courseId);
+            await user.save();
+            return res.status(200).send('User was added to course');
+        }
+    } catch (error) {
+        res.status(500).send('Server error');
+    }
+});
+
+
+
 export default router;
