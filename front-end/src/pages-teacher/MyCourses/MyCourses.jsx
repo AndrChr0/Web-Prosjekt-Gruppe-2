@@ -43,7 +43,7 @@ const TeacherCourses = () =>{
                     <div key={course._id}>
                     <Link className="Text-link" to={`/my_courses/${course._id}`}>
                         <li className="Course-item">
-                        <div>
+                        <div className="course-inner-text">
                             <span><b>{course.courseCode}</b></span> {course.title} 
                         </div>
                         </li>
