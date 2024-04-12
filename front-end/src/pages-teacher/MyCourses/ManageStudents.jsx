@@ -12,7 +12,7 @@ const ManageStudents = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
     }) // Fetch only students
       .then(response => {
-        setStudents(response.data); // Set students state with fetched data
+        setStudents(response.data.data); // Set students state with fetched data
       })
       .catch(error => {
         console.error('Error fetching students:', error);
@@ -37,6 +37,7 @@ const ManageStudents = () => {
     <div>
       <h1>Manage Students</h1>
       <ul>
+      {console.log(students)}
         {students.map(student => (
           <li key={student._id}>
             {student.email} <button onClick={() => handleAddStudent(student._id)}>Add</button>
