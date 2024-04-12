@@ -20,24 +20,23 @@ const ManageStudents = () => {
   }, []);
 
   const handleAddStudent = (studentId) => {
-    axios.post(`http://localhost:5151/my_courses/${courseId}/add_student`, { studentId }, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
-    }) // Post request to add student to course
-      .then(() => {
-        alert('Student added successfully');
-      })
-      .catch(error => {
-        console.error('Error adding student:', error);
-        alert('Failed to add student');
-      });
+    axios.put(`http://localhost:5151/users/${studentId}/add_course`, { courseId }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
+    })
+    .then(() => {
+      alert('Student added to course successfully');
+      
+    })
+    .catch(error => {
+      console.error('Error adding student to course:', error);
+      alert('Failed to add student to course');
+    });
   };
 
   return (
-    // Fixayyyyy
     <div>
       <h1>Manage Students</h1>
       <ul>
-      {console.log(students)}
         {students.map(student => (
           <li key={student._id}>
             {student.email} <button onClick={() => handleAddStudent(student._id)}>Add</button>
