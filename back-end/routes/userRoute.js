@@ -1,34 +1,36 @@
-
-/***************************************
- *          userRoute.js             *
- ***************************************
- * Purpose: Handles HTTP requests for Users (CRUD operations).
- * Interacts with: userModel 
- **************************************/
-
-import jwt from 'jsonwebtoken';//Import jsonwebtoken
+import jwt from 'jsonwebtoken';
 import express from "express";
 import { User } from "../models/userModel.js";
 import bcrypt from 'bcryptjs';
-
-/* import { verifyToken, requireRole } from "../middlewares/authMiddleware.js"; */
+import e from 'express';
 const router = express.Router();
-
 
 
 router.get('/profile', async (req, res) => {
     try {
-        const token = req.headers.authorization.split(' ')[1]; // Assuming 'Bearer <token>'
+        const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.userId).select('-password');
-        console.log(decoded.userId);
-        if (!user) return res.status(404).send('User not found.');
+        const user = await User.findById(decoded.userId)
+                               .populate('courses') 
+                               .exec();
 
-        res.json({ email: user.email });
+        if (!user) {
+            return res.status(404).send('User not found.');
+        }
+
+        return res.status(200).json({
+            id: user._id, 
+            email: user.email,
+            courses: user.courses, 
+           
+        });
+
     } catch (error) {
+        console.error("Error accessing profile:", error);
         res.status(500).send('Error fetching user profile.');
     }
 });
+
 
 router.put('/update-email', async (req, res) => {
     try {
@@ -92,7 +94,6 @@ router.delete('/delete', async (req, res) => {
 });
 
 
-
 //Get user by id
 router.get('/:id', async (req, res) => {
     try {
@@ -108,8 +109,6 @@ router.get('/:id', async (req, res) => {
         res.status(500).send('Error fetching user.');
     }
 });
-
-// Profile user
 
 
 
@@ -128,7 +127,7 @@ router.get("/", async (req, res) => {
 
 
 // Updated post for User Registration 
-router.post('/register', async (req, res) => { //Changed this line to use '/register'
+router.post('/register', async (req, res) => { 
     try {
         const newUser = new User({
             email: req.body.email,
@@ -146,19 +145,17 @@ router.post('/register', async (req, res) => { //Changed this line to use '/regi
 });
 
 
-
-
-
-// back-end/routes/userRoute.js
-/* router.get('/:role', async (req, res) => {
+router.get('/students', async (req, res) => {
     try {
+        // Fetch only users with role "student"
         const students = await User.find({ role: 'student' });
-        return res.status(200).json(students);
+        res.json(students);
     } catch (error) {
         console.error('Failed to fetch students:', error);
-        return res.status(500).send('Error fetching students');
+        res.status(500).send('Error fetching students');
     }
-}); */
+});
+
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
@@ -173,9 +170,9 @@ router.post('/login', async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
-        //Generate token with user id, role, email
+        //Generate token with user id, role, email + courses
         const token = jwt.sign({
-            userId: user._id, role: user.role, email: user.email
+            userId: user._id, role: user.role, email: user.email, courses: user.courses
         }, // Including role in payload 
             process.env.JWT_SECRET, { expiresIn: '1h' });
         res.json({ token }); //Send token to client
@@ -206,6 +203,7 @@ router.put('/:userId/add_course', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
 
 
 export default router;

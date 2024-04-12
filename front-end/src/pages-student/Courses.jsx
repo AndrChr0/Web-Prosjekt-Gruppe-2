@@ -1,47 +1,72 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-function Courses(){
+function Courses() {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-    const [courses, setCourses] = useState([]);
-    const [loading, setLoading] = useState(false);
-  
-    useEffect(() => {
-      const token = localStorage.getItem("authToken");
-      setLoading(true);
-      axios
-      .get(`http://localhost:5151/courses`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Include JWT token in request headers
-        },
-      })
-        .then((res) => {
-          setCourses(res.data.data);
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+          setError('Not authorized. Please login.');
           setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get('http://localhost:5151/users/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
         });
-    }, []);
 
-    return(
-        <main>
-            <h1>My Courses | Student</h1>
-            <ul className="Courses-list">
-            {courses.map((course) => (
-                <Link className='Text-link' to={`/courses/${course._id}`}>
-                <li className="Course-item" key={course._id}>
-                    <div>
-                        <span><b> {course.courseCode} </b></span> {course.title} 
-                    </div>
-                </li>
-                </Link>
-            ))}
-            </ul>
+        if(response.data && response.data.courses) {
+          setCourses(response.data.courses);
+        } else {
+          setError('No courses found.');
+        }
+        
+        setLoading(false);
+      } catch (error) {
+        setError('Failed to load courses. Please try again.');
+        setLoading(false);
+      }
+    };
 
-        </main>
-    )}
-    
-    export default Courses;
+    fetchCourses();
+  }, []);
+
+  if (loading) {
+    return <div>Loading courses...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  return (
+    <main>
+      <h1>My Courses</h1>
+      <ul className="Courses-list">
+        {courses.length > 0 ? (
+          courses.map((course) => (
+            <li key={course._id} className="Course-item">
+              <Link to={`/courses/${course._id}`} className='Text-link'>
+                <div>
+                  <span><b>{course.courseCode}</b></span> {course.title}
+                </div>
+              </Link>
+            </li>
+          ))
+        ) : (
+          <li>No courses found.</li>
+        )}
+      </ul>
+    </main>
+  );
+}
+
+export default Courses;

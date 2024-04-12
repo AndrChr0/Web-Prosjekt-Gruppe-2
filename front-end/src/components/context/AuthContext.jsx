@@ -1,7 +1,7 @@
-// src/components/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 
@@ -13,32 +13,37 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  console.log("currentUser", currentUser);
+
   useEffect(() => {
     async function fetchAndSetUser() {
-      // bytt til sessionStorage 
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        // Attempt to decode the user from the token first
-        decodeAndSetUser(token);
-        // Optionally fetch detailed user data from the server
-        await fetchUserData(token);
-      } else {
-        setLoading(false);
-      }
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            const decoded = jwtDecode(token);
+            setCurrentUser(decoded);
+
+            try {
+                const response = await axios.get('http://localhost:5151/users/profile', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setCurrentUser(response.data); // set current usr to user data
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                setLoading(false);
+            }
+        } else {
+            setLoading(false);
+        }
     }
     fetchAndSetUser();
-  }, []);
+}, []);
 
   const decodeAndSetUser = (token) => {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(window.atob(base64).split('').map((c) => {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
+   const jsonPayload = jwtDecode(token);
     try {
-      const decoded = JSON.parse(jsonPayload);
-      setCurrentUser(decoded);
+      setCurrentUser(jsonPayload);
+      console.log( "fetching n set user data", jsonPayload);
     } catch (error) {
       console.error("Error decoding user token:", error);
     }
@@ -46,13 +51,14 @@ export const AuthProvider = ({ children }) => {
 
   // se på typ React-Query
   const fetchUserData = async (token) => {
+    setLoading(true);  
     try {
       const response = await axios.get('http://localhost:5151/users/profile', {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      setCurrentUser(response.data); // Assuming the response data is the user object
+      setCurrentUser(response.data);  
       setLoading(false);
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -105,7 +111,7 @@ export const AuthProvider = ({ children }) => {
             Authorization: `Bearer ${token}`
           }
         });
-        setCurrentUser(null); // Clear user context upon successful deletion
+        setCurrentUser(null); 
       }
     } catch (error) {
       console.error("Error deleting user account:", error);
@@ -115,6 +121,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={{ 
       currentUser, 
+      fetchUserData,
       setCurrentUser, 
       logout, 
       updateUserEmail, 
@@ -122,7 +129,7 @@ export const AuthProvider = ({ children }) => {
       deleteUser,
       decodeAndSetUser
     }}>
-      {!loading ? children : <div>Loading...</div>}
+      {children}
     </AuthContext.Provider>
   );
 };
