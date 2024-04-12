@@ -27,7 +27,7 @@ app.use(cors());
 app.use("/reflections", verifyToken, ReflectionRoute);
 app.use("/courses", verifyToken, courseRoute);
 app.use("/users", userRoute);
-
+app.use('/my_courses', courseRoute); // This will handle all routes prefixed with '/my_courses'
 app.use("/uploads", express.static("uploads")); // make the uploads folder public
 
 // reflection activities

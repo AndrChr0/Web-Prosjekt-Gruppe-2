@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     async function fetchAndSetUser() {
+      // bytt til sessionStorage 
       const token = localStorage.getItem('authToken');
       if (token) {
         // Attempt to decode the user from the token first
@@ -43,6 +44,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // se på typ React-Query
   const fetchUserData = async (token) => {
     try {
       const response = await axios.get('http://localhost:5151/users/profile', {

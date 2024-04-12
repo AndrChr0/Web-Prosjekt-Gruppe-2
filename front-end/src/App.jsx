@@ -22,6 +22,7 @@ import TeacherCourse from "./pages-teacher/MyCourses/Course";
 import SubmissionsPage from "./pages-teacher/SubmissionPage/SubmissionsPage";
 import TeacherProfile from "./pages-teacher/TeacherProfile/TeacherProfile";
 import NewCourse from "./pages-teacher/NewCourse/NewCourse";
+import ManageStudents from "./pages-teacher/MyCourses/ManageStudents";
 
 
 import Login from "./components/Login/loginComponent";
@@ -73,7 +74,8 @@ function App() {
         <Route path="/new_course" element={<ProtectedRoute allowedRoles={['teacher']}><NewCourse /></ProtectedRoute>} />
         <Route path="/submissions" element={<ProtectedRoute allowedRoles={['teacher']}><SubmissionsPage /></ProtectedRoute>} />
         <Route path="/teacher/profile" element={<ProtectedRoute allowedRoles={['teacher']}><TeacherProfile /></ProtectedRoute>} />
-
+        <Route path="/my_courses/:courseId/manage_students" element={<ProtectedRoute allowedRoles={['teacher']}><ManageStudents /></ProtectedRoute>
+} />
 
 
         <Route path="/" element={<Home />} />

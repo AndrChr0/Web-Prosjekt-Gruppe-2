@@ -138,9 +138,9 @@ const TeacherCourseInfo = () => {
           )}
           
             <div className="manage-students-link">
-            <Link className="Text-link"  to="/manage">
-              <button className="main-menu-btn">Manage students</button>
-            </Link>
+            <Link to={`/my_courses/${id}/manage_students`}>
+  <button className="main-menu-btn">Manage Students</button>
+</Link>
             </div>
 
 

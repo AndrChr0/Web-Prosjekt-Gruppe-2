@@ -50,46 +50,46 @@ router.put('/update-email', async (req, res) => {
 });
 
 router.put('/update-password', async (req, res) => {
-  try {
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
-    const { password } = req.body;
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId;
+        const { password } = req.body;
 
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).send('User not found.');
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found.');
+        }
+
+        // Update password
+        user.password = password;
+        await user.save();
+
+        return res.status(200).json({ message: 'Password updated successfully' });
+    } catch (error) {
+        return res.status(500).send('Error updating password.');
     }
-
-    // Update password
-    user.password = password;
-    await user.save();
-
-    return res.status(200).json({ message: 'Password updated successfully' });
-  } catch (error) {
-    return res.status(500).send('Error updating password.');
-  }
 });
 
 router.delete('/delete', async (req, res) => {
-  try {
-    const token = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.userId;
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId;
 
-    // Delete the user account
-    const deletedUser = await User.findByIdAndDelete(userId);
-    if (!deletedUser) {
-      return res.status(404).send('User not found.');
+        // Delete the user account
+        const deletedUser = await User.findByIdAndDelete(userId);
+        if (!deletedUser) {
+            return res.status(404).send('User not found.');
+        }
+
+        return res.status(200).json({ message: 'User account deleted successfully' });
+    } catch (error) {
+        return res.status(500).send('Error deleting user account.');
     }
-
-    return res.status(200).json({ message: 'User account deleted successfully' });
-  } catch (error) {
-    return res.status(500).send('Error deleting user account.');
-  }
 });
 
-  
+
 
 //Get user by id
 router.get('/:id', async (req, res) => {
@@ -124,6 +124,7 @@ router.get("/", async (req, res) => {
     }
 });
 
+
 // Updated post for User Registration 
 router.post('/register', async (req, res) => { //Changed this line to use '/register'
     try {
@@ -142,7 +143,17 @@ router.post('/register', async (req, res) => { //Changed this line to use '/regi
     }
 });
 
-
+// back-end/routes/userRoute.js
+router.get('/students', async (req, res) => {
+    try {
+        // Fetch only users with role "student"
+        const students = await User.find({ role: 'student' });
+        res.json(students);
+    } catch (error) {
+        console.error('Failed to fetch students:', error);
+        res.status(500).send('Error fetching students');
+    }
+});
 
 
 router.post('/login', async (req, res) => {
