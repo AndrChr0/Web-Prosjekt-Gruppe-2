@@ -48,6 +48,7 @@ function App() {
   
   return (
     <>
+    <div className="App-wrapper">
       <Header />
       
 
@@ -111,6 +112,7 @@ function App() {
 
       </Routes>
       <Footer />
+      </div>
     </>
   )
 }

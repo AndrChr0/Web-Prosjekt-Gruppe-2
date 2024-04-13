@@ -10,6 +10,12 @@ body {
   flex-direction: column;
 }
 
+.App-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 button {
   border: none;
 }
