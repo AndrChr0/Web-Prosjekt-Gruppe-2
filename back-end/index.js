@@ -47,6 +47,7 @@ app.use("/feedback", verifyToken, FeedbackRoute);
 
 // search to get students from users
 import { User } from "./models/userModel.js";
+import { Reflection } from "./models/reflectionModel.js";
 
 const handleSearch = async (req, res) => {
   let users;
@@ -56,7 +57,23 @@ const handleSearch = async (req, res) => {
 
     if (req.query.courseId) {
       users = users.filter((user) => user.courses.includes(req.query.courseId));
+
+
+      if (req.query.visibility === "true") {
+        const userIds = users.map(user => user._id);
+        const reflections = await Reflection.find({ userId: { $in: userIds }, visibility: true });
+
+        if (!reflections || reflections.length === 0) {
+          return res.status(404).json({ message: "No reflections found for the students" });
+        } 
+
+        return res.status(200).json({
+          count: reflections.length,
+          data: reflections,
+        });
+      } 
     }
+    // find the reflections of the students
   }
 
   if (!users || users.length === 0) {
@@ -76,6 +93,8 @@ app.get('/search', async (req, res) => {
   }
 });
 
+
+// 1. search courses users
 
 
 mongoose
