@@ -15,7 +15,7 @@ const SubmissionsPage = () => {
       const token = localStorage.getItem("authToken");
         setLoading(true);
         axios
-        .get("http://localhost:5151/reflections", {
+        .get("http://localhost:5151/reflections/search?visibility=true", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -50,7 +50,6 @@ const SubmissionsPage = () => {
                         <b>Student-Name</b> {/* the user associated with the reflection */}
                     </div>
                     <div>
-                        
                     </div>
                 </li>
                 </Link>

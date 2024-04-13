@@ -52,6 +52,41 @@ const upload = multer({
   },
 });
 
+
+// den likte ikke å komme sist i denne filen, så nå ligger den først
+import { Course } from "../models/courseModel.js";
+
+router.get("/search", async (req, res) => {
+  try {
+    const visibility = Boolean(req.query.visibility);
+    let reflections;
+
+    if (visibility) { 
+      
+      // finding the courses of the teacher
+      const teacherId = req.user.userId; 
+      const courses = await Course.find({ userId: teacherId });
+
+      // getting the courseIds from the courses
+      const courseIds = courses.map(course => course._id);
+
+      // matching the courseIds with the reflections' courseIds
+      reflections = await Reflection.find({ visibility: true, courseId: { $in: courseIds } });
+
+      return res.status(200).json({
+        count: reflections.length,
+        data: reflections,
+      });
+    } else {
+      return res.status(200).json({ message: 'No data found with visibility true' }); 
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 // Route for handling POST requests to create a new reflection
 router.post("/", upload.array("files", 5), async (req, res) => {
   try {
@@ -102,6 +137,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+
 /* 
 // GET request for a single reflection, verifying ownership
 router.get("/:id", verifyToken, async (req, res) => {
@@ -130,6 +166,12 @@ router.get("/:id", verifyToken, async (req, res) => {
     const { id } = req.params;
     // Retrieve a reflection by its ID from the database
     const reflection = await Reflection.findById(id);
+
+    // allowing teacher to see all reflections
+    if (req.user.role === "teacher") {
+      
+      return res.status(200).json({ reflection });
+    }
 
     // Check if the reflection belongs to the logged-in user
     if (!reflection) {
@@ -190,5 +232,6 @@ router.delete("/:id", async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 });
+
 
 export default router;
