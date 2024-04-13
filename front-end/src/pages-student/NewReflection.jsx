@@ -2,12 +2,10 @@ import ReflectionForm from "../components/ReflectionForm/ReflectionForm"
 
 function NewReflection(){
     return(
-        <>
-        <h1>New reflection</h1>
         <main>
+            <h1>New reflection</h1>
             <ReflectionForm></ReflectionForm>
         </main>
-        </>
     )
     }
     

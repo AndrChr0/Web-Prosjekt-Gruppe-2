@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ActionButton from "../ActionButton/ActionButton";
+import "./EditReflection.css"
 
 function EditReflection() {
   const { reflectionId } = useParams();
@@ -89,41 +90,39 @@ function EditReflection() {
   if (loading) return <div>Loading...</div>;
 
   return (
+    <main>
     <form onSubmit={handleSubmit}>
-      <label>
-        Title:
+      <label>Title:</label>
         <input
           type="text"
           name="title"
           value={reflection.title}
           onChange={handleChange}
         />
-      </label>
-      <label>
-        Course ID:
+      <label>Course ID:</label>
         <input
           type="text"
           name="courseId"
           value={reflection.courseId}
           onChange={handleChange}
         />
-      </label>
-      <label>
-        Content:
+      <label>Content:</label>
         <textarea
           name="content"
           value={reflection.content}
           onChange={handleChange}
         />
-      </label>
       {/* <button type="submit">Save</button> */}
-      <ActionButton btnType="submit" btnValue="Save" />
-      <ActionButton
-        onClick={handleDelete}
-        btnType="button"
-        btnValue="Delete Reflection"
-      />
+      <div className="actions-container">
+          <ActionButton btnType="submit" btnValue="Save" />
+          <ActionButton
+            onClick={handleDelete}
+            btnType="button"
+            btnValue="Delete Reflection"
+          />
+        </div>
     </form>
+    </main>
   );
 }
 

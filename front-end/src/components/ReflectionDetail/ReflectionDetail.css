@@ -1,5 +1,5 @@
 .content {
-    width: 60%;
+    width: 100%;
     line-height: 1.4;
 }
 
@@ -12,4 +12,15 @@
 
 .file-link {
     font-style: italic;
+}
+
+.detailContainer {
+    margin: 0 auto;
+    text-align: center;
+    background-color: rgb(234, 235, 236);
+    border: solid rgb(209, 204, 204) 2px;
+    max-width: 600px;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
 }

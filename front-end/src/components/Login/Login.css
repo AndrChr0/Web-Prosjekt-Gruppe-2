@@ -19,19 +19,14 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   width: calc(100% - 22px); /* Adjust width to fit within the container */
+  height: 40px;
 }
 
 .login-button {
   padding: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
   cursor: pointer;
-}
-
-.login-button:hover {
-  background-color: rgb(233, 199, 4);
+  margin: 0 auto;
+  width: 120px;
 }
 
 .error-message {

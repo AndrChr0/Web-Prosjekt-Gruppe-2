@@ -49,7 +49,7 @@ const Register = () => {
           value={credentials.email}
           onChange={handleChange}
           required
-          className="register-input"
+          className="login-input"
         />
         <input
           type="password"
@@ -58,7 +58,7 @@ const Register = () => {
           value={credentials.password}
           onChange={handleChange}
           required
-          className="register-input"
+          className="login-input"
         />
         <input
           type="password"
@@ -67,19 +67,19 @@ const Register = () => {
           value={confirmPassword}
           onChange={handleChange}
           required
-          className="register-input"
+          className="login-input"
         />
         <select
           name="role"
           value={credentials.role}
           onChange={handleChange}
           required
-          className="register-input"
+          className="login-input"
         >
           <option value="student">Student</option>
           <option value="teacher">Teacher</option>
         </select>
-        <button type="submit" className="register-button">Register</button>
+        <button type="submit" className="login-button">Register</button>
       </form>
       {registrationError && <p className="error-message">{registrationError}</p>}
     </div>
