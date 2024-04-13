@@ -42,8 +42,9 @@ function ReflectionDetail() {
   if (!reflection) return <div>Reflection not found</div>;
 
   return (
-    <div>
-      <h1>{reflection.title}</h1>
+    <main>
+    <h1>{reflection.title}</h1>
+     <div className="detailContainer">
       <p className="content">{reflection.content}</p>
       {reflection.courseId && <p className="course-id">Course: <Link to={`/courses/${reflection.courseId}`}>Course link</Link> </p>}
       {reflection.files &&
@@ -58,7 +59,7 @@ function ReflectionDetail() {
             >
               Download File {index + 1}
             </a>
-          </div>
+    </div>
         ))}
       <ActionButton
         onClick={handleEdit}
@@ -66,6 +67,7 @@ function ReflectionDetail() {
         btnValue="Edit Reflection"
       />
     </div>
+    </main>
   );
 }
 

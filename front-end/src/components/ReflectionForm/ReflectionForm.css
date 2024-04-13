@@ -4,12 +4,14 @@ form {
     align-items: flex-start;
     margin-top: 2vh;
     gap: 1vh;
+    margin-bottom: 20px;
 }
 
 textarea, input {
     width: 50vw;
-
+    height: 30px;
 }
+
 input[type="checkbox"] {
     width: 1em;
 }
@@ -47,65 +49,24 @@ label, button[type="submit"] {
     border-radius: 5px;
 }
 
-
-button:hover {
-    background-color: #e6e6e6;
-}
-
-
 input[type="file"] {
     display: none;
 }
 
-
-#filesBtn, button[type="submit"] {
-  align-items: center;
-  background-color: rgb(255, 217, 0);
+#filesBtn {
+  padding: 10px 20px;
+  color: #111;
+  cursor: pointer;
   border: 2px solid #111;
   border-radius: 8px;
   box-sizing: border-box;
-  color: #111;
-  cursor: pointer;
-  display: flex;
-  height: 35px;
-  justify-content: center;
-  line-height: 24px;
-  max-width: 100%;
-  padding: 0 15px;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-  touch-action: manipulation;
-  margin: 1em 0;
+  font-weight: bolder;
+  background-color: rgb(255, 217, 0);
 }
 
-#filesBtn:after, button[type="submit"]::after {
-  background-color: #111;
-  border-radius: 8px;
-  content: "";
-  display: block;
-  height: 38px;
-  left: 0;
-  width: 100%;
-  position: absolute;
-  top: -2px;
-  transform: translate(8px, 8px);
-  transition: transform .2s ease-out;
-  z-index: -1;
+#filesBtn:hover {
+  background-color: rgb(233, 199, 4);
 }
 
-#filesBtn:hover:after, button[type="submit"]:hover:after {
-  transform: translate(0, 0);
-}
-
-#filesBtn:active, button[type="submit"]:active {
-  background-color: #ffdeda;
-  outline: 0;
-}
-
-#filesBtn:hover, button[type="submit"]:hover {
-  outline: 0;
-}
 
 

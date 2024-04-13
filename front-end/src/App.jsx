@@ -41,7 +41,7 @@ import StudentDashboard from "./pages-student/StudentDashboard";
 import TeacherNav from "./components/Header/NavTeacher";
 
 
-import "./assets/styles/App.scss";
+import "./assets/styles/App.css";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
 function App() {
   const { currentUser } = useAuth(); // Use useAuth to access currentUser

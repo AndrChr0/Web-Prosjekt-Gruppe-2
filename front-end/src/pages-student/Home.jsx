@@ -24,11 +24,11 @@ function Home() {
   // }, []);
 
   return (
-    <>
-    <h1>Home.jsx | Student</h1>
+    <main>
+    <h1>Home | Student</h1>
     <HomeWelcomeCard></HomeWelcomeCard>
-    </>
-    // <main>
+
+    {/* // <main>
     //   <div className="show-mongo-objects">
     //     <h1>Show reflections</h1>
 
@@ -54,8 +54,8 @@ function Home() {
     //         </ul>
     //       </div>
     //     )}
-    //   </div>
-    // </main>
+    //   </div> */}
+    </main>
   );
 }
 

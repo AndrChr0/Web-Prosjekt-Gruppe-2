@@ -4,10 +4,10 @@ import HomeWelcomeCard from '../components/HomeWelcomeCard/HomeWelcomeCard';
 function StudentDashboard() {
   // Student-specific dashboard content here
   return (
-    <div>
+    <main>
       <h1>Student Dashboard</h1>
-      <HomeWelcomeCard/>
-    </div>
+      <p>This dashboard is only accessible by students.</p>
+    </main>
   );
 }
 

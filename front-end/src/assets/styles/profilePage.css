@@ -1,4 +1,4 @@
-.profile-container {
+.profile_container {
   margin: 20px auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -7,7 +7,7 @@
   width: 500px;
 }
 
-.profile-heading {
+.profile_heading {
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
@@ -27,8 +27,7 @@
 
 .profile-field p {
   flex-shrink: 0;
-  width: 100px;
-  margin-right: 10px;
+  width: 100px; /* Adjusted width for label */
 }
 
 .profile-value {
@@ -36,40 +35,14 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 3px;
-  width: calc(100% - 110px); 
+  width: calc(100% - 180px); /* Adjusted width for input */
 }
 
 .edit-button {
   padding: 8px 12px;
-  background-color: rgb(255, 217, 0);
-  color: #111;
   border-radius: 3px;
-  border: 2px solid #111;
-  cursor: pointer;
   margin-left: 10px;
   font-weight: bold;
-}
-
-.edit-button:hover {
-  background-color: rgb(233, 199, 4);
-}
-
-.save-button, .delete-button {
-  padding: 10px 20px;
-  color: #111;
-  cursor: pointer;
-  border: 2px solid #111;
-  border-radius: 8px;
-  box-sizing: border-box;
-  font-weight: bold;
-}
-
-.save-button {
-  background-color: rgb(255, 217, 0);
-}
-
-.save-button:hover {
-  background-color: rgb(233, 199, 4);
 }
 
 .delete-button {
@@ -86,4 +59,11 @@
   justify-content: space-between; 
 }
 
+h1 {
+  text-align: center;
+}
 
+/* Adjust width of password input field */
+.profile-value.password-input {
+  width: calc(100% - 160px); /* Adjust width for input */
+}

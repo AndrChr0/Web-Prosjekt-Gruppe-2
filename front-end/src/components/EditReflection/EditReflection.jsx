@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ActionButton from "../ActionButton/ActionButton";
+import "./EditReflection.css"
 
 function EditReflection() {
   const { reflectionId } = useParams();
@@ -103,39 +104,40 @@ function EditReflection() {
   if (error) return <div>Error: {error}</div>;
 
   return (
+    <main>
     <form onSubmit={handleSubmit}>
-      <label htmlFor="title">Title:</label>
-      <input
-        type="text"
-        name="title"
-        value={reflection.title}
-        onChange={handleChange}
-      />
+      <label>Title:</label>
+        <input
+          type="text"
+          name="title"
+          value={reflection.title}
+          onChange={handleChange}
+        />
+      <label>Course ID:</label>
+        <input
+          type="text"
+          name="courseId"
+          value={reflection.courseId}
+          onChange={handleChange}
+        />
+      <label>Content:</label>
+        <textarea
+          name="content"
+          value={reflection.content}
+          onChange={handleChange}
+        />
+      {/* <button type="submit">Save</button> */}
+      <div className="actions-container">
+          <ActionButton btnType="submit" btnValue="Save" />
+          <ActionButton
+            onClick={handleDelete}
+            btnType="button"
+            btnValue="Delete Reflection"
+          />
+        </div>
 
-      <label htmlFor="courseId">Course ID:</label>
-      <select name="courseId" value={reflection.courseId} onChange={handleChange}>
-        <option value="">Select a course</option>
-        {courses.map((course) => (
-          <option key={course._id} value={course._id}>
-            {course.courseCode} - {course.title}
-          </option>
-        ))}
-      </select>
-
-      <label htmlFor="content">Content:</label>
-      <textarea
-        name="content"
-        value={reflection.content}
-        onChange={handleChange}
-      />
-
-      <ActionButton btnType="submit" btnValue="Save" />
-      <ActionButton
-        onClick={handleDelete}
-        btnType="button"
-        btnValue="Delete Reflection"
-      />
     </form>
+    </main>
   );
 }
 

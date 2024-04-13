@@ -21,7 +21,7 @@ const StudentReflections = () => {
     }, [currentUser]);
 
     return (
-        <div>
+        <main>
             <h1>My Reflections</h1>
             <ul>
                 {reflections.map((reflection, index) => (
@@ -31,7 +31,7 @@ const StudentReflections = () => {
                     </li>
                 ))}
             </ul>
-        </div>
+        </main>
     );
 };
 

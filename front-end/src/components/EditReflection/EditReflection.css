@@ -1,0 +1,6 @@
+.actions-container {
+    display: flex;
+    justify-content: space-between; /* Distribute buttons to the edges */
+    width: 100%;
+    color: red;
+  }

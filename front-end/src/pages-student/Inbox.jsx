@@ -1,6 +1,8 @@
 function Inbox(){
     return(
-        <h1>My Inbox | Student </h1>
+        <main>
+            <h1>My Inbox | Student </h1>
+        </main>
     )
     }
     
