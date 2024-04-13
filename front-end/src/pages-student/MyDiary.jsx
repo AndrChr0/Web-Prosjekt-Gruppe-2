@@ -21,6 +21,7 @@ function MyDiary() {
     <DiaryReflections></DiaryReflections>
 
       </main>
+    </>
   );
 }
 
