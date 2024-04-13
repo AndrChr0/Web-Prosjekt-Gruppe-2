@@ -1,0 +1,14 @@
+.Manage-students-wrapper{
+    display: flex;
+    align-items: first baseline;
+    justify-content: center;
+    gap: 1em;
+}   
+
+
+@media screen and (max-width: 768px){
+    .Manage-students-wrapper{
+        flex-direction: column-reverse;
+    }
+    
+}

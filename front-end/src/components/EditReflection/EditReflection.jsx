@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -12,26 +13,46 @@ function EditReflection() {
     courseId: "",
     content: "",
   });
+  const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    setLoading(true);
-    axios
-      .get(`http://localhost:5151/reflections/${reflectionId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Include the JWT token
-        },
-      })
-      .then((res) => {
-        setReflection(res.data.reflection);
-        setLoading(false);
-      })
-      .catch((error) => {
+    const fetchReflection = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`http://localhost:5151/reflections/${reflectionId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setReflection(response.data.reflection);
+      } catch (error) {
         console.error(error);
+        setError(error.message || "An error occurred while fetching the reflection.");
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchReflection();
   }, [reflectionId]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('http://localhost:5151/users/profile', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setCourses(response.data.courses);
+      } catch (error) {
+        console.error(error);
+        setError(error.message || "An error occurred while fetching courses.");
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,9 +71,7 @@ function EditReflection() {
         `http://localhost:5151/reflections/${reflectionId}`,
         reflection,
         {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the JWT token
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       navigate(`/diary/${reflectionId}`);
@@ -64,16 +83,12 @@ function EditReflection() {
 
   const handleDelete = () => {
     const token = localStorage.getItem("authToken");
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete this reflection?"
-    );
+    const isConfirmed = window.confirm("Are you sure you want to delete this reflection?");
     if (isConfirmed) {
       setLoading(true);
       axios
         .delete(`http://localhost:5151/reflections/${reflectionId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the JWT token
-          },
+          headers: { Authorization: `Bearer ${token}` },
         })
         .then(() => {
           navigate("/diary");
@@ -86,8 +101,7 @@ function EditReflection() {
   };
 
   if (loading) return <div>Loading...</div>;
-
-  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <main>
@@ -121,6 +135,7 @@ function EditReflection() {
             btnValue="Delete Reflection"
           />
         </div>
+
     </form>
     </main>
   );

@@ -3,7 +3,7 @@ import { Course } from "../models/courseModel.js";
 
 const router = express.Router();
 
-// Endpoint to add a student to a course
+/* // Endpoint to add a student to a course
 router.post('/my_courses/:courseId/add_student', async (req, res) => {
     const { courseId } = req.params;
     const { studentId } = req.body;  // Ensure studentId is being sent in the request body
@@ -26,7 +26,7 @@ router.post('/my_courses/:courseId/add_student', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
-
+ */
 
 // get a specific course from db
 router.get("/:id", async (req, res) => {

@@ -1,22 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ReflectionForm.css";
 import ActionButton from "../ActionButton/ActionButton";
-
 function ReflectionForm() {
+
+
+
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    courseId: "",
     visibility: false,
     files: [],
+    courseId: "No course selected",
   });
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+          setError('Not authorized. Please login.');
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get('http://localhost:5151/users/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        });
+
+        if(response.data && response.data.courses) {
+          setCourses(response.data.courses);
+        } else {
+          setError('No courses found.');
+        }
+
+        setLoading(false);
+      } catch (error) {
+        setError('Failed to load courses. Please try again.');
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData(prevFormData => ({
+    ...prevFormData,
+    [name]: value
+  }));
+};
 
   const handleRemoveFile = (indexToRemove) => {
     const updatedFiles = formData.files.filter(
@@ -26,16 +70,25 @@ function ReflectionForm() {
   };
 
   const handleSubmit = async (e) => {
+    console.log("Title:", formData.title);
+console.log("Content:", formData.content);
+console.log("Course ID:", formData.courseId);  // Check if this is "no course selected"
+console.log("Visibility:", formData.visibility);
     e.preventDefault();
     const token = localStorage.getItem("authToken"); // Retrieve the JWT token from storage
     const formDataWithFiles = new FormData();
     formDataWithFiles.append("title", formData.title);
     formDataWithFiles.append("content", formData.content);
-    formDataWithFiles.append("courseId", formData.courseId);
     formDataWithFiles.append("visibility", formData.visibility);
+    if (formData.courseId !== "No course selected") {
+      formDataWithFiles.append("courseId", formData.courseId);
+    }
+
     formData.files.forEach((file) => {
       formDataWithFiles.append("files", file);
+    
     });
+
 
     try {
       await axios.post(
@@ -51,9 +104,10 @@ function ReflectionForm() {
       setFormData({
         title: "",
         content: "",
-        courseId: "",
+        // courseId: "",
         visibility: false,
         files: [],
+        courseId: "No course selected",
       });
       setSubmissionSuccess(true);
     } catch (error) {
@@ -64,9 +118,11 @@ function ReflectionForm() {
     }
   };
 
+
   // Rendering the form with input fields and submission button
   return (
     <>
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="title">Title:</label>
         <input
@@ -117,16 +173,29 @@ function ReflectionForm() {
             ))}
           </div>
         )}
-        <label htmlFor="courseId">Course ID:</label>
+{/*         <label htmlFor="courseId">Course ID:</label>
         <input
           type="number"
           name="courseId"
           value={formData.courseId}
           onChange={handleChange}
           required
-        />
+        /> */}
+
+        {/* // NEW ADDITION */}
+
+        <select name="courseId" value={formData.courseId} onChange={handleChange}>
+          <option value="no course selected">Select a course</option>
+          {courses.map(course => (
+            <option key={course._id} value={course._id}>
+              {course.courseCode} - {course.title}
+            </option>
+          ))}
+        </select>
+
+
         <div className="checkBox-container">
-          <label htmlFor="visibility">Visibility:</label>
+          <label htmlFor="visibility">Share with teacher:</label>
           <input
             type="checkbox"
             name="visibility"

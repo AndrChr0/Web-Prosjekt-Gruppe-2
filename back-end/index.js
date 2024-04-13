@@ -44,6 +44,40 @@ app.use("/feedback", verifyToken, FeedbackRoute);
 // }
 //     ))
 
+
+// search to get students from users
+import { User } from "./models/userModel.js";
+
+const handleSearch = async (req, res) => {
+  let users;
+
+  if (req.query.role === "student") {
+    users = await User.find({ role: "student" });
+
+    if (req.query.courseId) {
+      users = users.filter((user) => user.courses.includes(req.query.courseId));
+    }
+  }
+
+  if (!users || users.length === 0) {
+    throw new Error("No users found");
+  }
+
+  return users;
+}
+
+app.get('/search', async (req, res) => {
+  try {
+    const results = await handleSearch(req, res);
+    res.json(results);
+  } catch (err) {
+    console.error('error searching users:', err);
+    res.status(500).json({ message:'Internal server error' });
+  }
+});
+
+
+
 mongoose
   .connect(MONGO_URI)
   .then(() => {

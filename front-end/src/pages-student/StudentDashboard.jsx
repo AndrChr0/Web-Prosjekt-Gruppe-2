@@ -1,5 +1,5 @@
-// src/pages-student/StudentDashboard.jsx
 import React from 'react';
+import HomeWelcomeCard from '../components/HomeWelcomeCard/HomeWelcomeCard';
 
 function StudentDashboard() {
   // Student-specific dashboard content here

@@ -96,7 +96,7 @@ function App() {
 
         {/* Profile could be for authenticated users only */}
         <Route path="/profile-page" element={
-          <ProtectedRoute allowedRoles={['student']}>
+          <ProtectedRoute allowedRoles={['student', 'teacher']}>
             <ProfilePage />
           </ProtectedRoute>
         } />
