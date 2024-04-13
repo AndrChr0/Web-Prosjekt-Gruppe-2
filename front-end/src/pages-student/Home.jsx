@@ -27,34 +27,6 @@ function Home() {
     <main>
     <h1>Home | Student</h1>
     <HomeWelcomeCard></HomeWelcomeCard>
-
-    {/* // <main>
-    //   <div className="show-mongo-objects">
-    //     <h1>Show reflections</h1>
-
-    //     {loading ? (
-    //       <h2>please wait</h2>
-    //     ) : (
-    //       <div>
-    //         <ul>
-    //           {reflections.map((reflection, index) => (
-    //             <li key={reflection._id}>
-    //               <div>{index + 1}</div>
-    //               <div>
-    //                 <b> Title:</b> {reflection.title}
-    //               </div>
-    //               <div>
-    //                 <b>Reflection Body:</b> {reflection.content}
-    //               </div>
-    //               <div>
-    //                 <b>Course-ID:</b> {reflection.courseId}
-    //               </div>
-    //             </li>
-    //           ))}
-    //         </ul>
-    //       </div>
-    //     )}
-    //   </div> */}
     </main>
   );
 }
