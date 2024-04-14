@@ -15,7 +15,7 @@ import AddCourse from "./pages-student/AddCourse";
 import ProfilePage from "./pages-student/ProfilePage";
 
 //teacher pages
-import TeachersHome from "./pages-teacher/Home/Home";
+import TeachersHome from "./pages-teacher/Home/TeachersHome";
 import RecentReflectionPage from "./pages-teacher/RecentReflectionPage/RecentReflectionPage";
 import TeacherCourses from "./pages-teacher/MyCourses/MyCourses";
 import TeacherCourse from "./pages-teacher/MyCourses/Course";
@@ -37,15 +37,9 @@ import EditReflection from "./components/EditReflection/EditReflection";
 import StudentDashboard from "./pages-student/StudentDashboard";
 
 
-// teacher ui components
-import TeacherNav from "./components/Header/NavTeacher";
-
-
 import "./assets/styles/App.css";
 import Unauthorized from "./components/Unauthorized/Unauthorized";
 function App() {
-  const { currentUser } = useAuth(); // Use useAuth to access currentUser
-  
   return (
     <>
     <div className="App-wrapper">
