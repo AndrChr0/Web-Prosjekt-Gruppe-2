@@ -11,7 +11,7 @@ const Header = () => {
 
   const handleLogout = () => {
     logout(); // Use the logout function from AuthContext
-    navigate('/login');
+    navigate('/');
   };
 
   return (
@@ -29,15 +29,15 @@ const Header = () => {
             <>
             <li><Link to="/teacher_dashboard" className="nav-link" id="nav-logo">Sustainability Diary</Link></li>
             <li><Link to="/teacher_dashboard" className="nav-link">Home</Link></li>
-            <li><Link to="/my_courses" className="nav-link">My courses</Link></li>
-            <li><Link to="/submissions" className="nav-link">SubmissionsPage</Link></li>
+            <li><Link to="/my_courses" className="nav-link">Courses</Link></li>
+            <li><Link to="/submissions" className="nav-link">Submissions</Link></li>
             <li><Link to="/profile-page" className="nav-link">Profile</Link></li>
               {/* Additional teacher-specific links */}
             </>
           )}
           {currentUser?.role === 'student' && (
             <>
-              <li><Link to="/student-dashboard" className="nav-link">Home</Link></li>
+              <li><Link to="/student_dashboard" className="nav-link">Home</Link></li>
               <li><Link to="/diary" className="nav-link">My Diary</Link></li>
               <li><Link to="/courses" className="nav-link">Courses</Link></li>
               <li><Link to="/inbox" className="nav-link">Inbox</Link></li>

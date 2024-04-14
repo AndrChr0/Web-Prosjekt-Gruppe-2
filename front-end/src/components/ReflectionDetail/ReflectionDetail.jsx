@@ -11,6 +11,9 @@ function ReflectionDetail() {
   const [reflection, setReflection] = useState(null);
   const [loading, setLoading] = useState(true); // Start with loading true
 
+  const [enlargedImage, setEnlargedImage] = useState(null);
+  const [feedback, setFeedback] = useState([]);
+
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     setLoading(true);
@@ -22,6 +25,7 @@ function ReflectionDetail() {
       })
       .then((res) => {
         setReflection(res.data.reflection);
+        fetchFeedback(reflectionId); // Call fetchFeedback after setting reflection
         setLoading(false);
       })
       .catch((error) => {
@@ -33,6 +37,44 @@ function ReflectionDetail() {
       });
   }, [reflectionId, navigate]);
 
+  const fetchFeedback = () => {
+    const token = localStorage.getItem("authToken");
+    axios
+        .get(`http://localhost:5151/feedback?reflectionId=${reflectionId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(res => {
+            setFeedback(res.data.data);
+        })
+        .catch(error => {
+            console.error("Error fetching feedback:", error);
+        });
+};
+
+  const handleClick = (image) => {
+    setEnlargedImage(image);
+  }
+
+  const handleClose = () => {
+    setEnlargedImage(null);
+  }
+
+
+  const renderFeedback = () => {
+    if (feedback.length === 0) {
+        return <p>No feedback for this reflection yet</p>;
+    }
+
+    return feedback.map((item) => (
+        <div className="feedback-item" key={item._id}>
+            <p> <b>content:</b> {item.content}</p>
+            <p> <b>user: </b>{item.userId}</p>
+
+        </div>
+    ));
+  }; 
 
   const handleEdit = () => {
     navigate(`/edit_reflection/${reflectionId}`);
@@ -42,31 +84,114 @@ function ReflectionDetail() {
   if (!reflection) return <div>Reflection not found</div>;
 
   return (
-    <main>
-    <h1>{reflection.title}</h1>
-     <div className="detailContainer">
-      <p className="content">{reflection.content}</p>
-      {reflection.courseId && <p className="course-id">Course: <Link to={`/courses/${reflection.courseId}`}>Course link</Link> </p>}
-      {reflection.files &&
-        reflection.files.map((file, index) => (
-          <div key={index}>
-            <a
-              className="file-link"
-              target="_blank"
-              rel="noopener noreferrer" // Added for security
-              href={`http://localhost:5151/${file}`}
-              download
-            >
-              Download File {index + 1}
-            </a>
-    </div>
-        ))}
+    <main>  
+
+      <div className="Reflection_card">
+        <div className="Reflection_card_title">
+          <h2>" {reflection.title} "</h2>
+          <b>By: Student-Name</b>
+        </div>
+        <div className="Reflection_card_content">
+          <p> {reflection.content} </p>
+        </div>
+
+        <div>
+          <span>Attached files:</span>
+          {reflection.files &&
+            reflection.files.map((file, index) => {
+              const fileExtension = file.split(".").pop().toLowerCase();
+              if (
+                fileExtension === "jpg" ||
+                fileExtension === "jpeg" ||
+                fileExtension === "png"
+              ) {
+                return (
+                  <div key={index}>
+                    <img
+                      onClick={() => handleClick(file)}
+                      className="reflection-image"
+                      src={`http://localhost:5151/${file}`}
+                      alt={`Image ${index + 1}`}
+                    />
+                  </div>
+                );
+              } else if (fileExtension === "pdf") {
+                return (
+                  <div key={index}>
+                    <a
+                      href={`http://localhost:5151/${file}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View PDF
+                    </a>
+                  </div>
+                );
+              } else if (fileExtension === "mp4") {
+                return (
+                  <div key={index}>
+                    <video width="320" height="240" controls>
+                      <source
+                        className="reflection-video"
+                        src={`http://localhost:5151/${file}`}
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                );
+              } else if (
+                fileExtension === "zip" ||
+                fileExtension === "gz"
+              ) {
+                return (
+                  <div key={index}>
+                    <a
+                      href={`http://localhost:5151/${file}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Download zip file
+                    </a>
+                  </div>
+                );
+              }
+            })}
+          {reflection.files.length === 0 && <p>No files attached</p>}
+        </div>
+
+        {/* COURSE LINK */}
+        {reflection.courseId && (
+        <p className="course-id">
+          Course:{" "}
+          <Link to={`/courses/${reflection.courseId}`}>Course link</Link>{" "}
+        </p>
+      )}
+
+        <div className="feedback-section">
+          <h3>Feedback </h3>
+          {renderFeedback()}
+        </div>
+        {enlargedImage && (
+          <div className="popup">
+            <div className="popup-content">
+              <img
+                src={`http://localhost:5151/${enlargedImage}`}
+                alt="Enlarged Image"
+              />
+              <button className="main-menu-btn" onClick={handleClose}>
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+        
       <ActionButton
         onClick={handleEdit}
         btnType="button"
         btnValue="Edit Reflection"
       />
-    </div>
+      </div>
     </main>
   );
 }

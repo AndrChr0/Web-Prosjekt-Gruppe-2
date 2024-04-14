@@ -19,6 +19,6 @@ const feedbackSchema = mongoose.Schema(
   timestamps: true,
 });
 
-
+feedbackSchema.index({ userId: 1, reflectionId: 1 }, { unique: true });
 
 export const Feedback = mongoose.model("Feedback", feedbackSchema, 'feedback');

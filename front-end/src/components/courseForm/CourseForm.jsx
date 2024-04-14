@@ -4,8 +4,9 @@ import axios from "axios";
 import "./courseForm.css";
 
 const CourseForm = () => {
-
+ 
     const navigate = useNavigate();
+
 
     const  [courseData, setCourseData] = useState({
         title: "",
@@ -31,7 +32,12 @@ const CourseForm = () => {
                     },
                   }
             );
+            console.log("Response:", response.data); 
             navigate("/my_courses");
+            setCourseData({
+                title: "",
+                courseCode: "",
+            });
         } catch (error) {
             console.error(error);
         }

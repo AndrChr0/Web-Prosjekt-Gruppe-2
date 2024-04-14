@@ -35,19 +35,19 @@ const SubmissionsPage = () => {
     return(
     <main>
 
-
         {/* RECENT REFLECTIONS */}
         <h1>Student submissions</h1>
         <ul className="Recent-reflections">
-            <h2>All submissions</h2>    
+            <h2>All submissions</h2>
+
             {reflections.map((reflection, i) => (
             <Link className="Text-link" to={`/submissions/${reflection._id}`}>
                 <li className="Recent-reflection" key={reflection._id}>
                     <div>
-                        <span><b>{reflection.courseCode}</b></span> 
+                        <span><b>{reflection.courseId.title}</b></span> 
                         <span>{reflection.title}</span>
+                        <span><b>By: Student-Name</b></span>
                         {/* {user.firstName} */}
-                        <b>Student-Name</b> {/* the user associated with the reflection */}
                     </div>
                     <div>
                     </div>

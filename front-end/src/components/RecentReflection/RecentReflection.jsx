@@ -79,11 +79,14 @@ const RecentReflection = () => {
             .then(res => {
                 console.log("Feedback submitted:", res.data.feedbackText);
                 setShowFeedbackForm(false);
+                
             })
             .catch(error => {
                 console.error("Error submitting feedback:", error);
             });
-    }
+    }  
+
+
 
     const handleDelete = (feedbackId) => {
         const token = localStorage.getItem("authToken");
@@ -118,7 +121,7 @@ const RecentReflection = () => {
                 <button onClick={() => handleDelete(item._id)}>Remove</button>
             </div>
         ));
-    }; 
+    };
 
     return (
         <div>
@@ -211,7 +214,9 @@ const RecentReflection = () => {
                     <button className="main-menu-btn" onClick={handleSubmitFeedback}>Submit Feedback</button>
                 </form>
             )}
-            <button className="action-btn feedback-btn" onClick={() => setShowFeedbackForm(true)}>Give feedback</button>
+            {!showFeedbackForm && (
+                <button className="action-btn feedback-btn" onClick={() => setShowFeedbackForm(true)}>Give feedback</button>
+            )}
         </div>
     );
 };
