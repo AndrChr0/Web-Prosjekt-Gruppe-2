@@ -19,6 +19,7 @@
     color: black ;
     background-color: white;
     padding: 1.5em;
+    border-radius: 5px;
 }
 .Recent-reflection:hover {
     background-color: #f8f8f8;

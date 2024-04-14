@@ -71,7 +71,8 @@ router.get("/search", async (req, res) => {
       const courseIds = courses.map(course => course._id);
 
       // matching the courseIds with the reflections' courseIds
-      reflections = await Reflection.find({ visibility: true, courseId: { $in: courseIds } });
+      reflections = await Reflection.find({ visibility: true, courseId: { $in: courseIds } })
+      .populate('courseId', 'title');
 
       return res.status(200).json({
         count: reflections.length,
