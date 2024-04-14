@@ -3,14 +3,14 @@
     margin-bottom: 20px;
     list-style: none;
     padding: 2em 3em;
-    background-color: #e9e8e8;
+    background-color: var(--main-accent-color);
     width: 80%;
     text-align: start;
 }
 
 .Recent-reflections h2 {
     margin-bottom: 20px;
-    color: #4d4d4d;
+    color: white;
 }
 
 .Recent-reflection {
@@ -22,7 +22,7 @@
     border-radius: 5px;
 }
 .Recent-reflection:hover {
-    background-color: #f8f8f8;
+    background-color: #ececec;
 }
 
 .Recent-reflection div {
@@ -40,7 +40,11 @@
 @media screen and (max-width: 768px) {
     .Recent-reflections {
         width: 100%;
-        background-color: transparent ;
+        background-color: transparent;
+
+    }
+    .Recent-reflections h2 {
+        color:var(--main-text-color-dark);
     }
     .Recent-reflection div {
         grid-template-columns: 1fr;

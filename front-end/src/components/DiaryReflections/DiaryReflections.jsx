@@ -50,8 +50,8 @@ function DiaryReflections() {
                     <b>Last updated:</b> {formatDate(reflection.updatedAt)}
                   </div>
                   <div className="link-container">
-                    <Link to={`/diary/${reflection._id}`}>View</Link>
-                    <Link to={`/edit_reflection/${reflection._id}`}>Edit</Link>
+                    <Link to={`/diary/${reflection._id}`}><button className="main-menu-btn">View</button></Link>
+                    <Link to={`/edit_reflection/${reflection._id}`}><button className="main-menu-btn">Edit</button></Link>
                   </div>
                 </li>
               ))}

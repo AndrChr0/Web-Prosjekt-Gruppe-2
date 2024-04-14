@@ -116,15 +116,17 @@ const RecentReflection = () => {
 
         return feedback.map((item) => (
             <div className="feedback-item" key={item._id}>
-                <p> <b>content:</b> {item.content}</p>
-                <p> <b>user: </b>{item.userId}</p>
-                <button onClick={() => handleDelete(item._id)}>Remove</button>
+                <p> <b>My feedback:</b> </p>
+                <p>{item.content}</p>
+                <p> <b>By: </b></p>
+                <p>{item.userId}</p>
+                <button className="remove-btn" onClick={() => handleDelete(item._id)}>Remove</button>
             </div>
         ));
     };
 
     return (
-        <div>
+        <div className="Reflection_card--wrapper">
             <div className="Reflection_card">
                 <div className="Reflection_card_title">
                     <h2>" {reflection.title} "</h2>
@@ -134,7 +136,7 @@ const RecentReflection = () => {
                     <p> {reflection.content} </p>
                 </div>
 
-                <div>
+                <div className="Reflection-files-area">
                     <span>Attached files:</span>
                     {reflection.files &&
                         reflection.files.map((file, index) => {
@@ -215,7 +217,7 @@ const RecentReflection = () => {
                 </form>
             )}
             {!showFeedbackForm && (
-                <button className="action-btn feedback-btn" onClick={() => setShowFeedbackForm(true)}>Give feedback</button>
+                <button className="main-menu-btn feedback-btn" onClick={() => setShowFeedbackForm(true)}>Give feedback</button>
             )}
         </div>
     );

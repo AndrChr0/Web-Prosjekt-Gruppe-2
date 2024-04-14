@@ -3,6 +3,10 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext"; // Ensure this path matches your project structure
 import './Header.css';
+import '@fortawesome/fontawesome-free/css/all.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+
 
 const Header = () => {
   const { currentUser, logout } = useAuth();
@@ -21,31 +25,52 @@ const Header = () => {
           {/* Conditional rendering based on currentUser */}
           {!currentUser && (
             <>
-              <li><Link to="/login" className="nav-link">Login</Link></li>
-              <li><Link to="/register" className="nav-link">Register</Link></li>
+            <div className='login-register-links'>
+                <li><Link to="/login" className="nav-link">Login</Link></li>
+                <li><Link to="/register" className="nav-link">Register</Link></li>
+              </div>
             </>
           )}
           {currentUser?.role === 'teacher' && (
             <>
-            <li><Link to="/teacher_dashboard" className="nav-link" id="nav-logo">Sustainability Diary</Link></li>
+            <div>
+              <li><Link to="/teacher_dashboard" className="nav-link" id="nav-logo">Sustainability Diary</Link></li>
+            </div>
+            <div className='nav-main-links'>
             <li><Link to="/teacher_dashboard" className="nav-link">Home</Link></li>
             <li><Link to="/my_courses" className="nav-link">Courses</Link></li>
             <li><Link to="/submissions" className="nav-link">Submissions</Link></li>
             <li><Link to="/profile-page" className="nav-link">Profile</Link></li>
+            <div className='Logout-link'>
+              {currentUser?.role === 'teacher' && (
+              <li><button onClick={handleLogout} className="nav-link"><FontAwesomeIcon icon={faRightFromBracket} /></button></li>
+              
+            )}
+            </div>
+
+            </div>
+
               {/* Additional teacher-specific links */}
             </>
           )}
           {currentUser?.role === 'student' && (
             <>
-              <li><Link to="/student_dashboard" className="nav-link">Home</Link></li>
-              <li><Link to="/diary" className="nav-link">My Diary</Link></li>
-              <li><Link to="/courses" className="nav-link">Courses</Link></li>
-              <li><Link to="/inbox" className="nav-link">Inbox</Link></li>
-              <li><Link to="/profile-page" className="nav-link">Profile</Link></li>
+              <div>
+                <li><Link to="/student_dashboard" className="nav-link" id="nav-logo">Sustainability Diary</Link></li>
+              </div>
+              <div className='nav-main-links'>
+                <li><Link to="/student_dashboard" className="nav-link">Home</Link></li>
+                <li><Link to="/diary" className="nav-link">My Diary</Link></li>
+                <li><Link to="/courses" className="nav-link">Courses</Link></li>
+                <li><Link to="/inbox" className="nav-link">Inbox</Link></li>
+                <li><Link to="/profile-page" className="nav-link">Profile</Link></li>
+                <div className='Logout-link'>
+                  {currentUser?.role === 'student' && (
+                  <li><button onClick={handleLogout} className="nav-link"><FontAwesomeIcon icon={faRightFromBracket} /></button></li>
+                  )}
+                </div>
+              </div>
             </>
-          )}
-          {currentUser && (
-            <li><button onClick={handleLogout} className="nav-link">Logout</button></li>
           )}
         </ul>
       </nav>
