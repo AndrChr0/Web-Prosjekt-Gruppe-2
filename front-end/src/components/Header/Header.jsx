@@ -37,7 +37,7 @@ const Header = () => {
           )}
           {currentUser?.role === 'student' && (
             <>
-     <li><Link to="/" className="nav-link">Home</Link></li>
+              <li><Link to="/student-dashboard" className="nav-link">Home</Link></li>
               <li><Link to="/diary" className="nav-link">My Diary</Link></li>
               <li><Link to="/courses" className="nav-link">Courses</Link></li>
               <li><Link to="/inbox" className="nav-link">Inbox</Link></li>

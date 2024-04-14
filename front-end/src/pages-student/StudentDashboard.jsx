@@ -5,8 +5,8 @@ function StudentDashboard() {
   // Student-specific dashboard content here
   return (
     <main>
-      <h1>Student Dashboard</h1>
-      <p>This dashboard is only accessible by students.</p>
+      <h1>Dashboard</h1>
+      <HomeWelcomeCard />
     </main>
   );
 }
