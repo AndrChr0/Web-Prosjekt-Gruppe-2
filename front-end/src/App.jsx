@@ -5,7 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // If y
 // Import all your page components
 
 //student pages
-import Home from "./pages-student/Home";
+import Home from "./Home";
 import MyDiary from "./pages-student/MyDiary";
 import Courses from "./pages-student/Courses";
 import Course from "./pages-student/Course";
@@ -82,6 +82,7 @@ function App() {
         <Route path="/" element={<Home />} />
         {/* Wrap routes with ProtectedRoute as necessary */}
         {/* Assume Courses and Inbox are accessible to logged-in users only */}
+        <Route path="/student_dashboard" element={<ProtectedRoute><StudentDashboard/></ProtectedRoute>} />
         <Route path="/courses" element={<ProtectedRoute><Courses /></ProtectedRoute>
         } />
           <Route path="/courses/:id" element={<ProtectedRoute><Course /></ProtectedRoute>} />

@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./Homepage.css";
 import MainMenuButton from "../../components/MainmenuButton/MainMenuButton";
+import HomeWelcomeCard from "../../components/HomeWelcomeCard/HomeWelcomeCard";
 
 const TeachersHome = () => {
 
@@ -29,7 +30,10 @@ const TeachersHome = () => {
 
     return(
     <main>
-        <h1>Home | Teacher</h1>
+        <h1>Home</h1>
+
+        {/* WELCOME CARD */}
+        <HomeWelcomeCard></HomeWelcomeCard>
 
         {/* RECENT REFLECTIONS */}
         <ul className="Recent-reflections">

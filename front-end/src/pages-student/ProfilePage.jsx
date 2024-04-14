@@ -90,7 +90,7 @@
 
     return (
       <main>
-      <h1>My Profile | Student</h1>
+      <h1>My Profile</h1>
       <div className="profile_container">
 
         <div className="profile-settings">

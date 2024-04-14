@@ -21,9 +21,9 @@ router.get("/:id", async (req, res) => {
 
 // get all feedback from db
 router.get("/", async (req, res) => {
-  const userId = req.user.userId;
+  const { reflectionId } = req.query;
     try {
-        const feedback = await Feedback.find({ userId: userId });
+        const feedback = await Feedback.find({ reflectionId: reflectionId });
 
         return res.status(200).json({
             count: feedback.length,
@@ -37,21 +37,34 @@ router.get("/", async (req, res) => {
 
 
 
+
 //make new feedback
 router.post("/", async (req, res) => {
+  const userId = req.user.userId;
+  const reflectionId = req.body.reflectionId;
 
-    const newFeedback = new Feedback({
-        content: req.body.content,
-        reflectionId: req.body.reflectionId,
-        userId: req.user.userId
-    });
+  try {
+      // check if the user has already submitted feedback for this reflection
+      const existingFeedback = await Feedback.findOne({ reflectionId, userId });
 
-    try {
-        const savedFeedback = await newFeedback.save();
-        res.status(201).send(savedFeedback);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+      if (existingFeedback) {
+          // update the existing feedback if it exists
+          existingFeedback.content = req.body.content;
+          const updatedFeedback = await existingFeedback.save();
+          res.status(200).send(updatedFeedback);
+      } else {
+          // create a new entry if a feedback doesnt exist
+          const newFeedback = new Feedback({
+              content: req.body.content,
+              reflectionId: req.body.reflectionId,
+              userId: req.user.userId,
+          });
+          const savedFeedback = await newFeedback.save();
+          res.status(201).send(savedFeedback);
+      }
+  } catch (error) {
+      res.status(500).send(error);
+  }
 });
 
 // update feedback
