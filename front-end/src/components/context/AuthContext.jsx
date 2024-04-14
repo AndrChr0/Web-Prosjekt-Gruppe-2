@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
                 const response = await axios.get('http://localhost:5151/users/profile', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                setCurrentUser(response.data); // set current usr to user data
+                setCurrentUser(response.data); // set current user to user data
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching user data:", error);
