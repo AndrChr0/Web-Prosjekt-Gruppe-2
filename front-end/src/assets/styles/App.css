@@ -1,10 +1,24 @@
+:root {
+  --main-bg-color: #e67a33;
+  --main-body-color: #F6F1EE;
+  --main-accent-color: #beb5ad;
+  --main-btn-color: #7c50c4;
+  --main-btn-color-hover: #5f3a8f;
+  --main-text-color: #fff;
+  --main-text-color-dark: #2c2b2b;
+}
+
 * {
   margin: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--main-text-color-dark);
 }
 body {
-  background-color: whitesmoke;
+  background-color: var(--main-body-color);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -29,10 +43,6 @@ main {
   padding-bottom: 3em;
 }
 
-.show-mongo-objects {
-  height: 100%;
-  line-height: 1.5;
-}
 
 .Courses-list {
   padding: 0;
@@ -62,7 +72,7 @@ main {
   display: block;
   width: calc(100% - 2em);
   height: 2px;
-  background-color: rgb(253, 179, 42);
+  background-color: var(--main-bg-color );
   position: relative;
 }
 
@@ -79,7 +89,7 @@ h1 {
 }
 
 .main-menu-btn {
-  background-color: rgb(253, 179, 42);
+  background-color: var(--main-btn-color);
   padding: .7em;
   border-radius: 10px;
   /* margin-top: 2vh;
@@ -90,16 +100,15 @@ h1 {
   cursor: pointer;
 }
 
+.main-menu-btn:hover {
+  background-color: var(--main-btn-color-hover);
+}
+
 
 .main-btn-container {
   display: flex;
-  /* width: 100%;
-  flex-direction: column; */
   gap: 1em;
-  /* position: absolute;
-  top: 17vh;
-  left: 9vw;
-  align-items: flex-start; */
+
 }
 @media (max-width: 600px) {
   nav ul {
@@ -119,15 +128,14 @@ h1 {
 
 button {
   padding: 10px 20px;
-  color: #111;
+  color: #fff;
   cursor: pointer;
-  border: 2px solid #111;
   border-radius: 8px;
   box-sizing: border-box;
   font-weight: bold;
-  background-color: rgb(255, 217, 0);
+  background-color: var(--main-btn-color);
 }
 
 button:hover {
-  background-color: rgb(233, 199, 4);
+  background-color: var(--main-btn-color-hover);
 }

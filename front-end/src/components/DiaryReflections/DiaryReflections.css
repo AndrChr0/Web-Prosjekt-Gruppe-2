@@ -24,15 +24,7 @@
     align-items: center;
 }
 
-.link-container a {
-    text-decoration: none;
-    color: white;
-    font-weight: 600;
-    background-color: orange;
-    padding: 0.2em 0.5em;
+.link-container button{
+    text-decoration: underline #fff;
 }
 
-.link-container a:hover {
-    text-decoration: underline;
-    background-color: #ff8c00;
-}

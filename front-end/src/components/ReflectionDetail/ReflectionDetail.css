@@ -26,9 +26,14 @@
     font-weight: bold;
     margin-bottom: 1em;
     
-    
 }
-.Reflection_card {
+
+
+.course-id a {
+    color: var(--main-text-color-dark);
+}
+
+/* .Reflection_card {
     width: 50vw;
     padding: 1rem;
     border-radius: 10px;
@@ -48,15 +53,15 @@
     margin-left: 2em;
     opacity: 0.8;
 }
-
-.Reflection_card_content {
+ */
+/* .Reflection_card_content {
     padding: .8em;
     margin: 2em;
     border: 1px solid #e0e0e0;
     background-color: rgb(238, 238, 238);
-}
+} */
 
-.feedback-btn {
+/* .feedback-btn {
     padding: 0 3em;
     font-size: 1rem;
 }
@@ -70,7 +75,7 @@
     border-radius: 4px;
     background-color: #f8f8f8;
 
-}
+} */
 .feedback-form button {
     width: fit-content;
 }
@@ -86,24 +91,19 @@
     margin-bottom: .5em;
 }
 
-.feedback-section button  {
-    border: none;
-    background-color: rgba(255, 152, 18, 0.747);
-    padding: .4em;
-    border-radius: 5px;
-    cursor: pointer;
-}
+
 .feedback-item {
     margin-bottom: 1.5em;
 }
 
-.reflection-image {
+
+/* .reflection-image {
     min-width: 20%;
     max-width: 100px;
     cursor: pointer;
-}
+} */
 
-.popup {
+/* .popup {
     position: fixed; 
     z-index: 1; 
     left: 0;
@@ -128,7 +128,7 @@
   .popup img {
     max-width: 50vw;
     height: auto;
-  }
+  } */
   
 
 @media screen and (max-width: 768px) {

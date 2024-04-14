@@ -69,8 +69,10 @@ function ReflectionDetail() {
 
     return feedback.map((item) => (
         <div className="feedback-item" key={item._id}>
-            <p> <b>content:</b> {item.content}</p>
-            <p> <b>user: </b>{item.userId}</p>
+            <p> <b>Teacher's comment:</b> </p>
+            <p>{item.content}</p>
+            <p> <b>Name: </b></p>
+            <p>{item.userId}</p>
 
         </div>
     ));
@@ -95,7 +97,7 @@ function ReflectionDetail() {
           <p> {reflection.content} </p>
         </div>
 
-        <div>
+        <div className="Reflection-files-area">
           <span>Attached files:</span>
           {reflection.files &&
             reflection.files.map((file, index) => {
@@ -169,7 +171,7 @@ function ReflectionDetail() {
       )}
 
         <div className="feedback-section">
-          <h3>Feedback </h3>
+          <h3>Feedback</h3>
           {renderFeedback()}
         </div>
         {enlargedImage && (

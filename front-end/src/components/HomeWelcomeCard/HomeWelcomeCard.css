@@ -27,13 +27,13 @@ i {
 .remove-text-button {
     background-color: transparent;
     border: none;
-    color: blue;
+    color: var(--main-text-color-dark);
     text-decoration: underline;
 }
 
 .remove-text-button:hover {
     cursor: pointer;
-    background-color: whitesmoke;
+    background-color: rgb(216, 216, 216);
     font-weight: bold;
 }
 
