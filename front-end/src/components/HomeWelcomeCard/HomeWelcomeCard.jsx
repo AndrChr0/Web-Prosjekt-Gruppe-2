@@ -1,4 +1,5 @@
 import "./HomeWelcomeCard.css";
+// Simple card that welcomes users to the site and explains its purpose
 
 function HomeWelcomeCard() {
  

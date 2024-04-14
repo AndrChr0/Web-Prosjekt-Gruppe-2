@@ -12,6 +12,7 @@ function EditReflection() {
     title: "",
     courseId: "",
     content: "",
+    visibility: false,
   });
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,7 @@ function EditReflection() {
           headers: { Authorization: `Bearer ${token}` },
         });
         setReflection(response.data.reflection);
+        console.log(response.data.reflection);
       } catch (error) {
         console.error(error);
         setError(error.message || "An error occurred while fetching the reflection.");
@@ -54,13 +56,16 @@ function EditReflection() {
     fetchCourses();
   }, []);
 
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setReflection((prev) => ({
+    const { name, type, checked, value } = e.target;
+    setReflection(prev => ({
       ...prev,
-      [name]: value,
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -126,6 +131,17 @@ function EditReflection() {
           value={reflection.content}
           onChange={handleChange}
         />
+
+      <label htmlFor="visibility">Share with teacher:</label>
+          <input
+            type="checkbox"
+            name="visibility"
+            checked={reflection.visibility}
+            onChange={handleChange}
+          />
+  
+
+
       {/* <button type="submit">Save</button> */}
       <div className="actions-container">
           <ActionButton btnType="submit" btnValue="Save" />

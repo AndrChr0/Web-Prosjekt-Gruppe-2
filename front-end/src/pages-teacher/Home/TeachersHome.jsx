@@ -30,10 +30,8 @@ const TeachersHome = () => {
 
     return(
     <main>
-        <h1>Home</h1>
-
-        {/* WELCOME CARD */}
-        <HomeWelcomeCard></HomeWelcomeCard>
+        <h1>Home | Teacher</h1>
+        <HomeWelcomeCard/>
 
         {/* RECENT REFLECTIONS */}
         <ul className="Recent-reflections">

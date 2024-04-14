@@ -1,4 +1,3 @@
-// src/pages-teacher/MyCourses/ManageStudents.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -8,6 +7,7 @@ const AddedStudentsInCourse = () => {
   const [addedStudents, setAddedStudents] = useState([]);
   const { courseId } = useParams(); // Use useParams to get courseId from URL
 
+  // Fetch added students when component mounts
   useEffect(() => {
       axios.get(`http://localhost:5151/search?role=student&&courseId=${courseId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
@@ -22,7 +22,6 @@ const AddedStudentsInCourse = () => {
 
   return (
     <div>
-
       <ul className='Added-students-list'>
       <h2>Students in the course</h2>
         {addedStudents.map(addedStudent => (
