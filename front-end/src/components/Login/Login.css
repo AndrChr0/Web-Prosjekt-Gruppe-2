@@ -8,10 +8,6 @@
   background-color: #f9f9f9;
 }
 
-.login-form {
-  display: flex;
-  flex-direction: column;
-}
 
 .login-input {
   margin-bottom: 10px;
@@ -20,6 +16,7 @@
   border-radius: 5px;
   width: calc(100% - 22px); /* Adjust width to fit within the container */
   height: 40px;
+  margin: 0 auto;
 }
 
 .login-button {
