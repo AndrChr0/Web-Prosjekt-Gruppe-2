@@ -118,13 +118,13 @@ function EditReflection() {
           value={reflection.title}
           onChange={handleChange}
         />
-      <label>Course ID:</label>
+      {/* <label>Course ID:</label>
         <input
           type="text"
           name="courseId"
           value={reflection.courseId}
           onChange={handleChange}
-        />
+        /> */}
       <label>Content:</label>
         <textarea
           name="content"
