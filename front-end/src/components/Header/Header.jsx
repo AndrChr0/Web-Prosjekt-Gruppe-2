@@ -5,8 +5,7 @@ import { useAuth } from "../context/AuthContext"; // Ensure this path matches yo
 import './Header.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-
+import { faRightFromBracket, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const { currentUser, logout } = useAuth();
@@ -34,7 +33,7 @@ const Header = () => {
           {currentUser?.role === 'teacher' && (
             <>
             <div>
-              <li><Link to="/teacher_dashboard" className="nav-link" id="nav-logo">Sustainability Diary</Link></li>
+              <li><Link to="/teacher_dashboard" className="nav-link" id="nav-logo"><FontAwesomeIcon icon={faLeaf} /> Sustainability Diary</Link></li>
             </div>
             <div className='nav-main-links'>
             <li><Link to="/teacher_dashboard" className="nav-link">Home</Link></li>
@@ -43,7 +42,7 @@ const Header = () => {
             <li><Link to="/profile-page" className="nav-link">Profile</Link></li>
             <div className='Logout-link'>
               {currentUser?.role === 'teacher' && (
-              <li><button onClick={handleLogout} className="nav-link"><FontAwesomeIcon icon={faRightFromBracket} /></button></li>
+              <li><button onClick={handleLogout} className="nav-link">Log Out <FontAwesomeIcon icon={faRightFromBracket} /></button></li>
               
             )}
             </div>
@@ -56,7 +55,7 @@ const Header = () => {
           {currentUser?.role === 'student' && (
             <>
               <div>
-                <li><Link to="/student_dashboard" className="nav-link" id="nav-logo">Sustainability Diary</Link></li>
+                <li><Link to="/student_dashboard" className="nav-link" id="nav-logo"><FontAwesomeIcon icon={faLeaf} /> Sustainability Diary</Link></li>
               </div>
               <div className='nav-main-links'>
                 <li><Link to="/student_dashboard" className="nav-link">Home</Link></li>
@@ -66,7 +65,7 @@ const Header = () => {
                 <li><Link to="/profile-page" className="nav-link">Profile</Link></li>
                 <div className='Logout-link'>
                   {currentUser?.role === 'student' && (
-                  <li><button onClick={handleLogout} className="nav-link"><FontAwesomeIcon icon={faRightFromBracket} /></button></li>
+                  <li><button onClick={handleLogout} className="nav-link">Log Out <FontAwesomeIcon icon={faRightFromBracket} /></button></li>
                   )}
                 </div>
               </div>
