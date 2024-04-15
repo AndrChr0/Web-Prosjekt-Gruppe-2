@@ -1,7 +1,7 @@
-// Inside your LoginComponent.jsx
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate, Link } from "react-router-dom"; // Import Link from react-router-dom
 import { useAuth } from "../context/AuthContext"; // Adjust the path as needed
 import './Login.css';
 
@@ -59,6 +59,11 @@ const Login = () => {
         <button type="submit" className="login-button">Log In</button>
       </form>
       {loginError && <p className="error-message">{loginError}</p>}
+
+      {/* Register link */}
+      <p>
+        Don't have an account? <Link to="/register">Sign up here.</Link>
+      </p>
     </div>
   );
 };
