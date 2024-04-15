@@ -118,8 +118,8 @@ const RecentReflection = () => {
             <div className="feedback-item" key={item._id}>
                 <p> <b>My feedback:</b> </p>
                 <p>{item.content}</p>
-                <p> <b>By: </b></p>
-                <p>{item.userId}</p>
+                {/* <p> <b>By: </b></p> */}
+                {/* <p>{item.userId}</p> */}
                 <button className="remove-btn" onClick={() => handleDelete(item._id)}>Remove</button>
             </div>
         ));

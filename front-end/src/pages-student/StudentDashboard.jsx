@@ -5,7 +5,7 @@ function StudentDashboard() {
   // Student-specific dashboard content here
   return (
     <main>
-      <h1>Dashboard</h1>
+      <h1>My Dashboard</h1>
       <HomeWelcomeCard />
     </main>
   );

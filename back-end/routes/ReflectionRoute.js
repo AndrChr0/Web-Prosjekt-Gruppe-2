@@ -195,7 +195,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     // Check if all required fields are provided
-    if (!req.body.title || !req.body.content || !req.body.courseId) {
+    if (!req.body.title || !req.body.content) {
       return res.status(400).send({
         message: "Send all required fields: title, content, courseId",
       });

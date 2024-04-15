@@ -1,13 +1,13 @@
 // src/pages-teacher/MyCourses/ManageStudents.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './ListOfStudents.css';
 
 const ListOfStudents = () => {
   const [students, setStudents] = useState([]);
   const { courseId } = useParams(); // Use useParams to get courseId from URL
-
+  const navigate = useNavigate();
   useEffect(() => {
     axios.get('http://localhost:5151/search?role=student', {
         headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
@@ -27,7 +27,7 @@ const ListOfStudents = () => {
     })
     .then(() => {
       alert('Student added to course successfully');
-      
+      window.location.reload();
     })
     .catch(error => {
       console.error('Error adding student to course:', error);

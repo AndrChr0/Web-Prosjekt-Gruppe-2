@@ -30,7 +30,7 @@ const TeachersHome = () => {
 
     return(
     <main>
-        <h1>Home | Teacher</h1>
+        <h1>Teacher Dashboard</h1>
         <HomeWelcomeCard/>
 
         {/* RECENT REFLECTIONS */}
