@@ -27,7 +27,7 @@ app.use(cors());
 app.use("/reflections", verifyToken, ReflectionRoute);
 app.use("/courses", verifyToken, courseRoute);
 app.use("/users", userRoute);
-
+app.use('/my_courses', courseRoute); // This will handle all routes prefixed with '/my_courses'
 app.use("/uploads", express.static("uploads")); // make the uploads folder public
 
 // reflection activities
@@ -43,6 +43,59 @@ app.use("/feedback", verifyToken, FeedbackRoute);
 //     allowedHeaders: "Content-Type"
 // }
 //     ))
+
+
+// search to get students from users
+import { User } from "./models/userModel.js";
+import { Reflection } from "./models/reflectionModel.js";
+
+const handleSearch = async (req, res) => {
+  let users;
+
+  if (req.query.role === "student") {
+    users = await User.find({ role: "student" });
+
+    if (req.query.courseId) {
+      users = users.filter((user) => user.courses.includes(req.query.courseId));
+
+
+      if (req.query.visibility === "true") {
+        const userIds = users.map(user => user._id);
+        const reflections = await Reflection.find({ userId: { $in: userIds }, visibility: true });
+
+        if (!reflections || reflections.length === 0) {
+          return res.status(404).json({ message: "No reflections found for the students" });
+        } 
+
+        return res.status(200).json({
+          count: reflections.length,
+          data: reflections,
+        });
+      } 
+    }
+    // find the reflections of the students
+  }
+
+  if (!users || users.length === 0) {
+    throw new Error("No users found");
+  }
+
+  return users;
+}
+
+app.get('/search', async (req, res) => {
+  try {
+    const results = await handleSearch(req, res);
+    res.json(results);
+  } catch (err) {
+    console.error('error searching users:', err);
+    res.status(500).json({ message:'Internal server error' });
+  }
+});
+
+
+// 1. search courses users
+
 
 mongoose
   .connect(MONGO_URI)

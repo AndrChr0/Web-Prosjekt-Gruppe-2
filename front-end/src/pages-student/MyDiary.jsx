@@ -2,6 +2,7 @@ import DiaryReflections from "../components/DiaryReflections/DiaryReflections";
 import MainMenuButton from "../components/MainmenuButton/MainMenuButton";
 function MyDiary() {
   return (
+
     <>
       <h1>My diary</h1>
       <main>
@@ -10,10 +11,10 @@ function MyDiary() {
           path="/new_reflection"
           buttonName="New Reflection"
         ></MainMenuButton>
-        <MainMenuButton
+        {/* <MainMenuButton
           path="/add_course"
           buttonName="Add Course"
-        ></MainMenuButton>
+        ></MainMenuButton> */}
       </div>
 
     <DiaryReflections></DiaryReflections>

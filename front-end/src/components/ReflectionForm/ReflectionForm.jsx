@@ -1,21 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ReflectionForm.css";
 import ActionButton from "../ActionButton/ActionButton";
+import { useNavigate } from "react-router-dom";
 
 function ReflectionForm() {
+  const navigate = useNavigate();
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
+  const [submissionError, setSubmissionError] = useState(null);
+  const [courses, setCourses] = useState([]);
+
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    courseId: "",
     visibility: false,
     files: [],
+    courseId: "No course selected",
   });
-  const [submissionSuccess, setSubmissionSuccess] = useState(false);
-  const [submissionError, setSubmissionError] = useState(null);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          console.log("No token found");
+          return;
+        }
+
+        const response = await axios.get(
+          "http://localhost:5151/users/profile",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.data && response.data.courses) {
+          setCourses(response.data.courses);
+        } else {
+          console.log("No courses found.");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
   const handleRemoveFile = (indexToRemove) => {
@@ -27,12 +66,15 @@ function ReflectionForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("authToken"); // Retrieve the JWT token from storage
+    const token = localStorage.getItem("authToken");
     const formDataWithFiles = new FormData();
     formDataWithFiles.append("title", formData.title);
     formDataWithFiles.append("content", formData.content);
-    formDataWithFiles.append("courseId", formData.courseId);
     formDataWithFiles.append("visibility", formData.visibility);
+    if (formData.courseId !== "No course selected") {
+      formDataWithFiles.append("courseId", formData.courseId);
+    }
+
     formData.files.forEach((file) => {
       formDataWithFiles.append("files", file);
     });
@@ -43,7 +85,7 @@ function ReflectionForm() {
         formDataWithFiles,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the JWT token
+            Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -51,11 +93,12 @@ function ReflectionForm() {
       setFormData({
         title: "",
         content: "",
-        courseId: "",
         visibility: false,
         files: [],
+        courseId: "No course selected",
       });
       setSubmissionSuccess(true);
+      navigate("/diary");
     } catch (error) {
       console.error(error);
       setSubmissionError(
@@ -117,16 +160,22 @@ function ReflectionForm() {
             ))}
           </div>
         )}
-        <label htmlFor="courseId">Course ID:</label>
-        <input
-          type="number"
+
+        <select
           name="courseId"
           value={formData.courseId}
           onChange={handleChange}
-          required
-        />
+        >
+          <option value="no course selected">Select a course</option>
+          {courses.map((course) => (
+            <option key={course._id} value={course._id}>
+              {course.courseCode} - {course.title}
+            </option>
+          ))}
+        </select>
+
         <div className="checkBox-container">
-          <label htmlFor="visibility">Visibility:</label>
+          <label htmlFor="visibility">Share with teacher:</label>
           <input
             type="checkbox"
             name="visibility"

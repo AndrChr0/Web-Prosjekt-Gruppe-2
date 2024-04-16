@@ -1,10 +1,19 @@
 nav {
-    background-color: rgb(214 126 24);
+    background-color: var(--main-bg-color);
     padding: 1em 0;
   }
+
+
+
   nav ul {
     display: flex;
     justify-content: space-around;
+  }
+
+  .nav-main-links {
+    display: flex;
+    gap: 1em;
+
   }
   
   nav li  {
@@ -12,18 +21,51 @@ nav {
   }
   
   nav li .nav-link:hover  {
-  color: black;
+  color: rgb(223, 223, 223);
   }
   
   nav li .nav-link  {
     color: white;
     text-decoration: none;
     font-size: 1.3em;
-    font-family: Arial, Helvetica, sans-serif;
+
     font-weight: bold;
+    background-color: transparent;
+    cursor: pointer;
+    border: 0;
+    padding: 0;
   }
   
-  #nav-logo {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  li button, button:hover {
+    background-color: transparent;
+    cursor: pointer;
   }
   
+  .Logout-link {
+    padding-right: 1em;
+    border-radius: 5px;
+    margin-left: 2em;
+
+    
+  }
+
+  @media screen and (max-width: 768px){
+    nav ul {
+      display: flex;
+      flex-direction: column;
+      gap: .5em;
+    }
+    nav li {
+      text-align: center;
+    }
+    .nav-main-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+    }
+    .Logout-link {
+      margin-left: 0;
+    }
+    
+  }

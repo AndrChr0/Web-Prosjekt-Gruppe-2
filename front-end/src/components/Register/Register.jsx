@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Register.css'; // Import the CSS file for styling
 
 const Register = () => {
@@ -49,7 +49,7 @@ const Register = () => {
           value={credentials.email}
           onChange={handleChange}
           required
-          className="register-input"
+          className="login-input"
         />
         <input
           type="password"
@@ -58,7 +58,7 @@ const Register = () => {
           value={credentials.password}
           onChange={handleChange}
           required
-          className="register-input"
+          className="login-input"
         />
         <input
           type="password"
@@ -67,20 +67,21 @@ const Register = () => {
           value={confirmPassword}
           onChange={handleChange}
           required
-          className="register-input"
+          className="login-input"
         />
         <select
           name="role"
           value={credentials.role}
           onChange={handleChange}
           required
-          className="register-input"
+          className="login-input"
         >
           <option value="student">Student</option>
           <option value="teacher">Teacher</option>
         </select>
-        <button type="submit" className="register-button">Register</button>
+        <button type="submit" className="login-button">Register</button>
       </form>
+      <p>Already have an account? <Link to="/login">Click here</Link></p>
       {registrationError && <p className="error-message">{registrationError}</p>}
     </div>
   );

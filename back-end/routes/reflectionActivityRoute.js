@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
     });
 
     try {
-        if (!req.body.title) { 
+        if (!req.body.title) {
             return res.status(400).json({ message: "Title is required" });
         } else {
             const savedReflectionActivity = await newReflectionActivity.save();
@@ -58,7 +58,7 @@ router.put("/:id", async (req, res) => {
     try {
         const { id } = req.params;
 
-        if (!req.body.title || !req.body.description ) {
+        if (!req.body.title || !req.body.description) {
             return res.status(400).send({
                 message: "Title and description are required",
             });

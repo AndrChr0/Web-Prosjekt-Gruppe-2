@@ -1,16 +1,38 @@
+:root {
+  --main-bg-color: #e67a33;
+  --main-body-color: #F6F1EE;
+  --main-accent-color: #beb5ad;
+  --main-btn-color: #7c50c4;
+  --main-btn-color-hover: #5f3a8f;
+  --main-text-color: #fff;
+  --main-text-color-dark: #2c2b2b;
+}
+
 * {
   margin: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  color: var(--main-text-color-dark);
+}
 body {
-  background-color: whitesmoke;
+  background-color: var(--main-body-color);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+.App-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  border: none;
+}
 main {
   margin: 0 10vw;
   margin-top: 3vh;
@@ -18,14 +40,9 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 3em;
 }
 
-
-
-.show-mongo-objects {
-  height: 100%;
-  line-height: 1.5;
-}
 
 .Courses-list {
   padding: 0;
@@ -55,43 +72,106 @@ main {
   display: block;
   width: calc(100% - 2em);
   height: 2px;
-  background-color: rgb(253, 179, 42);
+  background-color: var(--main-bg-color );
   position: relative;
 }
 
 .Text-link {
   text-decoration: none;
 }
-
 .Course-item:hover {
   background-color: rgb(236, 236, 236);
-  transition: all 0.2s ease;
+  transition: all .2s ease;
+}
+
+h1 {
+  margin: 10px;
 }
 
 .main-menu-btn {
-  background-color: rgb(253, 179, 42);
-  padding: 0.7em;
+  background-color: var(--main-btn-color);
+  padding: .7em;
   border-radius: 10px;
+  /* margin-top: 2vh;
+  margin-left: 50vw; */
   color: white;
   text-decoration: none;
   font-weight: bolder;
+  cursor: pointer;
 }
+
+.main-menu-btn:hover {
+  background-color: var(--main-btn-color-hover);
+}
+
 
 .main-btn-container {
   display: flex;
   gap: 1em;
+
+}
+
+.main__home {
+  position: relative;
+  width: 100%;  /* Set to 100% to ensure it fills the parent container */
+  margin: 0 auto; /* Centers the div within its parent */
+  background-color: var(--main-bg-color);
+  display: flex;
+  min-height: 70dvh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Changed to center align-items */
+  gap: 1em;
+  padding: 0 5vw 4vh 0; /* Add padding instead of using negative margins or left property */
+}
+
+.main__home h1 {
+  color: white;
+  font-size: 4em; /* Consider using 'rem' for scalability */
+}
+
+.main__home p {
+  color: white;
+  font-size: 1.2em;
+  max-width: 60%; /* Adjusted for better readability */
+  /* Removed margin-left to ensure consistent alignment */
+}
+
+.main__home p::first-letter {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.main__home .move__button {
+padding: 3vh 0 0 35vw;
 }
 
 @media (max-width: 600px) {
   nav ul {
     flex-direction: column;
   }
+
   nav li {
-    text-decoration-color: white;
-    margin-bottom: 2vh;
+   text-decoration-color: white;
+   margin-bottom: 2vh;
   }
+
   #nav-logo {
     text-decoration: underline;
     font-size: 1.5em;
   }
-}/*# sourceMappingURL=App.css.map */
+}
+
+button {
+  padding: 10px 20px;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-weight: bold;
+  background-color: var(--main-btn-color);
+}
+
+button:hover {
+  background-color: var(--main-btn-color-hover);
+}

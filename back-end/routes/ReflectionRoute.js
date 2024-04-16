@@ -1,3 +1,4 @@
+import { verifyToken } from '../middlewares/authMiddleware.js';
 import express from "express";
 import { Reflection } from "../models/reflectionModel.js";
 import multer from "multer";
@@ -51,11 +52,47 @@ const upload = multer({
   },
 });
 
+
+// den likte ikke å komme sist i denne filen, så nå ligger den først
+import { Course } from "../models/courseModel.js";
+
+router.get("/search", async (req, res) => {
+  try {
+    const visibility = Boolean(req.query.visibility);
+    let reflections;
+
+    if (visibility) { 
+      
+      // finding the courses of the teacher
+      const teacherId = req.user.userId; 
+      const courses = await Course.find({ userId: teacherId });
+
+      // getting the courseIds from the courses
+      const courseIds = courses.map(course => course._id);
+
+      // matching the courseIds with the reflections' courseIds
+      reflections = await Reflection.find({ visibility: true, courseId: { $in: courseIds } })
+      .populate('courseId', 'title');
+
+      return res.status(200).json({
+        count: reflections.length,
+        data: reflections,
+      });
+    } else {
+      return res.status(200).json({ message: 'No data found with visibility true' }); 
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 // Route for handling POST requests to create a new reflection
 router.post("/", upload.array("files", 5), async (req, res) => {
   try {
     // Check if all required fields are provided
-    if (!req.body.title || !req.body.content || !req.body.courseId) {
+    if (!req.body.title || !req.body.content) {
       return res.status(400).send({
         message: "Send all required fields: title, content, courseId",
       });
@@ -67,15 +104,17 @@ router.post("/", upload.array("files", 5), async (req, res) => {
     const newReflection = {
       title: req.body.title,
       content: req.body.content,
-      courseId: req.body.courseId,
       visibility: req.body.visibility,
       files: filesPaths,
       userId: req.user.userId,
+      courseId: req.body.courseId,
     };
+
 
     // Save the new reflection to the database
     const reflection = await Reflection.create(newReflection);
     return res.status(201).send(reflection);
+
   } catch (error) {
     console.log(error.message);
     res.status(500).send({ message: error.message });
@@ -99,12 +138,50 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+/* 
+// GET request for a single reflection, verifying ownership
+router.get("/:id", verifyToken, async (req, res) => {
+  try {
+    // Corrected to use req.params.id to get the reflection ID from the URL
+    const reflection = await Reflection.findById(req.params.id);
+    if (!reflection) {
+      return res.status(404).json({ message: "Reflection not found" });
+    }
+    // Now correctly checks if the logged-in user's ID matches the studentId in the reflection
+    // Make sure to convert both to strings for a proper comparison, as one might be an ObjectId
+    if (reflection.studentId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+    res.json(reflection);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+*/
+
 // Route for handling GET requests to retrieve a single reflection by ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     // Retrieve a reflection by its ID from the database
     const reflection = await Reflection.findById(id);
+
+    // allowing teacher to see all reflections
+    if (req.user.role === "teacher") {
+      
+      return res.status(200).json({ reflection });
+    }
+
+    // Check if the reflection belongs to the logged-in user
+    if (!reflection) {
+      return res.status(404).json({ message: "Reflection not found" });
+    }
+    if (reflection.userId.toString() !== req.user.userId) {
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
+
     return res.status(200).json({ reflection });
   } catch (error) {
     console.log(error.message);
@@ -112,11 +189,13 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+
+
 // Route for handling PUT requests to update a reflection by ID
 router.put("/:id", async (req, res) => {
   try {
     // Check if all required fields are provided
-    if (!req.body.title || !req.body.content || !req.body.courseId) {
+    if (!req.body.title || !req.body.content) {
       return res.status(400).send({
         message: "Send all required fields: title, content, courseId",
       });
@@ -154,5 +233,6 @@ router.delete("/:id", async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 });
+
 
 export default router;

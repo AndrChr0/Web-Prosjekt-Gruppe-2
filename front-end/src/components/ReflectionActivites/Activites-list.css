@@ -29,16 +29,17 @@
 }
 
 .Description-button-row button {
-    background-color: rgb(255, 166, 0);
+    background-color: var(--main-btn-color);
     padding: .7em;
     border-radius: 10px;
     color: white;
     text-decoration: none;
     font-weight: bolder;
     border: none;
+    width: 7em;
 }
 .Description-button-row button:hover {
-    background-color: rgb(253, 179, 42);
+    background-color: var(--main-btn-color-hover);
     color: white;
     cursor: pointer;
 }
