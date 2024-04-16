@@ -1,7 +1,6 @@
-// Header.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from "../context/AuthContext"; // Ensure this path matches your project structure
+import { useAuth } from "../context/AuthContext"; 
 import './Header.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,7 +24,7 @@ const Header = () => {
           {!currentUser && (
             <>
             <div>
-            <li><Link to="#" className="nav-link" id="nav-logo"><FontAwesomeIcon icon={faLeaf} /> Sustainability Diary</Link></li>
+            <li><Link to="/" className="nav-link" id="nav-logo"><FontAwesomeIcon icon={faLeaf} /> Sustainability Diary</Link></li>
             </div>
             <div className='login-register-links'>
                 <li><Link to="/login" className="nav-link">Login</Link></li>

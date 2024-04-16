@@ -110,6 +110,42 @@ h1 {
   gap: 1em;
 
 }
+
+.main__home {
+  position: relative;
+  width: 100%;  /* Set to 100% to ensure it fills the parent container */
+  margin: 0 auto; /* Centers the div within its parent */
+  background-color: var(--main-bg-color);
+  display: flex;
+  min-height: 70dvh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Changed to center align-items */
+  gap: 1em;
+  padding: 0 5vw 4vh 0; /* Add padding instead of using negative margins or left property */
+}
+
+.main__home h1 {
+  color: white;
+  font-size: 4em; /* Consider using 'rem' for scalability */
+}
+
+.main__home p {
+  color: white;
+  font-size: 1.2em;
+  max-width: 60%; /* Adjusted for better readability */
+  /* Removed margin-left to ensure consistent alignment */
+}
+
+.main__home p::first-letter {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.main__home .move__button {
+padding: 3vh 0 0 35vw;
+}
+
 @media (max-width: 600px) {
   nav ul {
     flex-direction: column;

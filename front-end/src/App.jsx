@@ -1,8 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// Import other components here, like Header, Footer, ProtectedRoute, etc.
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // If you're using a ProtectedRoute component
-// Import all your page components
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; 
 
 //student pages
 import Home from "./Home";
@@ -44,8 +42,6 @@ function App() {
     <>
     <div className="App-wrapper">
       <Header />
-      
-
       <Routes>
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="/student-dashboard" element={
@@ -74,8 +70,6 @@ function App() {
 
 
         <Route path="/" element={<Home />} />
-        {/* Wrap routes with ProtectedRoute as necessary */}
-        {/* Assume Courses and Inbox are accessible to logged-in users only */}
         <Route path="/student_dashboard" element={<ProtectedRoute><StudentDashboard/></ProtectedRoute>} />
         <Route path="/courses" element={<ProtectedRoute><Courses /></ProtectedRoute>
         } />
@@ -90,7 +84,6 @@ function App() {
           </ProtectedRoute>
         } />
 
-        {/* Profile could be for authenticated users only */}
         <Route path="/profile-page" element={
           <ProtectedRoute allowedRoles={['student', 'teacher']}>
             <ProfilePage />
@@ -99,7 +92,7 @@ function App() {
 
 
         {/* routes to teacher pages.  */}
-{/*     Hopefully we can get protected routes for this interface using
+        {/* Hopefully we can get protected routes for this interface using
         same paths as student routes - "/" for home and "/courses" course pages. 
         If not, its not the end of the world.
         */}
