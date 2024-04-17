@@ -35,6 +35,8 @@ const navigate = useNavigate();
               <div className="move__button">
               <ActionButton  btnType="button" btnValue="Click here to register" onClick={() => navigate("/register")} />
               </div>
+
+              {/* Action button css needs some changes regarding hover, zindex etc */}
       </div>
     
     </main>

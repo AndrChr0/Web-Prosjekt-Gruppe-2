@@ -55,18 +55,30 @@ input[type="file"] {
 
 #filesBtn {
   padding: 10px 20px;
-  color: #111;
+  color: white;
   cursor: pointer;
-  border: 2px solid #111;
   border-radius: 8px;
   box-sizing: border-box;
   font-weight: bolder;
-  background-color: rgb(255, 217, 0);
+  background-color: var(--main-btn-color);
+  margin: 1em 0;
 }
 
 #filesBtn:hover {
-  background-color: rgb(233, 199, 4);
+  background-color: var(--main-btn-color-hover);
 }
 
+.Selected-files-container button { /* remove btn margin */
+    margin-left: 1em;
 
+}
+
+.Selected-files-container div{
+    margin: .6em 0;
+    
+}
+
+.Selected-files-container p{
+    font-weight: bold   ;
+}
 

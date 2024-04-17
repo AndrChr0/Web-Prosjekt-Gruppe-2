@@ -1,5 +1,5 @@
 .main-menu-btn {
-    background-color: rgb(253, 179, 42);
+    background-color: var(--main-btn-color);
     padding: 0.7em;
     border-radius: 10px;
     color: white;
@@ -11,7 +11,7 @@
 
 
   .main-menu-btn:hover {
-    background-color: #ff8c00;
+    background-color: var(--main-btn-color-hover);
   }
   
 

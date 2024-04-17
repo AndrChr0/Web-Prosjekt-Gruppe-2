@@ -148,8 +148,8 @@ function ReflectionForm() {
         />
         {/* Adds remove button to selected files */}
         {formData.files.length > 0 && (
-          <div>
-            Selected Files:
+          <div className="Selected-files-container">
+            <p>Selected Files:</p>
             {Array.from(formData.files).map((file, index) => (
               <div key={index}>
                 {file.name}
