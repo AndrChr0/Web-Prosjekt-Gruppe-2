@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import jwtDecode from "jwt-decode";
+import { jwtDecode }  from "jwt-decode";
 import "./Profile.css";
 
 const Profile = () => {
