@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./Register.css";
@@ -13,6 +13,7 @@ const Register = () => {
   const [registrationError, setRegistrationError] = useState("");
   const navigate = useNavigate();
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "confirmPassword") {
@@ -26,6 +27,9 @@ const Register = () => {
     e.preventDefault();
     if (credentials.password !== confirmPassword) {
       setRegistrationError("Passwords do not match.");
+      return;
+    } else if (credentials.password.length < 8) {
+      setRegistrationError("Password must be at least 8 characters long.");
       return;
     }
     try {
