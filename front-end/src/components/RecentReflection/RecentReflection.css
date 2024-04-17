@@ -1,5 +1,5 @@
 .Reflection_card {
-    width: 50vw;
+    width: 70vw;
     padding: 1rem;
     border-radius: 10px;
     background-color: #ffffff;
@@ -22,7 +22,8 @@
 .Reflection_card_content {
     padding: .8em;
     margin: 2em;
-    
+    border: 1px solid #dbdbdb;
+    box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.2);
     background-color: var(--main-body-color);
 }
 

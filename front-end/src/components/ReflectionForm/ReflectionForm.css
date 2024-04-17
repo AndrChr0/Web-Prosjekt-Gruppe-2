@@ -1,3 +1,6 @@
+@import "quill/dist/quill.snow.css";
+
+
 form {
     display: flex;
     flex-direction: column;
@@ -82,3 +85,30 @@ input[type="file"] {
     font-weight: bold   ;
 }
 
+
+
+/* quill styles */
+
+.ql-toolbar {
+    background: #f3f3f3;
+    border-radius: 4px;
+}
+
+/* Styling the content area of the Quill Editor */
+.ql-container {
+    box-sizing: border-box;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    min-height: 40vh;
+    width: 50vw;
+    margin: 0px;
+    background-color: white;
+    position: relative;
+  }
+
+
+  @media (max-width: 600px) {
+    .ql-container, input {
+        width: 90vw;
+    }
+  }

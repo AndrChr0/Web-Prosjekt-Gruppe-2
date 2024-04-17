@@ -132,7 +132,7 @@ const RecentReflection = () => {
           <b>By: Student-Name</b>
         </div>
         <div className="Reflection_card_content">
-          <p> {reflection.content} </p>
+        <p dangerouslySetInnerHTML={{ __html: reflection.content }}></p>
         </div>
 
         <div className="Reflection-files-area">
