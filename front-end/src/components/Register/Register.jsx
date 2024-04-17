@@ -20,7 +20,7 @@ const Register = () => {
       setConfirmPassword(value);
     } else {
       setCredentials({ ...credentials, [name]: value });
-    }
+    }const [registrationError, setRegistrationError] = useState("");
   };
 
   const handleSubmit = async (e) => {
