@@ -9,7 +9,7 @@ function ReflectionDetail() {
   const { reflectionId } = useParams();
   const navigate = useNavigate();
   const [reflection, setReflection] = useState(null);
-  const [loading, setLoading] = useState(true); // Start with loading true
+  const [loading, setLoading] = useState(true);
 
   const [enlargedImage, setEnlargedImage] = useState(null);
   const [feedback, setFeedback] = useState([]);
@@ -20,7 +20,7 @@ function ReflectionDetail() {
     axios
       .get(`http://localhost:5151/reflections/${reflectionId}`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include JWT token in request headers
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
@@ -40,43 +40,47 @@ function ReflectionDetail() {
   const fetchFeedback = () => {
     const token = localStorage.getItem("authToken");
     axios
-        .get(`http://localhost:5151/feedback?reflectionId=${reflectionId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-        .then(res => {
-            setFeedback(res.data.data);
-        })
-        .catch(error => {
-            console.error("Error fetching feedback:", error);
-        });
-};
+      .get(`http://localhost:5151/feedback?reflectionId=${reflectionId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setFeedback(res.data.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching feedback:", error);
+      });
+  };
 
   const handleClick = (image) => {
     setEnlargedImage(image);
-  }
+  };
 
   const handleClose = () => {
     setEnlargedImage(null);
-  }
-
+  };
 
   const renderFeedback = () => {
     if (feedback.length === 0) {
-        return <p>No feedback for this reflection yet</p>;
+      return <p>No feedback for this reflection yet</p>;
     }
 
     return feedback.map((item) => (
-        <div className="feedback-item" key={item._id}>
-            <p> <b>Teacher's comment:</b> </p>
-            <p>{item.content}</p>
-            <p> <b>Name: </b></p>
-            <p>{item.userId}</p>
-
-        </div>
+      <div className="feedback-item" key={item._id}>
+        <p>
+          {" "}
+          <b>Teacher's comment:</b>{" "}
+        </p>
+        <p>{item.content}</p>
+        <p>
+          {" "}
+          <b>Name: </b>
+        </p>
+        <p>{item.userId}</p>
+      </div>
     ));
-  }; 
+  };
 
   const handleEdit = () => {
     navigate(`/edit_reflection/${reflectionId}`);
@@ -86,8 +90,7 @@ function ReflectionDetail() {
   if (!reflection) return <div>Reflection not found</div>;
 
   return (
-    <main>  
-
+    <main>
       <div className="Reflection_card">
         <div className="Reflection_card_title">
           <h2>" {reflection.title} "</h2>
@@ -142,10 +145,7 @@ function ReflectionDetail() {
                     </video>
                   </div>
                 );
-              } else if (
-                fileExtension === "zip" ||
-                fileExtension === "gz"
-              ) {
+              } else if (fileExtension === "zip" || fileExtension === "gz") {
                 return (
                   <div key={index}>
                     <a
@@ -164,11 +164,11 @@ function ReflectionDetail() {
 
         {/* COURSE LINK */}
         {reflection.courseId && (
-        <p className="course-id">
-          Course:{" "}
-          <Link to={`/courses/${reflection.courseId}`}>Course link</Link>{" "}
-        </p>
-      )}
+          <p className="course-id">
+            Course:{" "}
+            <Link to={`/courses/${reflection.courseId}`}>Course link</Link>{" "}
+          </p>
+        )}
 
         <div className="feedback-section">
           <h3>Feedback</h3>
@@ -187,12 +187,12 @@ function ReflectionDetail() {
             </div>
           </div>
         )}
-        
-      <ActionButton
-        onClick={handleEdit}
-        btnType="button"
-        btnValue="Edit Reflection"
-      />
+
+        <ActionButton
+          onClick={handleEdit}
+          btnType="button"
+          btnValue="Edit Reflection"
+        />
       </div>
     </main>
   );
