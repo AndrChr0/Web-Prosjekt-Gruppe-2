@@ -10,14 +10,6 @@ const reflectionSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    //   courseId: {
-    //   type: String,
-    //   required: true,
-    // }, 
-    // courseCode: {
-    //   type: String,
-    //   required: true,
-    // },
     visibility: {
       type: Boolean,
       default: false,

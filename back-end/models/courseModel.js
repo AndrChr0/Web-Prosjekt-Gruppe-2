@@ -12,7 +12,7 @@ const courseSchema = mongoose.Schema(
         },
         courseCode: { //IDG2001 f.ex
             type: String,
-            required: true
+            required: true,
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,

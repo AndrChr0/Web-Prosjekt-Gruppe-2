@@ -166,7 +166,7 @@ function ReflectionForm() {
           value={formData.courseId}
           onChange={handleChange}
         >
-          <option value="no course selected">Select a course</option>
+          <option value="No course selected">Select a course</option>
           {courses.map((course) => (
             <option key={course._id} value={course._id}>
               {course.courseCode} - {course.title}
@@ -174,20 +174,22 @@ function ReflectionForm() {
           ))}
         </select>
 
-        <div className="checkBox-container">
-          <label htmlFor="visibility">Share with teacher:</label>
-          <input
-            type="checkbox"
-            name="visibility"
-            checked={formData.visibility}
-            onChange={() =>
-              setFormData((prevFormData) => ({
-                ...prevFormData,
-                visibility: !prevFormData.visibility,
-              }))
-            }
-          />
-        </div>
+        {formData.courseId !== "No course selected" && (
+          <div className="checkBox-container">
+            <label htmlFor="visibility">Share with teacher:</label>
+            <input
+              type="checkbox"
+              name="visibility"
+              checked={formData.visibility}
+              onChange={() =>
+                setFormData((prevFormData) => ({
+                  ...prevFormData,
+                  visibility: !prevFormData.visibility,
+                }))
+              }
+            />
+          </div>
+        )}
         <ActionButton btnType="submit" btnValue="Submit" />
       </form>
       {/* Displaying a success message if submission is successful */}

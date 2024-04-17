@@ -23,6 +23,7 @@ function EditReflection() {
     const fetchReflection = async () => {
       try {
         setLoading(true);
+        // fetch reflection by id
         const response = await axios.get(`http://localhost:5151/reflections/${reflectionId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -39,6 +40,7 @@ function EditReflection() {
     fetchReflection();
   }, [reflectionId]);
 
+  // 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const fetchCourses = async () => {
@@ -57,6 +59,7 @@ function EditReflection() {
   }, []);
 
 
+  // function to handle changes in form fields
   const handleChange = (e) => {
     const { name, type, checked, value } = e.target;
     setReflection(prev => ({
@@ -142,7 +145,6 @@ function EditReflection() {
   
 
 
-      {/* <button type="submit">Save</button> */}
       <div className="actions-container">
           <ActionButton btnType="submit" btnValue="Save" />
           <ActionButton

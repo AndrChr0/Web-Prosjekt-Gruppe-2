@@ -16,10 +16,6 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  console.log(req);
-  // return res.status(234).send("halla brro");
-});
 
 // Middelware for handeling CORS policy
 app.use(cors());
@@ -34,15 +30,6 @@ app.use("/uploads", express.static("uploads")); // make the uploads folder publi
 app.use("/activities", reflectionActivityRoute);
 
 app.use("/feedback", verifyToken, FeedbackRoute);
-
-// custom origins
-// app.use(cors(
-//     {
-//     origin: "http://localhost:5173",
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     allowedHeaders: "Content-Type"
-// }
-//     ))
 
 
 // search to get students from users
@@ -61,6 +48,7 @@ const handleSearch = async (req, res) => {
 
       if (req.query.visibility === "true") {
         const userIds = users.map(user => user._id);
+        // find the reflection where the userId is in the userIds array, and visibility is true
         const reflections = await Reflection.find({ userId: { $in: userIds }, visibility: true });
 
         if (!reflections || reflections.length === 0) {
@@ -92,9 +80,6 @@ app.get('/search', async (req, res) => {
     res.status(500).json({ message:'Internal server error' });
   }
 });
-
-
-// 1. search courses users
 
 
 mongoose

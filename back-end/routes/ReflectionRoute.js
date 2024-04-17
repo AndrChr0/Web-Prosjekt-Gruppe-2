@@ -110,7 +110,6 @@ router.post("/", upload.array("files", 5), async (req, res) => {
       courseId: req.body.courseId,
     };
 
-
     // Save the new reflection to the database
     const reflection = await Reflection.create(newReflection);
     return res.status(201).send(reflection);
@@ -168,7 +167,6 @@ router.get("/:id", verifyToken, async (req, res) => {
     // Retrieve a reflection by its ID from the database
     const reflection = await Reflection.findById(id);
 
-    // allowing teacher to see all reflections
     if (req.user.role === "teacher") {
       
       return res.status(200).json({ reflection });
