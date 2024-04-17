@@ -3,6 +3,8 @@ import axios from "axios";
 import "./ReflectionForm.css";
 import ActionButton from "../ActionButton/ActionButton";
 import { useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 
 function ReflectionForm() {
   const navigate = useNavigate();
@@ -120,14 +122,25 @@ function ReflectionForm() {
           required
         />
         <label htmlFor="content">Content:</label>
-        <textarea
+        {/* <textarea
           name="content"
           cols="30"
           rows="10"
           value={formData.content}
           onChange={handleChange}
           required
-        ></textarea>
+        ></textarea> */}
+        <ReactQuill
+          theme="snow"
+          value={formData.content}
+          onChange={(value) =>
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              content: value,
+            }))
+          }
+          required
+        />
         <label id="filesBtn" htmlFor="files">
           Upload a file
         </label>
