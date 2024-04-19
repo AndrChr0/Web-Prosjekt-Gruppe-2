@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const reflectionSchema = mongoose.Schema(
   {
@@ -32,4 +32,4 @@ const reflectionSchema = mongoose.Schema(
   }
 );
 
-export const Reflection = mongoose.model("Reflection", reflectionSchema);
+module.exports = mongoose.model("Reflection", reflectionSchema);

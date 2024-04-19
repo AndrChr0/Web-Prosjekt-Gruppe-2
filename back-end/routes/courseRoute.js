@@ -1,6 +1,6 @@
-import express from "express";
-import { Course } from "../models/courseModel.js";
 
+const express = require("express");
+const Course = require("../models/courseModel.js");
 const router = express.Router();
 
 /* // Endpoint to add a student to a course
@@ -127,4 +127,4 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

@@ -1,13 +1,19 @@
-import express, { response } from "express";
-import mongoose from "mongoose";
-import ReflectionRoute from "./routes/ReflectionRoute.js";
-import courseRoute from "./routes/courseRoute.js";
-import userRoute from "./routes/userRoute.js";
-import reflectionActivityRoute from "./routes/reflectionActivityRoute.js";
-import FeedbackRoute from "./routes/feedbackRoute.js";
-import cors from "cors";
-import { verifyToken, requireRole } from "./middlewares/authMiddleware.js";
-import dotenv from "dotenv";
+
+const express = require("express");
+const mongoose = require("mongoose");
+const ReflectionRoute = require("./routes/ReflectionRoute.js");
+const courseRoute = require("./routes/courseRoute.js");
+const userRoute = require("./routes/userRoute.js");
+const reflectionActivityRoute = require("./routes/reflectionActivityRoute.js");
+const FeedbackRoute = require("./routes/feedbackRoute.js");
+const cors = require("cors");
+const {verifyToken} = require("./middlewares/authMiddleware.js");
+const dotenv = require("dotenv");
+
+// search to get students from users
+const User = require("./models/userModel.js");
+const Reflection = require("./models/reflectionModel.js");
+
 dotenv.config();
 const PORT = process.env.PORT || 5555;
 const MONGO_URI = process.env.MONGO_URI;
@@ -32,9 +38,7 @@ app.use("/activities", reflectionActivityRoute);
 app.use("/feedback", verifyToken, FeedbackRoute);
 
 
-// search to get students from users
-import { User } from "./models/userModel.js";
-import { Reflection } from "./models/reflectionModel.js";
+
 
 const handleSearch = async (req, res) => {
   let users;

@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-
+const mongoose = require("mongoose");
 const feedbackSchema = mongoose.Schema(
 {
     content: {
@@ -21,4 +20,4 @@ const feedbackSchema = mongoose.Schema(
 
 feedbackSchema.index({ userId: 1, reflectionId: 1 }, { unique: true });
 
-export const Feedback = mongoose.model("Feedback", feedbackSchema, 'feedback');
+module.exports = mongoose.model("Feedback", feedbackSchema);
