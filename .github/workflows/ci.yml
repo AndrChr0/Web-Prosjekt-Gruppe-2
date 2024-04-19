@@ -7,16 +7,20 @@ on:
     branches: [ andreas-testing-branch ]
 
 jobs:
-  build-back-end:
+  test-back-end:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: 'back-end'  # Specify the path to the back-end directory
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '21.7.3'
+          node-version: '14'
+      - name: Change directory to back-end
+        run: cd back-end
       - run: npm install
-      - run: cd back-end
       - run: npm test
       - name: Docker login and build
         uses: docker/build-push-action@v5
@@ -32,8 +36,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '21.7.3'
-      - run: cd front-end
+          node-version: '14'
       - run: npm install
       - uses: docker/login-action@v3
         with:
