@@ -1,5 +1,5 @@
-import express from "express";
-import { ReflectionActivity } from "../models/reflectionActivityModel.js";
+const express = require("express");
+const ReflectionActivity = require("../models/reflectionActivityModel.js");
 const router = express.Router();
 
 // get all reflection activities from db
@@ -84,4 +84,4 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

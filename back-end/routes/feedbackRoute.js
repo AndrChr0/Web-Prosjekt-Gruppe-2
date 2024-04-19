@@ -1,5 +1,5 @@
-import express from "express";
-import { Feedback } from "../models/feedbackModel.js";
+const express = require("express");
+const Feedback = require("../models/feedbackModel.js");
 const router = express.Router();
 
 // get a specific feedback from db
@@ -93,5 +93,4 @@ router.delete('/:id', async (req, res) => {
     }
   });
 
-
-export default router;
+module.exports = router;

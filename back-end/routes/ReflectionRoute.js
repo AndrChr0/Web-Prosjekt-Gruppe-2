@@ -1,7 +1,9 @@
-import { verifyToken } from '../middlewares/authMiddleware.js';
-import express from "express";
-import { Reflection } from "../models/reflectionModel.js";
-import multer from "multer";
+
+const express = require("express");
+const {verifyToken} = require("../middlewares/authMiddleware.js");
+const Reflection = require("../models/reflectionModel.js");
+const Course = require("../models/courseModel.js");
+const multer = require("multer");
 const router = express.Router();
 
 // Multer configuration for file upload functionality
@@ -53,8 +55,6 @@ const upload = multer({
 });
 
 
-// den likte ikke å komme sist i denne filen, så nå ligger den først
-import { Course } from "../models/courseModel.js";
 
 router.get("/search", async (req, res) => {
   try {
@@ -233,4 +233,4 @@ router.delete("/:id", async (req, res) => {
 });
 
 
-export default router;
+module.exports = router;

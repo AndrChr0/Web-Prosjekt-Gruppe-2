@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-
+const mongoose = require("mongoose");
 const courseSchema = mongoose.Schema(
     {
         title: {
@@ -28,5 +27,4 @@ const courseSchema = mongoose.Schema(
     });
 
 
-
-export const Course = mongoose.model("Course", courseSchema);
+module.exports = mongoose.model("Course", courseSchema);

@@ -1,10 +1,8 @@
-import jwt from 'jsonwebtoken';
-import express from "express";
-import { User } from "../models/userModel.js";
-import bcrypt from 'bcryptjs';
-import e from 'express';
+const jwt = require('jsonwebtoken');
+const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
-
+const User = require('../models/userModel.js');
 
 router.get('/profile', async (req, res) => {
     try {
@@ -206,5 +204,4 @@ router.put('/:userId/add_course', async (req, res) => {
 });
 
 
-
-export default router;
+module.exports = router;
