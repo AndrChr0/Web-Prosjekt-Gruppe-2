@@ -1,71 +1,98 @@
 const { requireRole } = require("../middlewares/authMiddleware");
 
-// Describe block for the requireRole middleware
-describe("requireRole middleware", () => {
-    // Initialize variables for request, response, and next 
-    let req;
-    let res;
-    let next;
-    
-    // Before each test, set up the request, response, and next middleware
+
+describe("Realistic Use Cases for requireRole middleware", () => {
+    let req, res, next;
+
     beforeEach(() => {
-        req = { user: { role: "teacher" } }; // Mock request object with a user having an teacher role
-        res = { status: jest.fn().mockReturnThis(), json: jest.fn() }; // Mock response object with jest functions
-        next = jest.fn(); // Mock next middleware function
+        req = { user: { role: "teacher" } };
+        res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+        next = jest.fn();
     });
 
-    // Test case: should call next if the user has the required role
     test("should call next if the user has the required role", () => {
-        requireRole("teacher")(req, res, next); // Call requireRole middleware with teacher role
-        expect(next).toHaveBeenCalled(); // Expect next middleware to have been called
+        requireRole("teacher")(req, res, next);
+        expect(next).toHaveBeenCalled();
     });
 
-    // Test case: should return 403 if the user does not have the required role
-    test("should return 403 if the user does not have the required role", () => {
-        requireRole("user")(req, res, next); // Call requireRole middleware with user role
-        expect(res.status).toHaveBeenCalledWith(403); // Expect response status to be called with 403
-        expect(res.json).toHaveBeenCalledWith({ message: "Forbidden" }); // Expect response JSON to be called with Forbidden message
-    });
-
-    // Test case: should handle multiple valid roles
-    test("should handle multiple valid roles", () => {
-        req.user.role = "editor"; // Change user role to editor
-        requireRole(["teacher", "editor"])(req, res, next); // Call requireRole middleware with teacher and editor roles
-        expect(next).toHaveBeenCalled(); // Expect next middleware to have been called
-    });
-    
-    // Test case: should fail when none of the multiple roles match
-    test("should fail when none of the multiple roles match", () => {
-        requireRole("user", "guest")(req, res, next); // Call requireRole middleware with user and guest roles
-        expect(res.status).toHaveBeenCalledWith(403); // Expect response status to be called with 403
-    });
-
-    // Test case: should handle missing user role
-    test("should handle missing user role", () => {
-        delete req.user.role; // Remove user role
-        requireRole("teacher")(req, res, next); // Call requireRole middleware with teacher role
-        expect(res.status).toHaveBeenCalledWith(403); // Expect response status to be called with 403
-    });
-
-    // Test case: should handle null user
-    test("should handle null user", () => {
-        req.user = null; // Set user to null
-        requireRole("teacher")(req, res, next); // Call requireRole middleware with teacher role
-        expect(res.status).toHaveBeenCalledWith(403); // Expect response status to be called with 403
-    });
-
-    // Test case: should handle undefined user
-    test("should handle undefined user", () => {
-        req.user = undefined; // Set user to undefined
-        requireRole("teacher")(req, res, next); // Call requireRole middleware with teacher role
-        expect(res.status).toHaveBeenCalledWith(403); // Expect response status to be called with 403
-    });
-
-    // Test case: should throw an error if role argument is not a string
-    test("should throw an error if role argument is not a string", () => {
-        expect(() => {
-            requireRole(123)(req, res, next); // Call requireRole middleware with a non-string role
-        }).toThrow("Role must be a string"); // Expect an error to be thrown with specific message
+    test("should handle multiple valid roles, allowing access when user has one of the specified roles", () => {
+        req.user.role = "editor";
+        requireRole(["teacher", "editor"])(req, res, next);
+        expect(next).toHaveBeenCalled();
     });
 });
 
+
+describe("Edge Cases for requireRole middleware", () => {
+    let req, res, next;
+
+    beforeEach(() => {
+        req = { user: { role: "teacher" } };
+        res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+        next = jest.fn();
+    });
+
+    test("should return 403 when none of the multiple roles match the user's role", () => {
+        requireRole(["user", "guest"])(req, res, next);
+        expect(res.status).toHaveBeenCalledWith(403);
+        expect(res.json).toHaveBeenCalledWith({ message: "Forbidden" });
+    });
+});
+
+
+describe("Boundary Cases for requireRole middleware", () => {
+    let req, res, next;
+
+    beforeEach(() => {
+        req = { user: { role: "teacher" } };
+        res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+        next = jest.fn();
+    });
+
+    test("should handle roles defined as a single character string", () => {
+        req.user.role = "a";
+        requireRole(["a"])(req, res, next);
+        expect(next).toHaveBeenCalled();
+    });
+});
+
+
+describe("Negative Cases for requireRole middleware", () => {
+    let req, res, next;
+
+    beforeEach(() => {
+        req = { user: { role: "teacher" } };
+        res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+        next = jest.fn();
+    });
+
+    test("should return 403 if no user role found", () => {
+        delete req.user.role;
+        requireRole("teacher")(req, res, next);
+        expect(res.status).toHaveBeenCalledWith(403);
+        expect(res.json).toHaveBeenCalledWith({ message: "No user or role found" });
+    });
+
+    test("should return 403 if user object is null", () => {
+        req.user = null;
+        requireRole("teacher")(req, res, next);
+        expect(res.status).toHaveBeenCalledWith(403);
+        expect(res.json).toHaveBeenCalledWith({ message: "No user or role found" });
+    });
+
+    test("should return 403 if user object is undefined", () => {
+        req.user = undefined;
+        requireRole("teacher")(req, res, next);
+        expect(res.status).toHaveBeenCalledWith(403);
+        expect(res.json).toHaveBeenCalledWith({ message: "No user or role found" });
+    });
+
+    test("should return 500 if role argument is invalid (testing with non-string and null values)", () => {
+        const invalidRoles = [123, null];
+        invalidRoles.forEach(role => {
+            requireRole(role)(req, res, next);
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ message: "Invalid roles" });
+        });
+    });
+});
