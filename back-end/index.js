@@ -7,7 +7,7 @@ const userRoute = require("./routes/userRoute.js");
 const reflectionActivityRoute = require("./routes/reflectionActivityRoute.js");
 const FeedbackRoute = require("./routes/feedbackRoute.js");
 const cors = require("cors");
-const {verifyToken} = require("./middlewares/authMiddleware.js");
+const {verifyToken ,requireRole} = require("./middlewares/authMiddleware.js");
 const dotenv = require("dotenv");
 
 // search to get students from users

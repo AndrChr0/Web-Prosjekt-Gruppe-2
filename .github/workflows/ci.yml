@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ andreas-testing-branch ]
   pull_request:
-    branches: [ main ]
+    branches: [ andreas-testing-branch ]
 
 jobs:
   build-back-end:
@@ -26,7 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
+      - uses: actions/setup-node@v4  
+        with:
+          node-version: '21'  
+      - run: npm install  
+      - run: npm test  
+      - uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}

@@ -18,11 +18,32 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const requireRole = (role) => (req, res, next) => {
-  if (req.user.role !== role) {
+// const requireRole = (role) => (req, res, next) => {
+//   if (req.user.role !== role) {
+//     return res.status(403).json({ message: "Forbidden" });
+//   }
+//   next();
+// };
+const requireRole = (roles) => (req, res, next) => {
+  if (!req.user || !req.user.role) {
+    return res.status(403).json({ message: "No user or role found" });
+  }
+  
+  // Convert a single role to an array
+  if (typeof roles === 'string') {
+    roles = [roles];
+  }
+
+  
+  if (!Array.isArray(roles) || roles.some(role => typeof role !== 'string')) {
+    throw new Error("Role must be a string or array of strings");
+  }
+
+  if (!roles.includes(req.user.role)) {
     return res.status(403).json({ message: "Forbidden" });
   }
   next();
 };
+
 
 module.exports = { verifyToken, requireRole };
