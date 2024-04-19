@@ -13,16 +13,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          path: 'back-end'  # Specify the path to the back-end directory
+          path: 'back-end'
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
-      - name: Change directory to back-end
-        run: cd back-end
-      - run: npm install
-      - run: npm test
+          node-version: '21'
+      - run: |
+          cd back-end
+          npm install
+          npm test
+
+  build-back-end:
+    runs-on: ubuntu-latest
+    needs: test-back-end
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: 'back-end'
       - name: Docker login and build
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: ./back-end
@@ -36,7 +50,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '21'
       - run: npm install
       - uses: docker/login-action@v3
         with:
