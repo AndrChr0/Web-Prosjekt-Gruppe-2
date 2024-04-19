@@ -5,7 +5,7 @@ import "./courseForm.css";
 
 const CourseForm = () => {
   const navigate = useNavigate();
-
+  const [courseError, setCourseError] = useState("");
   const [courseData, setCourseData] = useState({
     title: "",
     courseCode: "",
@@ -17,6 +17,14 @@ const CourseForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (courseData.title.length < 3) {
+      setCourseError("Course name must be at least 3 characters long.");
+      return;
+    } else if (courseData.courseCode.length < 4) {
+      setCourseError("Course code must be at least 4 characters long.");
+      return;
+    }
     const token = localStorage.getItem("authToken");
 
     try {
@@ -67,6 +75,7 @@ const CourseForm = () => {
         </label>
 
         <input className="submit-btn" type="submit" value="Submit" />
+        {courseError && <p className="error">{courseError}</p>}
       </form>
     </div>
   );

@@ -9,6 +9,8 @@
     const [newEmail, setNewEmail] = useState('');
     const [newPassword, setNewPassword] = useState('********');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [profileError, setError] = useState("");
+    
     const [passwordLabel, setPasswordLabel] = useState('Password');
 
     useEffect(() => {
@@ -50,7 +52,7 @@
           return;
         }
       } else {
-        alert("No changes made.");
+        setError('no changes made');
         return;
       }
 
@@ -68,7 +70,7 @@
           }
       } catch (error) {
           console.error('Error deleting user account:', error);
-          alert('Error deleting user account.');
+          setError('Error deleting user account.');
       }
   };
 
@@ -145,6 +147,7 @@
             </button>
             <button onClick={handleDeleteAccount} className="delete-button">Delete Account</button>
           </div>
+          {profileError && <p className="error-message">{profileError}</p>}
         </div>
       </div>
       </main>

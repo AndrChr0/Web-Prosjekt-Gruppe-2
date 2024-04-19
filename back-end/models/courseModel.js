@@ -4,7 +4,8 @@ const courseSchema = mongoose.Schema(
     {
         title: {
             type: String,
-            required: true
+            required: true,
+            minLength: 3,
         },
         description: {
             type: String,
@@ -13,6 +14,7 @@ const courseSchema = mongoose.Schema(
         courseCode: { //IDG2001 f.ex
             type: String,
             required: true,
+            minLength: 4,
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,
