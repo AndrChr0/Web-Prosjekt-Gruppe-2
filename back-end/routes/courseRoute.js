@@ -3,30 +3,7 @@ const express = require("express");
 const Course = require("../models/courseModel.js");
 const router = express.Router();
 
-/* // Endpoint to add a student to a course
-router.post('/my_courses/:courseId/add_student', async (req, res) => {
-    const { courseId } = req.params;
-    const { studentId } = req.body;  // Ensure studentId is being sent in the request body
 
-    try {
-        const course = await Course.findById(courseId);
-        if (!course) {
-            return res.status(404).send('Course not found');
-        }
-
-        // Add student to course if not already added
-        if (!course.students.includes(studentId)) {
-            course.students.push(studentId);
-            await course.save();
-            res.status(200).send('Student added successfully');
-        } else {
-            res.status(400).send('Student already enrolled');
-        }
-    } catch (error) {
-        res.status(500).send('Server error');
-    }
-});
- */
 
 // get a specific course from db
 router.get("/:id", async (req, res) => {
@@ -95,13 +72,13 @@ router.put("/:id", async (req, res) => {
             });
         }
 
-        const result = await Course.findByIdAndUpdate(id, req.body);
+        const result = await Course.findByIdAndUpdate(id, req.body, { new: true });
 
         if (!result) {
             return res.status(404).json({ message: "Course not found" });
         }
 
-        return res.status(200).send({ message: "Course updated successfully" });
+        return res.status(200).send({ message: "Course updated successfully", data: result });
     } catch (error) {
         console.log(error.message);
         res.status(500).send({ message: error.message });
