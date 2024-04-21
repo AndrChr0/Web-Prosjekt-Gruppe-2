@@ -8,20 +8,19 @@ router.get('/profile', async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.userId)
-                               .populate('courses') 
-                               .exec();
+        const user = await User.findById(decoded.userId);
 
         if (!user) {
             return res.status(404).send('User not found.');
         }
 
         return res.status(200).json({
-            id: user._id, 
+            id: user._id,
             email: user.email,
             role: user.role,
-            courses: user.courses, 
-           
+            firstName: user.firstName,
+            lastName: user.lastName,
+            courses: user.courses,
         });
 
     } catch (error) {
@@ -30,47 +29,28 @@ router.get('/profile', async (req, res) => {
     }
 });
 
-
-router.put('/update-email', async (req, res) => {
+router.put('/update', async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const userId = decoded.userId;
-        const newEmail = req.body.email;
+        const { firstName, lastName, email, password } = req.body;
 
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).send('User not found.');
         }
 
-        user.email = newEmail;
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (email) user.email = email;
+        if (password) user.password = password;
+
         await user.save();
 
-        return res.status(200).json({ message: 'Email updated successfully' });
+        return res.status(200).json({ message: 'Profile updated successfully' });
     } catch (error) {
-        return res.status(500).send('Error updating email.');
-    }
-});
-
-router.put('/update-password', async (req, res) => {
-    try {
-        const token = req.headers.authorization.split(' ')[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const userId = decoded.userId;
-        const { password } = req.body;
-
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).send('User not found.');
-        }
-
-        // Update password
-        user.password = password;
-        await user.save();
-
-        return res.status(200).json({ message: 'Password updated successfully' });
-    } catch (error) {
-        return res.status(500).send('Error updating password.');
+        return res.status(500).send('Error updating profile.');
     }
 });
 
@@ -92,8 +72,6 @@ router.delete('/delete', async (req, res) => {
     }
 });
 
-
-//Get user by id
 router.get('/:id', async (req, res) => {
     try {
         const userId = req.params.id;
@@ -109,9 +87,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-
-
-// Get route for fetching all users
 router.get("/", async (req, res) => {
     try {
         const users = await User.find({});
@@ -124,11 +99,11 @@ router.get("/", async (req, res) => {
     }
 });
 
-
-// Updated post for User Registration 
-router.post('/register', async (req, res) => { 
+router.post('/register', async (req, res) => {
     try {
         const newUser = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
             email: req.body.email,
             password: req.body.password,
             role: req.body.role
@@ -142,7 +117,6 @@ router.post('/register', async (req, res) => {
         console.log('User registration failed');
     }
 });
-
 
 router.get('/students', async (req, res) => {
     try {
@@ -180,8 +154,6 @@ router.post('/login', async (req, res) => {
     }
 });
 
-
-
 router.put('/:userId/add_course', async (req, res) => {
     try {
         const { userId } = req.params;
@@ -202,6 +174,5 @@ router.put('/:userId/add_course', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
-
 
 module.exports = router;
