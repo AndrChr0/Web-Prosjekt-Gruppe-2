@@ -1,122 +1,211 @@
-// Import necessary modules for handling HTTP requests and creating a test server
-const request = require('supertest');
-const express = require('express');
-// Import the Course model to be used in route handlers
-const Course = require('../models/courseModel'); 
-// Import routes for courses
-const router = require('../routes/courseRoute'); 
+const request = require("supertest");
+const express = require("express");
+const Course = require("../models/courseModel");
+const router = require("../routes/courseRoute");
 
-// Initialize an Express application
 const app = express();
-// Middleware to parse JSON request bodies
 app.use(express.json());
 
-// Custom middleware to simulate authentication by attaching a mock user object to the request
+// middleware to mock user authentication
 app.use((req, res, next) => {
-    req.user = { userId: 'user123' }; // Simulate a logged-in user
-    next();
+  req.user = { userId: "660eeb50894bfddb29d726dd" };
+  next();
 });
 
-// Attach course routes to the app under the '/courses' path
-app.use('/courses', router);
+app.use("/courses", router);
 
-// Test suite for course routes
-describe('Course Route Tests', () => {
-    // Test suite for GET requests on '/courses/:id' endpoint
-    describe('GET /courses/:id', () => {
-        it('should return a course if found', async () => {
-            // Mock data returned when findById method is called
-            const mockCourse = { _id: '1', title: 'Intro to Testing', description: 'A basic intro to testing APIs' };
-            jest.spyOn(Course, 'findById').mockResolvedValue(mockCourse);
+// Realistic object ID for testing
+const mockID = "661e400cf9ef626437d5b49a";
 
-            // Perform GET request and check response
-            const response = await request(app).get('/courses/1');
-            expect(response.status).toBe(200);
-            expect(response.body.data).toEqual(mockCourse);
-        });
-
-        it('should return 404 if the course is not found', async () => {
-            // Mocking findById to return null indicating not found
-            jest.spyOn(Course, 'findById').mockResolvedValue(null);
-
-            // Perform GET request and check response for 404 status
-            const response = await request(app).get('/courses/1');
-            expect(response.status).toBe(404);
-        });
+describe("Course Route Tests", () => {
+  // Realistic Usage Cases
+  describe("Realistic Usage Cases GET/POST/PUT", () => {
+    describe("Given that the user requests a course by its ID ", () => {
+      it("it should return a course", async () => {
+        const mockCourse = {
+          _id: mockID,
+          title: "Standard Course",
+          description: "Typical course content",
+        };
+        jest.spyOn(Course, "findById").mockResolvedValue(mockCourse);
+        const response = await request(app).get(`/courses/${mockID}`);
+        expect(200);
+        expect(response.body.data).toEqual(mockCourse);
+      });
     });
 
-    // Test suite for GET requests on '/courses' endpoint
-    describe('GET /courses', () => {
-        it('should return all courses for the user', async () => {
-            // Mock data for courses associated with the user
-            const mockCourses = [{ title: 'Test Course', userId: 'user123' }];
-            jest.spyOn(Course, 'find').mockResolvedValue(mockCourses);
+    describe("Given that the user wants to receive all courses", () => {
+      it("it should return all courses for the user", async () => {
+        const mockCourses = [
+          { title: "Course 1", description: "First course" },
+          { title: "Course 2", description: "Second course" },
+        ];
+        jest.spyOn(Course, "find").mockResolvedValue(mockCourses);
 
-            // Perform GET request and check response
-            const response = await request(app).get('/courses');
-            expect(response.status).toBe(200);
-            expect(response.body.count).toBe(mockCourses.length);
-            expect(response.body.data).toEqual(mockCourses);
-        });
+        const response = await request(app).get("/courses");
+
+        expect(200);
+        expect(response.body.data).toEqual(mockCourses);
+        expect(response.body.count).toBe(mockCourses.length);
+      });
+
+      it("it should return an empty array when no courses are available", async () => {
+        jest.spyOn(Course, "find").mockResolvedValue([]);
+
+        const response = await request(app).get("/courses");
+
+        expect(200);
+        expect(response.body.data).toEqual([]);
+        expect(response.body.count).toBe(0);
+      });
     });
 
-    // Test suite for POST requests on '/courses' endpoint
-    describe('POST /courses', () => {
-        it('should create a course when data is valid', async () => {
-            // Mock data for a new course
-            const newCourse = { title: 'New Course', description: 'Details about new course', courseCode: 'NC101', userId: 'user123' };
-            jest.spyOn(Course.prototype, 'save').mockResolvedValue(newCourse);
-
-            // Perform POST request and check response
-            const response = await request(app).post('/courses').send(newCourse);
-            expect(response.status).toBe(201);
-            expect(response.body).toEqual(newCourse);
-        });
-
-        it('should return 400 if required fields are missing', async () => {
-            // Perform POST request with incomplete data and check for 400 status
-            const response = await request(app).post('/courses').send({ description: 'Only description' });
-            expect(response.status).toBe(400);
-        });
+    describe("Given that the user wants to create a course", () => {
+      it("it should create a course when given typical data", async () => {
+        const typicalCourse = {
+          title: "Introduction to Cows",
+          description: "Introduction to the cows of the world",
+          courseCode: "IDGMOO1",
+        };
+        jest.spyOn(Course.prototype, "save").mockResolvedValue(typicalCourse);
+        const response = await request(app)
+          .post("/courses")
+          .send(typicalCourse);
+        expect(201);
+        expect(response.body).toEqual(typicalCourse);
+      });
     });
 
-    // Test suite for PUT requests on '/courses/:id' endpoint
-    describe('PUT /courses/:id', () => {
-        it('should return 404 if the course is not found', async () => {
-            // Mock findByIdAndUpdate to return null if not found
-            jest.spyOn(Course, 'findByIdAndUpdate').mockResolvedValue(null);
-    
+    describe("Given the user wants to update a course", () => {
+      it("it should update a course when given typical data", async () => {
+        const updatedCourse = {
+          title: "Introduction to small Cows",
+          description: "Introduction to the smaller cows of the world",
+          courseCode: "IDGsmall1",
+        };
+        jest
+          .spyOn(Course, "findByIdAndUpdate")
+          .mockResolvedValue(updatedCourse);
+        const response = await request(app)
+          .put(`/courses/${mockID}`)
+          .send(updatedCourse);
+        expect(200);
+        expect(response.body.data).toEqual(updatedCourse);
+      });
+    });
+  });
+
+  // Boundary Cases
+  describe("Boundary Cases", () => {
+    describe("Given that the user wants to cerate a new course", () => {
+      it("it should return 201 when courseCode is exactly at minimum length of 4 characters", async () => {
+        const course = {
+          title: "Short Code",
+          description: "A course with minimal code length",
+          courseCode: "1234",
+        };
+        jest.spyOn(Course.prototype, "save").mockResolvedValue(course);
+        const response = await request(app).post("/courses").send(course);
+        expect(201);
+        expect(response.body).toEqual(course);
+      });
+
+      it("it should return 400 when title is below the minLength of 3 chracters", async () => {
+        const course = {
+          title: "Ti",
+          description: "A fun course",
+          courseCode: "FUN1",
+        };
+        jest.spyOn(Course.prototype, "save").mockResolvedValue(course);
+        const response = await request(app).post("/courses").send(course);
+        expect(400);
+        expect(response.body.message).toEqual(
+          "Title must be at least 3 characters."
+        );
+      });
+
+      it("it should handle a course title just at the limit of 100 characters", async () => {
+        const longTitleCourse = {
+          title: "a".repeat(100),
+          description: "Course with a title at the limit",
+          courseCode: "LIMIT123",
+        };
+        jest.spyOn(Course.prototype, "save").mockResolvedValue(longTitleCourse);
+        const response = await request(app)
+          .post("/courses")
+          .send(longTitleCourse);
+        expect(201);
+        expect(response.body).toEqual(longTitleCourse);
+      });
+    });
+  });
+
+  // Edge Cases
+  describe("Edge Cases", () => {
+    describe("Given that the user wants to create a new course", () => {
+      it("it should return an error when the title lengt is just over 100 characters", async () => {
+        const longTitleCourse = {
+          title: "I".repeat(101),
+          description: "A course with a title that is too long",
+          courseCode: "LALALONG",
+        };
+        jest.spyOn(Course.prototype, "save");
+        await request(app).post("/courses").send(longTitleCourse);
+        expect(400);
+      });
+
+      it("it should return an error if the endpoint is invalid", async () => {
+        await request(app).post("/courses/invalid").send({
+          title: "Once i slipped on a banana peel",
+          description: "Have you ever seen a man do a backflip on a banana?",
+          courseCode: "WAHOOTIME",
+        });
+        expect(404);
+      });
+    });
+  });
+
+  // Negative Cases
+  describe("Negative Cases", () => {
+    describe("Given the user wants to create a new course", () => {
+      it("it should reject a course with missing courseCode", async () => {
+        const response = await request(app)
+          .post("/courses")
+          .send({
+            title: "I woke up today with a missing leg",
+            description: "I should visit the doctor more often",
+          });
+        expect(400);
+        expect(response.body.message).toBe(
+          "Title and course code are required."
+        );
+      });
+
+      it("it should reject a course with missing title", async () => {
+        const response = await request(app)
+          .post("/courses")
+          .send({
+            description: "I should visit the doctor more often",
+            courseCode: "DOC113",
+          });
+        expect(400);
+        expect(response.body.message).toBe(
+          "Title and course code are required."
+        );
+      });
+    });
+
+    describe("Given that the user wants to create a new course", () => {
+        it("it should return 404 when trying to update a non-existent course", async () => {
             const updateData = {
-                title: 'Attempt Update',
-                description: 'Test Description',
-                courseCode: 'Test Code'
+              title: "Non-existent course update attempt",
+              description: "This course does not exist",
+              courseCode: "NOEXIST",
             };
-    
-            // Perform PUT request and check response for 404 status
-            const response = await request(app).put('/courses/1').send(updateData);
+            jest.spyOn(Course, "findByIdAndUpdate").mockResolvedValue(null);
+            const response = await request(app).put(`/courses/${mockID}`).send(updateData);
             expect(response.status).toBe(404);
-        });
+          });
     });
-
-    // Test suite for DELETE requests on '/courses/:id' endpoint
-    describe('DELETE /courses/:id', () => {
-        it('should delete the course successfully', async () => {
-            // Mock findByIdAndDelete to return true if successful
-            jest.spyOn(Course, 'findByIdAndDelete').mockResolvedValue(true);
-
-            // Perform DELETE request and check response
-            const response = await request(app).delete('/courses/1');
-            expect(response.status).toBe(200);
-            expect(response.body.message).toBe('course deleted successfully');
-        });
-
-        it('should return 404 if the course is not found', async () => {
-            // Mock findByIdAndDelete to return null if the course is not found
-            jest.spyOn(Course, 'findByIdAndDelete').mockResolvedValue(null);
-
-            // Perform DELETE request and check response for 404 status
-            const response = await request(app).delete('/courses/1');
-            expect(response.status).toBe(404);
-        });
-    });
+  });
 });

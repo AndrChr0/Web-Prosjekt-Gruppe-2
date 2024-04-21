@@ -3,7 +3,19 @@ const express = require("express");
 const Course = require("../models/courseModel.js");
 const router = express.Router();
 
-
+function validateCourse(req, res) {
+    if (!req.body.title || !req.body.courseCode) {  
+        return res.status(400).json({ message: "Title and course code are required." });
+    } else if (req.body.title.length < 3) {  
+        return res.status(400).json({ message: "Title must be at least 3 characters." });
+    }else if (req.body.title.length > 100) {  
+        return res.status(400).json({ message: "Title must be at most 100 characters." }); 
+    } else if (req.body.courseCode.length < 4) {  
+        return res.status(400).json({ message: "Course code must be at least 4 characters." });
+    }else if (req.body.courseCode.length > 10) {  
+        return res.status(400).json({ message: "Course code must be at most 10 characters." });
+    }
+}
 
 // get a specific course from db
 router.get("/:id", async (req, res) => {
@@ -22,7 +34,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-
+// get all courses from db
 router.get("/", async (req, res) => {
     try {
 
@@ -39,9 +51,14 @@ router.get("/", async (req, res) => {
     }
   });
 
+
 // add new course to db
 router.post("/", async (req, res) => {
-
+    const validationResponse = validateCourse(req, res);
+    if (validationResponse) {
+        return validationResponse; 
+    }
+ 
     const newCourse = new Course({
         title: req.body.title,
         description: req.body.description,
@@ -50,27 +67,24 @@ router.post("/", async (req, res) => {
     });
 
     try {
-        if (!req.body.title && !req.body.courseCode) { // some validation
-            return res.status(400).json({ message: "Title and course code is required" });
-        } else {
-            const savedCourse = await newCourse.save();
-            res.status(201).send(savedCourse);
-        }
+        const savedCourse = await newCourse.save();
+        res.status(201).send(savedCourse);
     } catch (error) {
-        res.status(500).send(error);
+        console.error(error); 
+        res.status(500).send({ message: "An error occurred while saving the course." });
     }
 });
+
 
 // update a course
 router.put("/:id", async (req, res) => {
     try {
         const { id } = req.params;
 
-        if (!req.body.title || !req.body.description || !req.body.courseCode) {
-            return res.status(400).send({
-                message: "Send all required fields: title, description, courseCode",
-            });
-        }
+   const validationResponse = validateCourse(req, res);
+   if (validationResponse) {
+       return validationResponse; 
+   }
 
         const result = await Course.findByIdAndUpdate(id, req.body, { new: true });
 

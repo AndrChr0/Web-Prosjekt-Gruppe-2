@@ -5,6 +5,7 @@ const courseSchema = mongoose.Schema(
             type: String,
             required: true,
             minLength: 3,
+            maxLength: 100,
         },
         description: {
             type: String,
@@ -14,6 +15,7 @@ const courseSchema = mongoose.Schema(
             type: String,
             required: true,
             minLength: 4,
+            maxLength: 10,
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,

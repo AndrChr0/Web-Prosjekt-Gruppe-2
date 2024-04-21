@@ -21,8 +21,14 @@ const CourseForm = () => {
     if (courseData.title.length < 3) {
       setCourseError("Course name must be at least 3 characters long.");
       return;
+    } else if (courseData.title.length > 100) {
+      setCourseError("Course name must be at most 100 characters long.");
+      return;
     } else if (courseData.courseCode.length < 4) {
       setCourseError("Course code must be at least 4 characters long.");
+      return;
+    } else if (courseData.courseCode.length > 10) {
+      setCourseError("Course code must be at most 10 characters long.");
       return;
     }
     const token = localStorage.getItem("authToken");
