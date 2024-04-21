@@ -32,7 +32,7 @@ jobs:
           docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest npm test
 
 
-  build:
+  build-front-end:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
