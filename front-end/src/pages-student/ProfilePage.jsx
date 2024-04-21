@@ -3,7 +3,7 @@ import { useAuth } from "../components/context/AuthContext";
 import "../assets/styles/profilePage.css";
 
 function ProfilePage() {
-  const { currentUser, updateUser, deleteUser, setCurrentUser } = useAuth();
+  const { currentUser, updateUser, deleteUser, setCurrentUser, logout } = useAuth(); // Add logout function from AuthContext
   const [editableFields, setEditableFields] = useState({
     firstName: false,
     lastName: false,
@@ -95,6 +95,7 @@ function ProfilePage() {
       );
       if (confirmation) {
         await deleteUser();
+        logout(); // Call logout function to clear user data and token
         window.location.href = "/register";
       }
     } catch (error) {
