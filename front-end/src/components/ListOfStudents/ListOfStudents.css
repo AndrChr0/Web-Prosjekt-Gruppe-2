@@ -1,26 +1,30 @@
-
-
 .Student-list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1em;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-top: 20px;
 }
 
 .Student-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1em;
-    background-color: rgb(224, 224, 224);
-    border-radius: 5px;
-
+  display: flex;
+  flex-direction: column; /* Changed from row to column */
+  padding: 1em;
+  background-color: rgb(224, 224, 224);
+  border-radius: 5px;
+  text-align: center;
 }
 
 .Student-list button {
-    padding: .5em;
-    background-color: rgb(167, 167, 167);
-    border-radius: 5px;
-    cursor: pointer;
+  padding: .5em;
+  background-color: rgb(167, 167, 167);
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
 }
+
+.SearchBar {
+    width: 290.85px; 
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+  
