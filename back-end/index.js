@@ -6,6 +6,7 @@ const courseRoute = require("./routes/courseRoute.js");
 const userRoute = require("./routes/userRoute.js");
 const reflectionActivityRoute = require("./routes/reflectionActivityRoute.js");
 const FeedbackRoute = require("./routes/feedbackRoute.js");
+const NotificationRoute = require("./routes/notificationRoute.js");
 const cors = require("cors");
 const {verifyToken} = require("./middlewares/authMiddleware.js");
 const dotenv = require("dotenv");
@@ -37,6 +38,7 @@ app.use("/activities", reflectionActivityRoute);
 
 app.use("/feedback", verifyToken, FeedbackRoute);
 
+app.use("/notifications", verifyToken, NotificationRoute);
 
 
 
