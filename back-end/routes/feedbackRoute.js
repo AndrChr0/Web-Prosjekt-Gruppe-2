@@ -54,13 +54,13 @@ router.post("/", async (req, res) => {
           res.status(200).send(updatedFeedback);
       } else {
           // create a new entry if a feedback doesnt exist
-          const newFeedback = new Feedback({
+          const newFeedback = ({
               content: req.body.content,
               reflectionId: req.body.reflectionId,
               userId: req.user.userId,
           });
-          const savedFeedback = await newFeedback.save();
-          res.status(201).send(savedFeedback);
+          const feedback = await Feedback.create(newFeedback);
+          res.status(201).send(feedback);
       }
   } catch (error) {
       res.status(500).send(error);

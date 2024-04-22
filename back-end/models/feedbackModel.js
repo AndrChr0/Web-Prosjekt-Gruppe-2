@@ -20,4 +20,4 @@ const feedbackSchema = mongoose.Schema(
 
 feedbackSchema.index({ userId: 1, reflectionId: 1 }, { unique: true });
 
-module.exports = mongoose.model("Feedback", feedbackSchema);
+module.exports = mongoose.model("Feedback", feedbackSchema, "feedback");

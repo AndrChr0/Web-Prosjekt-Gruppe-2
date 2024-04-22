@@ -61,10 +61,11 @@ const RecentReflection = () => {
     setFeedbackText(event.target.value);
   };
 
-  const handleSubmitFeedback = () => {
+  const handleSubmitFeedback = async (e) => {
     const token = localStorage.getItem("authToken");
-    axios
-      .post(
+    e.preventDefault();
+    try {
+      const res = await axios.post(
         `http://localhost:5151/feedback`,
         { content: feedbackText, reflectionId: id },
         {
@@ -72,14 +73,15 @@ const RecentReflection = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-      )
-      .then((res) => {
-        console.log("Feedback submitted:", res.data.feedbackText);
-        setShowFeedbackForm(false);
-      })
-      .catch((error) => {
-        console.error("Error submitting feedback:", error);
-      });
+        
+      );
+
+      console.log("Feedback submitted:", res.data.content);
+      setShowFeedbackForm(false);
+      sendNotificationOfFeedback(reflection.userId, reflection.title);
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+    }
   };
 
   const handleDelete = (feedbackId) => {
@@ -123,6 +125,29 @@ const RecentReflection = () => {
       </div>
     ));
   };
+
+  const sendNotificationOfFeedback = (userId) => {
+    axios
+      .post(
+        "http://localhost:5151/notifications",
+        {
+          content: `You have received feedback on your reflection: "${reflection.title}"`,
+          userId: userId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      )
+      .then(() => {
+        console.log("Notification was sent to student");
+      })
+      .catch((error) => {
+        console.error("Error sending notification:", error);
+      });
+  }
+
 
   return (
     <div className="Reflection_card--wrapper">
