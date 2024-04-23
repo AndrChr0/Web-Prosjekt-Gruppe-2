@@ -79,7 +79,7 @@ describe('DiaryReflections Component', () => {
 
       renderComponent();
       await waitFor(() => {
-        expect(screen.getByText('1.1.3000/01:00:00')).toBeInTheDocument();
+        expect(screen.getByText('1.1.3000, 01:00:00/01:00:00')).toBeInTheDocument();
       });
     });
   });
