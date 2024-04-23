@@ -21,16 +21,6 @@ jobs:
           context: ./back-end
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest
-  test-back-end:
-    needs: build-back-end
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run backend tests
-        run: |
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest
-          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest npm test
-
 
   build-front-end:
     runs-on: ubuntu-latest
@@ -46,4 +36,17 @@ jobs:
           context: ./front-end
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest
-      
+
+  run-tests:
+    needs: [build-back-end, build-front-end]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pull and run back-end tests
+        run: |
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest
+          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest npm test
+      - name: Pull and run front-end tests
+        run: |
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest
+          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest npm test
