@@ -33,7 +33,7 @@ function DiaryReflections() {
   }, []);
 
   return (
-    <main>
+    <main id="test-id-diary-reflections">
       <div>
         <h2>My reflections</h2>
         {loading ? (

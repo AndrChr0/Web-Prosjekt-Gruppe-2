@@ -38,6 +38,7 @@ function Home() {
 
         <div className="move__button">
           <ActionButton
+            id="register"
             btnType="button"
             btnValue="Click here to register"
             onClick={() => navigate("/register")}

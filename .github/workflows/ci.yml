@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ andreas-testing-branch ]
+    branches: [ a-component-testing ]
   pull_request:
-    branches: [ andreas-testing-branch ]
+    branches: [ a-component-testing ]
 
 jobs:
   build-back-end:

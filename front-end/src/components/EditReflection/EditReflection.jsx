@@ -118,7 +118,7 @@ function EditReflection() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <main>
+    <main id="test-id">
       <form onSubmit={handleSubmit}>
         <label>Title:</label>
         <input

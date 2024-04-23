@@ -17,6 +17,7 @@
   "scripts": {
     "test": "jest --verbose",
     "start": "node index.js",
+    "test-e2e": "jest tests/e2e.test.js",
     "dev": "nodemon index.js"
   },
   "author": "",
@@ -24,6 +25,8 @@
   "description": "",
   "devDependencies": {
     "jest": "^29.7.0",
+    "jsdom": "^24.0.0",
+    "puppeteer": "^22.6.5",
     "supertest": "^6.3.4"
   }
 }
