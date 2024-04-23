@@ -9,7 +9,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "serve": "vite --host 0.0.0.0 --port 8082",
-    "test": "vitest"
+    "test": "vitest run"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.2",
