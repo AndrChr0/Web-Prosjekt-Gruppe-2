@@ -46,3 +46,12 @@ jobs:
           context: ./front-end
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest
+  test-back-end:
+    needs: build-front-end
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run backend tests
+        run: |
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest
+          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest npm test       
