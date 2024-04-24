@@ -97,6 +97,14 @@ router.post("/", upload.array("files", 5), verifyToken ,requireRole(["student"])
       return res.status(400).send({
         message: "Send all required fields: title, content, courseId",
       });
+    } else if(req.body.title.length < 3 || req.body.title.length > 100) {
+      return res.status(400).send({
+        message: "Title must be between 3 and 100 characters",
+      });
+    } else if(req.body.content.length < 10 || req.body.content.length > 15000) {
+      return res.status(400).send({
+        message: "Content must be between 100 and 15000 characters",
+      });
     }
     // Map paths of files
     const filesPaths = req.files.map((file) => file.path);
@@ -127,6 +135,10 @@ router.get("/", async (req, res) => {
     // Retrieve all reflections from the database
     const userId = req.user.userId;
     const reflections = await Reflection.find({ userId: userId });
+
+    if (!reflections.length) {
+      return res.status(404).json({ message: "No reflections found" });
+    }
 
     return res.status(200).json({
       count: reflections.length,

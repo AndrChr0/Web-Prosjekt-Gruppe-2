@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 function DiaryReflections() {
   const [reflections, setReflections] = useState([]);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   
   function formatDate(dateString) {
@@ -30,6 +31,7 @@ function DiaryReflections() {
       .catch((error) => {
         console.log(error);
         setLoading(false);
+        setError("Failed to load reflections. Please try again.");
       });
   }, []);
 
@@ -59,6 +61,8 @@ function DiaryReflections() {
             </ul>
           </div>
         )}
+        {reflections.length === 0 && !loading && <p>No reflections found</p>}
+        {error && <p>{error}</p>}
       </div>
     </main>
   );

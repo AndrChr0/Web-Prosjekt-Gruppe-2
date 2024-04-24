@@ -1,6 +1,4 @@
 
-
-
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -22,9 +20,13 @@ const renderComponent = () => {
 describe('DiaryReflections Component', () => {
   // Clear all mocks before each test
   beforeEach(() => {
-    vi.clearAllMocks();
     // Mock localStorage.getItem to return a token
     Storage.prototype.getItem.mockReturnValue('mocked-token');
+  });
+
+  afterEach(() => {
+    // clear all mocks after each test
+    vi.clearAllMocks();
   });
 
   describe('Realistic Usage', () => {
@@ -43,6 +45,19 @@ describe('DiaryReflections Component', () => {
         expect(screen.getByText('My second reflection')).toBeInTheDocument();
       });
     });
+
+
+    it('Provies proper response when no reflections are found', async () => {
+      axios.get.mockResolvedValue({ data: { data: [] } });
+      renderComponent();
+      await waitFor(() => {
+        expect(screen.queryByText('Some reflection title')).not.toBeInTheDocument();
+        expect(screen.getByText('No reflections found')).toBeInTheDocument();
+      });
+    });
+
+    
+
   });
 
   describe('Boundary Cases', () => {
@@ -56,17 +71,12 @@ describe('DiaryReflections Component', () => {
       renderComponent();
       await waitFor(() => {
         expect(screen.getByText('Only one Reflection')).toBeInTheDocument();
+        expect(screen.queryByText('No reflections found')).not.toBeInTheDocument();
+        expect(screen.getByText('22.4.2021, 14:00:00/14:00:00')).toBeInTheDocument();
       });
     });
 
-    it('handles empty reflection list', async () => {
-      axios.get.mockResolvedValue({ data: { data: [] } });
-      renderComponent();
-      await waitFor(() => {
-        expect(screen.queryByText('Some reflection title')).not.toBeInTheDocument();
-        // expect(screen.getByText('No reflections found')).toBeInTheDocument();
-      });
-    });
+    
   });
 
   describe('Edge Cases', () => {
@@ -82,6 +92,33 @@ describe('DiaryReflections Component', () => {
         expect(screen.getByText('1.1.3000, 01:00:00/01:00:00')).toBeInTheDocument();
       });
     });
+
+    it('handles far past dates', async () => {
+      axios.get.mockResolvedValue({
+        data: { data: [
+          { _id: '1', title: 'Past Reflection', updatedAt: '1900-01-01T00:00:00.000Z' }
+        ]}
+      });
+
+      renderComponent();
+      await waitFor(() => {
+        expect(screen.getByText('1.1.1900, 01:00:00/01:00:00')).toBeInTheDocument();
+      });
+    });
+
+    it('handles reflections with special characters', async () => {
+      axios.get.mockResolvedValue({
+        data: { data: [
+          { _id: '1', title: 'Some whacky title: !@#$%^&*()', updatedAt: '2024-04-22T12:00:00.000Z' }
+        ]}
+      });
+
+      renderComponent();
+      await waitFor(() => {
+        expect(screen.getByText('Some whacky title: !@#$%^&*()')).toBeInTheDocument();
+      });
+    });
+
   });
 
   describe('Negative Cases', () => {
@@ -89,8 +126,10 @@ describe('DiaryReflections Component', () => {
       axios.get.mockRejectedValue(new Error('Network Error'));
       renderComponent();
       await waitFor(() => {
-        expect(screen.queryByText('please wait')).not.toBeInTheDocument(); 
+        expect(screen.queryByText('Failed to load reflections. Please try again.')).toBeInTheDocument(); 
       });
     }); 
+
+
   });
 });

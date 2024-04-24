@@ -5,10 +5,14 @@ const reflectionSchema = mongoose.Schema(
     title: {
       type: String,
       required: true,
+      minLength: 3,
+      maxLength: 100,
     },
     content: {
       type: String,
       required: true,
+      minLength: 10,
+      maxLength: 15000,
     },
     visibility: {
       type: Boolean,

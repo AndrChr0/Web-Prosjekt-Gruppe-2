@@ -17,10 +17,12 @@ app.use("/courses", router);
 // Realistic object ID for testing
 const mockID = "661e400cf9ef626437d5b49a";
 
-describe("Course Route Tests", () => {
+describe("ANDREAS Course Route Tests", () => {
   // Realistic Usage Cases
   describe("Realistic Usage Cases GET/POST/PUT", () => {
+
     describe("Given that the user requests a course by its ID ", () => {
+
       it("it should return a course", async () => {
         const mockCourse = {
           _id: mockID,
@@ -32,9 +34,11 @@ describe("Course Route Tests", () => {
         expect(200);
         expect(response.body.data).toEqual(mockCourse);
       });
+
     });
 
     describe("Given that the user wants to receive all courses", () => {
+
       it("it should return all courses for the user", async () => {
         const mockCourses = [
           { title: "Course 1", description: "First course" },
@@ -61,6 +65,7 @@ describe("Course Route Tests", () => {
     });
 
     describe("Given that the user wants to create a course", () => {
+
       it("it should create a course when given typical data", async () => {
         const typicalCourse = {
           title: "Introduction to Cows",
@@ -77,6 +82,7 @@ describe("Course Route Tests", () => {
     });
 
     describe("Given the user wants to update a course", () => {
+
       it("it should update a course when given typical data", async () => {
         const updatedCourse = {
           title: "Introduction to small Cows",
@@ -97,7 +103,9 @@ describe("Course Route Tests", () => {
 
   // Boundary Cases
   describe("Boundary Cases", () => {
+
     describe("Given that the user wants to cerate a new course", () => {
+
       it("it should return 201 when courseCode is exactly at minimum length of 4 characters", async () => {
         const course = {
           title: "Short Code",
@@ -137,12 +145,15 @@ describe("Course Route Tests", () => {
         expect(201);
         expect(response.body).toEqual(longTitleCourse);
       });
+
     });
   });
 
   // Edge Cases
   describe("Edge Cases", () => {
+
     describe("Given that the user wants to create a new course", () => {
+
       it("it should return an error when the title lengt is just over 100 characters", async () => {
         const longTitleCourse = {
           title: "I".repeat(101),
@@ -163,11 +174,14 @@ describe("Course Route Tests", () => {
         expect(404);
       });
     });
+
   });
 
   // Negative Cases
   describe("Negative Cases", () => {
+
     describe("Given the user wants to create a new course", () => {
+
       it("it should reject a course with missing courseCode", async () => {
         const response = await request(app)
           .post("/courses")
@@ -193,9 +207,11 @@ describe("Course Route Tests", () => {
           "Title and course code are required."
         );
       });
+
     });
 
     describe("Given that the user wants to create a new course", () => {
+
         it("it should return 404 when trying to update a non-existent course", async () => {
             const updateData = {
               title: "Non-existent course update attempt",
@@ -207,5 +223,6 @@ describe("Course Route Tests", () => {
             expect(response.status).toBe(404);
           });
     });
+
   });
 });
