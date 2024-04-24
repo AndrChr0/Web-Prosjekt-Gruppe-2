@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./Register.css";
@@ -8,11 +8,12 @@ const Register = () => {
     email: "",
     password: "",
     role: "student", // Default to 'student'
+    firstName: "",
+    lastName: ""
   });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [registrationError, setRegistrationError] = useState("");
   const navigate = useNavigate();
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +21,7 @@ const Register = () => {
       setConfirmPassword(value);
     } else {
       setCredentials({ ...credentials, [name]: value });
-    }const [registrationError, setRegistrationError] = useState("");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -49,6 +50,24 @@ const Register = () => {
   return (
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="firstName"
+          placeholder="First Name"
+          value={credentials.firstName}
+          onChange={handleChange}
+          required
+          className="login-input"
+        />
+        <input
+          type="text"
+          name="lastName"
+          placeholder="Last Name"
+          value={credentials.lastName}
+          onChange={handleChange}
+          required
+          className="login-input"
+        />
         <input
           type="email"
           name="email"
@@ -91,7 +110,7 @@ const Register = () => {
         </button>
       </form>
       <p>
-        Already have an account? <Link to="/login">Click here</Link>
+        Already have an account? <Link to="/login">Sign in</Link>
       </p>
       {registrationError && (
         <p className="error-message">{registrationError}</p>

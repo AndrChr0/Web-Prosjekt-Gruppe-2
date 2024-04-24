@@ -9,11 +9,10 @@ import { faRightFromBracket, faLeaf } from '@fortawesome/free-solid-svg-icons';
 const Header = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
-  console.log("NAAAV", currentUser);
 
   const handleLogout = () => {
     logout(); // Use the logout function from AuthContext
-    navigate('/');
+    navigate('/'); // Redirect to the home page or any desired page after logout
   };
 
   return (

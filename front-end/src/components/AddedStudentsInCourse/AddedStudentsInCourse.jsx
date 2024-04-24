@@ -9,24 +9,31 @@ const AddedStudentsInCourse = () => {
 
   // Fetch added students when component mounts
   useEffect(() => {
-      axios.get(`http://localhost:5151/search?role=student&&courseId=${courseId}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
-      })
-      .then(response => {
-        setAddedStudents(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching added students:', error);
-      });
+    axios.get(`http://localhost:5151/search?role=student&&courseId=${courseId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
+    })
+    .then(response => {
+      setAddedStudents(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching added students:', error);
+    });
   }, []);
 
   return (
-    <div>
-      <ul className='Added-students-list'>
+    <div className="Student-list-container">
       <h2>Students in the course</h2>
+      <ul className='Added-students-list Student-list'>
         {addedStudents.map(addedStudent => (
-          <li key={addedStudent._id}>
-            {addedStudent.email}
+          <li key={addedStudent._id} className="Student-list-item">
+            <div className="Student-info">
+              <strong>
+                {addedStudent.firstName} {addedStudent.lastName}
+              </strong>
+            </div>
+            <div className="Student-info">
+              <span>{addedStudent.email}</span>
+            </div>
           </li>
         ))}
       </ul>
