@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
-import express from "express";
-import { User } from "../models/userModel.js";
-import bcrypt from 'bcryptjs';
-import e from 'express';
+const jwt = require('jsonwebtoken');
+const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
+const User = require('../models/userModel.js');
+const {verifyToken ,requireRole} = require("../middlewares/authMiddleware.js");
 
 
 router.get('/profile', async (req, res) => {
@@ -33,7 +33,7 @@ router.get('/profile', async (req, res) => {
 });
 
 
-router.put('/update-email', async (req, res) => {
+router.put('/update-email',verifyToken ,requireRole(["teacher", "student"]), async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -54,7 +54,7 @@ router.put('/update-email', async (req, res) => {
     }
 });
 
-router.put('/update-password', async (req, res) => {
+router.put('/update-password', verifyToken ,requireRole(["teacher", "student"]), async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -76,7 +76,7 @@ router.put('/update-password', async (req, res) => {
     }
 });
 
-router.delete('/delete', async (req, res) => {
+router.delete('/delete', verifyToken ,requireRole(["teacher", "student"]), async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -206,5 +206,4 @@ router.put('/:userId/add_course', async (req, res) => {
 });
 
 
-
-export default router;
+module.exports = router;

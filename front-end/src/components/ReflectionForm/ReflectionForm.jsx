@@ -3,6 +3,8 @@ import axios from "axios";
 import "./ReflectionForm.css";
 import ActionButton from "../ActionButton/ActionButton";
 import { useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.snow.css';
 
 function ReflectionForm() {
   const navigate = useNavigate();
@@ -120,14 +122,25 @@ function ReflectionForm() {
           required
         />
         <label htmlFor="content">Content:</label>
-        <textarea
+        {/* <textarea
           name="content"
           cols="30"
           rows="10"
           value={formData.content}
           onChange={handleChange}
           required
-        ></textarea>
+        ></textarea> */}
+        <ReactQuill
+          theme="snow"
+          value={formData.content}
+          onChange={(value) =>
+            setFormData((prevFormData) => ({
+              ...prevFormData,
+              content: value,
+            }))
+          }
+          required
+        />
         <label id="filesBtn" htmlFor="files">
           Upload a file
         </label>
@@ -148,8 +161,8 @@ function ReflectionForm() {
         />
         {/* Adds remove button to selected files */}
         {formData.files.length > 0 && (
-          <div>
-            Selected Files:
+          <div className="Selected-files-container">
+            <p>Selected Files:</p>
             {Array.from(formData.files).map((file, index) => (
               <div key={index}>
                 {file.name}
@@ -166,7 +179,7 @@ function ReflectionForm() {
           value={formData.courseId}
           onChange={handleChange}
         >
-          <option value="no course selected">Select a course</option>
+          <option value="No course selected">Select a course</option>
           {courses.map((course) => (
             <option key={course._id} value={course._id}>
               {course.courseCode} - {course.title}
@@ -174,20 +187,22 @@ function ReflectionForm() {
           ))}
         </select>
 
-        <div className="checkBox-container">
-          <label htmlFor="visibility">Share with teacher:</label>
-          <input
-            type="checkbox"
-            name="visibility"
-            checked={formData.visibility}
-            onChange={() =>
-              setFormData((prevFormData) => ({
-                ...prevFormData,
-                visibility: !prevFormData.visibility,
-              }))
-            }
-          />
-        </div>
+        {formData.courseId !== "No course selected" && (
+          <div className="checkBox-container">
+            <label htmlFor="visibility">Share with teacher:</label>
+            <input
+              type="checkbox"
+              name="visibility"
+              checked={formData.visibility}
+              onChange={() =>
+                setFormData((prevFormData) => ({
+                  ...prevFormData,
+                  visibility: !prevFormData.visibility,
+                }))
+              }
+            />
+          </div>
+        )}
         <ActionButton btnType="submit" btnValue="Submit" />
       </form>
       {/* Displaying a success message if submission is successful */}

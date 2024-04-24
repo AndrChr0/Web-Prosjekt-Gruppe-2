@@ -1,5 +1,5 @@
-import express from "express";
-import { Feedback } from "../models/feedbackModel.js";
+const express = require("express");
+const Feedback = require("../models/feedbackModel.js");
 const router = express.Router();
 
 // get a specific feedback from db
@@ -54,13 +54,13 @@ router.post("/", async (req, res) => {
           res.status(200).send(updatedFeedback);
       } else {
           // create a new entry if a feedback doesnt exist
-          const newFeedback = new Feedback({
+          const newFeedback = ({
               content: req.body.content,
               reflectionId: req.body.reflectionId,
               userId: req.user.userId,
           });
-          const savedFeedback = await newFeedback.save();
-          res.status(201).send(savedFeedback);
+          const feedback = await Feedback.create(newFeedback);
+          res.status(201).send(feedback);
       }
   } catch (error) {
       res.status(500).send(error);
@@ -93,5 +93,4 @@ router.delete('/:id', async (req, res) => {
     }
   });
 
-
-export default router;
+module.exports = router;

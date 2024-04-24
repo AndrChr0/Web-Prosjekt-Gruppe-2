@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const reflectionActivitySchema = mongoose.Schema(
   {
@@ -16,4 +16,4 @@ const reflectionActivitySchema = mongoose.Schema(
   }
 );
 
-export const ReflectionActivity = mongoose.model("reflection-activities", reflectionActivitySchema);
+module.exports = mongoose.model("ReflectionActivity", reflectionActivitySchema);  

@@ -1,8 +1,11 @@
-import { verifyToken } from '../middlewares/authMiddleware.js';
-import express from "express";
-import { Reflection } from "../models/reflectionModel.js";
-import multer from "multer";
+
+const express = require("express");
+const Reflection = require("../models/reflectionModel.js");
+const Course = require("../models/courseModel.js");
+const multer = require("multer");
 const router = express.Router();
+const {verifyToken ,requireRole} = require("../middlewares/authMiddleware.js");
+
 
 // Multer configuration for file upload functionality
 const storage = multer.diskStorage({
@@ -53,8 +56,6 @@ const upload = multer({
 });
 
 
-// den likte ikke å komme sist i denne filen, så nå ligger den først
-import { Course } from "../models/courseModel.js";
 
 router.get("/search", async (req, res) => {
   try {
@@ -89,12 +90,20 @@ router.get("/search", async (req, res) => {
 
 
 // Route for handling POST requests to create a new reflection
-router.post("/", upload.array("files", 5), async (req, res) => {
+router.post("/", upload.array("files", 5), verifyToken ,requireRole(["student"]), async (req, res) => {
   try {
     // Check if all required fields are provided
     if (!req.body.title || !req.body.content) {
       return res.status(400).send({
         message: "Send all required fields: title, content, courseId",
+      });
+    } else if(req.body.title.length < 3 || req.body.title.length > 100) {
+      return res.status(400).send({
+        message: "Title must be between 3 and 100 characters",
+      });
+    } else if(req.body.content.length < 10 || req.body.content.length > 15000) {
+      return res.status(400).send({
+        message: "Content must be between 100 and 15000 characters",
       });
     }
     // Map paths of files
@@ -109,7 +118,6 @@ router.post("/", upload.array("files", 5), async (req, res) => {
       userId: req.user.userId,
       courseId: req.body.courseId,
     };
-
 
     // Save the new reflection to the database
     const reflection = await Reflection.create(newReflection);
@@ -127,6 +135,10 @@ router.get("/", async (req, res) => {
     // Retrieve all reflections from the database
     const userId = req.user.userId;
     const reflections = await Reflection.find({ userId: userId });
+
+    if (!reflections.length) {
+      return res.status(404).json({ message: "No reflections found" });
+    }
 
     return res.status(200).json({
       count: reflections.length,
@@ -168,7 +180,6 @@ router.get("/:id", verifyToken, async (req, res) => {
     // Retrieve a reflection by its ID from the database
     const reflection = await Reflection.findById(id);
 
-    // allowing teacher to see all reflections
     if (req.user.role === "teacher") {
       
       return res.status(200).json({ reflection });
@@ -235,4 +246,4 @@ router.delete("/:id", async (req, res) => {
 });
 
 
-export default router;
+module.exports = router;

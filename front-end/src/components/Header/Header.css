@@ -28,26 +28,20 @@ nav {
     color: white;
     text-decoration: none;
     font-size: 1.3em;
-
     font-weight: bold;
-    background-color: transparent;
     cursor: pointer;
     border: 0;
     padding: 0;
-  }
-  
-
-  li button, button:hover {
-    background-color: transparent;
-    cursor: pointer;
   }
   
   .Logout-link {
     padding-right: 1em;
     border-radius: 5px;
     margin-left: 2em;
+  }
 
-    
+  .Logout-link button {
+    all: unset; /* removing default button style for logout btn */
   }
 
   @media screen and (max-width: 768px){

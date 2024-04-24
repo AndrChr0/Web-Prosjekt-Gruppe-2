@@ -1,13 +1,12 @@
-/* Sourse - button 56: https://getcssscan.com/css-buttons-examples
-
+/* Sourse - button 56: https://getcssscan.com/css-buttons-examples */
 
 .action-btn {
     align-items: center;
-    background-color: rgb(255, 217, 0);
-    border: 1.5px solid #111;
+    background-color: var(--main-btn-color);
+    border: 1.5px solid #201e27;
     border-radius: 8px;
     box-sizing: border-box;
-    color: #111;
+    color: white;
     cursor: pointer;
     display: flex;
     height: 35px;
@@ -22,10 +21,11 @@
     touch-action: manipulation;
     margin: 1em 0;
     font-weight: bold;
+  
   }
   
   .action-btn:after {
-    background-color: #111;
+    background-color: #201e27;
     border-radius: 8px;
     content: "";
     display: block;
@@ -36,7 +36,7 @@
     top: -2px;
     transform: translate(8px, 8px);
     transition: transform .2s ease-out;
-    z-index: -1;
+    z-index: -1 ;
   }
   
   .action-btn:hover:after {
@@ -44,13 +44,12 @@
   }
   
   .action-btn:active {
-    background-color: rgb(255, 217, 0);
+    background-color: var(--main-btn-color-hover);
     outline: 0;
   }
   
   .action-btn:hover {
-    background-color: rgb(255, 217, 0);
+    background-color: var(--main-btn-color-hover);
     outline: 0;
   }
   
-   */

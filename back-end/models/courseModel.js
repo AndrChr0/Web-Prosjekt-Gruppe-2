@@ -1,10 +1,11 @@
-import mongoose from "mongoose";
-
+const mongoose = require("mongoose");
 const courseSchema = mongoose.Schema(
     {
         title: {
             type: String,
-            required: true
+            required: true,
+            minLength: 3,
+            maxLength: 100,
         },
         description: {
             type: String,
@@ -12,7 +13,9 @@ const courseSchema = mongoose.Schema(
         },
         courseCode: { //IDG2001 f.ex
             type: String,
-            required: true
+            required: true,
+            minLength: 4,
+            maxLength: 10,
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -26,5 +29,4 @@ const courseSchema = mongoose.Schema(
     });
 
 
-
-export const Course = mongoose.model("Course", courseSchema);
+module.exports = mongoose.model("Course", courseSchema);

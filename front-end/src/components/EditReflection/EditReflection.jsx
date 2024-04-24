@@ -1,9 +1,10 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ActionButton from "../ActionButton/ActionButton";
-import "./EditReflection.css"
+import "./EditReflection.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 function EditReflection() {
   const { reflectionId } = useParams();
@@ -14,7 +15,6 @@ function EditReflection() {
     content: "",
     visibility: false,
   });
-  const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -23,14 +23,20 @@ function EditReflection() {
     const fetchReflection = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:5151/reflections/${reflectionId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        // fetch reflection by id
+        const response = await axios.get(
+          `http://localhost:5151/reflections/${reflectionId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setReflection(response.data.reflection);
         console.log(response.data.reflection);
       } catch (error) {
         console.error(error);
-        setError(error.message || "An error occurred while fetching the reflection.");
+        setError(
+          error.message || "An error occurred while fetching the reflection."
+        );
       } finally {
         setLoading(false);
       }
@@ -39,14 +45,17 @@ function EditReflection() {
     fetchReflection();
   }, [reflectionId]);
 
+  
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://localhost:5151/users/profile', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setCourses(response.data.courses);
+        const response = await axios.get(
+          "http://localhost:5151/users/profile",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
       } catch (error) {
         console.error(error);
         setError(error.message || "An error occurred while fetching courses.");
@@ -56,16 +65,14 @@ function EditReflection() {
     fetchCourses();
   }, []);
 
-
+  // function to handle changes in form fields
   const handleChange = (e) => {
     const { name, type, checked, value } = e.target;
-    setReflection(prev => ({
+    setReflection((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,7 +95,9 @@ function EditReflection() {
 
   const handleDelete = () => {
     const token = localStorage.getItem("authToken");
-    const isConfirmed = window.confirm("Are you sure you want to delete this reflection?");
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this reflection?"
+    );
     if (isConfirmed) {
       setLoading(true);
       axios
@@ -109,41 +118,31 @@ function EditReflection() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <main>
-    <form onSubmit={handleSubmit}>
-      <label>Title:</label>
+    <main id="test-id">
+      <form onSubmit={handleSubmit}>
+        <label>Title:</label>
         <input
           type="text"
           name="title"
           value={reflection.title}
           onChange={handleChange}
         />
-      {/* <label>Course ID:</label>
-        <input
-          type="text"
-          name="courseId"
-          value={reflection.courseId}
-          onChange={handleChange}
-        /> */}
-      <label>Content:</label>
-        <textarea
-          name="content"
+  
+        <label>Content:</label>
+        <ReactQuill
+          theme="snow"
           value={reflection.content}
+          onChange={(value) => setReflection({ ...reflection, content: value })}
+        />
+        <label htmlFor="visibility">Share with teacher:</label>
+        <input
+          type="checkbox"
+          name="visibility"
+          checked={reflection.visibility}
           onChange={handleChange}
         />
 
-      <label htmlFor="visibility">Share with teacher:</label>
-          <input
-            type="checkbox"
-            name="visibility"
-            checked={reflection.visibility}
-            onChange={handleChange}
-          />
-  
-
-
-      {/* <button type="submit">Save</button> */}
-      <div className="actions-container">
+        <div className="actions-container">
           <ActionButton btnType="submit" btnValue="Save" />
           <ActionButton
             onClick={handleDelete}
@@ -151,8 +150,7 @@ function EditReflection() {
             btnValue="Delete Reflection"
           />
         </div>
-
-    </form>
+      </form>
     </main>
   );
 }

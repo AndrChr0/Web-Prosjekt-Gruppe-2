@@ -1,13 +1,20 @@
-import express, { response } from "express";
-import mongoose from "mongoose";
-import ReflectionRoute from "./routes/ReflectionRoute.js";
-import courseRoute from "./routes/courseRoute.js";
-import userRoute from "./routes/userRoute.js";
-import reflectionActivityRoute from "./routes/reflectionActivityRoute.js";
-import FeedbackRoute from "./routes/feedbackRoute.js";
-import cors from "cors";
-import { verifyToken, requireRole } from "./middlewares/authMiddleware.js";
-import dotenv from "dotenv";
+
+const express = require("express");
+const mongoose = require("mongoose");
+const ReflectionRoute = require("./routes/ReflectionRoute.js");
+const courseRoute = require("./routes/courseRoute.js");
+const userRoute = require("./routes/userRoute.js");
+const reflectionActivityRoute = require("./routes/reflectionActivityRoute.js");
+const FeedbackRoute = require("./routes/feedbackRoute.js");
+const NotificationRoute = require("./routes/notificationRoute.js");
+const cors = require("cors");
+const {verifyToken ,requireRole} = require("./middlewares/authMiddleware.js");
+const dotenv = require("dotenv");
+
+// search to get students from users
+const User = require("./models/userModel.js");
+const Reflection = require("./models/reflectionModel.js");
+
 dotenv.config();
 const PORT = process.env.PORT || 5555;
 const MONGO_URI = process.env.MONGO_URI;
@@ -16,10 +23,6 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  console.log(req);
-  // return res.status(234).send("halla brro");
-});
 
 // Middelware for handeling CORS policy
 app.use(cors());
@@ -35,19 +38,9 @@ app.use("/activities", reflectionActivityRoute);
 
 app.use("/feedback", verifyToken, FeedbackRoute);
 
-// custom origins
-// app.use(cors(
-//     {
-//     origin: "http://localhost:5173",
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     allowedHeaders: "Content-Type"
-// }
-//     ))
+app.use("/notifications", verifyToken, NotificationRoute);
 
 
-// search to get students from users
-import { User } from "./models/userModel.js";
-import { Reflection } from "./models/reflectionModel.js";
 
 const handleSearch = async (req, res) => {
   let users;
@@ -61,6 +54,7 @@ const handleSearch = async (req, res) => {
 
       if (req.query.visibility === "true") {
         const userIds = users.map(user => user._id);
+        // find the reflection where the userId is in the userIds array, and visibility is true
         const reflections = await Reflection.find({ userId: { $in: userIds }, visibility: true });
 
         if (!reflections || reflections.length === 0) {
@@ -92,9 +86,6 @@ app.get('/search', async (req, res) => {
     res.status(500).json({ message:'Internal server error' });
   }
 });
-
-
-// 1. search courses users
 
 
 mongoose

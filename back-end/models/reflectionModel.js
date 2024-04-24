@@ -1,23 +1,19 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const reflectionSchema = mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
+      minLength: 3,
+      maxLength: 100,
     },
     content: {
       type: String,
       required: true,
+      minLength: 10,
+      maxLength: 15000,
     },
-    //   courseId: {
-    //   type: String,
-    //   required: true,
-    // }, 
-    // courseCode: {
-    //   type: String,
-    //   required: true,
-    // },
     visibility: {
       type: Boolean,
       default: false,
@@ -40,4 +36,4 @@ const reflectionSchema = mongoose.Schema(
   }
 );
 
-export const Reflection = mongoose.model("Reflection", reflectionSchema);
+module.exports = mongoose.model("Reflection", reflectionSchema);

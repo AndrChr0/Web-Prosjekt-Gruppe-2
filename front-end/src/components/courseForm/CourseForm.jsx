@@ -4,72 +4,87 @@ import axios from "axios";
 import "./courseForm.css";
 
 const CourseForm = () => {
- 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [courseError, setCourseError] = useState("");
+  const [courseData, setCourseData] = useState({
+    title: "",
+    courseCode: "",
+  });
 
+  const handleChange = (e) => {
+    setCourseData({ ...courseData, [e.target.name]: e.target.value });
+  };
 
-    const  [courseData, setCourseData] = useState({
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (courseData.title.length < 3) {
+      setCourseError("Course name must be at least 3 characters long.");
+      return;
+    } else if (courseData.title.length > 100) {
+      setCourseError("Course name must be at most 100 characters long.");
+      return;
+    } else if (courseData.courseCode.length < 4) {
+      setCourseError("Course code must be at least 4 characters long.");
+      return;
+    } else if (courseData.courseCode.length > 10) {
+      setCourseError("Course code must be at most 10 characters long.");
+      return;
+    }
+    const token = localStorage.getItem("authToken");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5151/courses",
+        courseData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the JWT token
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Response:", response.data);
+      navigate("/my_courses");
+      setCourseData({
         title: "",
         courseCode: "",
-    });
-
-    const handleChange = (e) => {
-        setCourseData({ ...courseData, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem("authToken");
-        
-        try {
-            const response = await axios.post(
-                "http://localhost:5151/courses",
-                courseData,
-                {
-                    headers: {
-                      Authorization: `Bearer ${token}`, // Include the JWT token
-                      "Content-Type": "application/json",
-                    },
-                  }
-            );
-            console.log("Response:", response.data); 
-            navigate("/my_courses");
-            setCourseData({
-                title: "",
-                courseCode: "",
-            });
-        } catch (error) {
-            console.error(error);
-        }
+      });
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    return (
-        <div>
-            <form className="newCourse_form" onSubmit={handleSubmit}>
-                <label>
-                Course Name:
-                <input 
-                type="text" 
-                name="title" 
-                value={courseData.title}
-                onChange={handleChange}
-                required />
-                </label>
+  return (
+    <div>
+      <form className="newCourse_form" onSubmit={handleSubmit}>
+        <label>
+          Course Name:
+          <input
+            type="text"
+            name="title"
+            value={courseData.title}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
-                <label>
-                Course Code:
-                <input 
-                type="text" 
-                name="courseCode" 
-                value={courseData.courseCode}
-                onChange={handleChange}
-                required />
-                </label>
-                
-                <input className="submit-btn" type="submit" value="Submit" />
-            </form>
-        </div>
-    );
-}
+        <label>
+          Course Code:
+          <input
+            type="text"
+            name="courseCode"
+            value={courseData.courseCode}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <input className="submit-btn" type="submit" value="Submit" />
+        {courseError && <p className="error">{courseError}</p>}
+      </form>
+    </div>
+  );
+};
 
 export default CourseForm;

@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      minLength: 8,
     },
     role: {
       type: String,
@@ -37,20 +38,19 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Hashes the password before saving the user model.. funker ikke enda. Nej ikke med den instillingen se her
+// Hash the password before saving the user model
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
   try {
-    //Generate a salt
     const salt = await bcrypt.genSalt(10);
-    //Hash pass
     this.password = await bcrypt.hash(this.password, salt);
-    //Continue with next middleware
+    //Continue 
     next();
   } catch (error) {
     return next(error);
   }
 });
-export const User = mongoose.model("User", userSchema);
+
+module.exports = mongoose.model("User", userSchema);
