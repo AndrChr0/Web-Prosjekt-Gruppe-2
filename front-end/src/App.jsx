@@ -9,7 +9,6 @@ import Courses from "./pages-student/Courses";
 import Course from "./pages-student/Course";
 import Inbox from "./pages-student/Inbox";
 import NewReflection from "./pages-student/NewReflection";
-import AddCourse from "./pages-student/AddCourse";
 import ProfilePage from "./pages-student/ProfilePage";
 
 //teacher pages
@@ -183,16 +182,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <EditReflection />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/add_course"
-            element={
-              <ProtectedRoute allowedRoles={["student"]}>
-                {" "}
-                {/* This assumes your ProtectedRoute supports role checking */}
-                <AddCourse />
               </ProtectedRoute>
             }
           />
