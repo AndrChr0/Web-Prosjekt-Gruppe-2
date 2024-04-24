@@ -1,22 +1,24 @@
+import React from "react";
+import { useAuth } from "../context/AuthContext"; // Import your authentication context
+
 import "./HomeWelcomeCard.css";
-// Simple card that welcomes users to the site and explains its purpose
 
 function HomeWelcomeCard() {
- 
-const showWelcomeCard = localStorage.getItem('showWelcomeCard');
+  const { currentUser } = useAuth(); // Access the current user data from your authentication context
 
-if(showWelcomeCard === 'false'){
+  const showWelcomeCard = localStorage.getItem('showWelcomeCard');
+
+  if (showWelcomeCard === 'false') {
     return null;
-}
+  }
 
-function doNotShow(){
+  function doNotShow() {
     localStorage.setItem('showWelcomeCard', false);
-}
+  }
 
-    return (
+  return (
     <div className="card-container">
-
-      <h2 className="home-card-header">Welcome to the sustainability diary &#127793;</h2>
+      <h2 className="home-card-header">Welcome to the sustainability diary, {currentUser && `${currentUser.firstName}🌱`}</h2>
       <p className="home-card-text">
         Welcome to the Sustainability Diary, your new space for growth and
         reflection on sustainability! Created as part of NTNU's initiative to
@@ -28,19 +30,18 @@ function doNotShow(){
         Track your progress, and become part of a community dedicated to making
         a difference. Dive in and start your sustainability diary today, where
         every entry is a step towards a more sustainable future.
-  
       </p>
       <i>
-          Please note that you're exploring the beta version of our site, where
-          we're still fine-tuning features and not all functionalities are fully
-          implemented yet.
-        </i>
-        <button className="remove-text-button" onClick={()=>{
-            doNotShow()
-            document.querySelector('.card-container').style.display = 'none';
-            }}>Do not show this again</button>
+        Please note that you're exploring the beta version of our site, where
+        we're still fine-tuning features and not all functionalities are fully
+        implemented yet.
+      </i>
+      <button className="remove-text-button" onClick={() => {
+        doNotShow();
+        document.querySelector('.card-container').style.display = 'none';
+      }}>Do not show this again</button>
     </div>
   );
 }
 
-export default HomeWelcomeCard
+export default HomeWelcomeCard;
