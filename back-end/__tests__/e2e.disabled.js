@@ -1,3 +1,6 @@
+
+
+// these end to end tests are a work in progess and are currently disabled
 const puppeteer = require('puppeteer');
 // const jsdom = require('jsdom')
 
