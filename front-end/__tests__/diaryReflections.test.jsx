@@ -38,7 +38,7 @@ describe('DiaryReflections Component', () => {
           { _id: '2', title: 'My second reflection', updatedAt: '2021-05-22T12:00:00.000Z' }
         ]}
       });
-
+// 
       renderComponent();
       await waitFor(() => {
         expect(screen.getByText('My first reflection')).toBeInTheDocument();
