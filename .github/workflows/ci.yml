@@ -37,7 +37,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest
 
-  run-tests:
+  ANDREAS-run-tests:
     needs: [build-back-end, build-front-end]
     runs-on: ubuntu-latest
     steps:

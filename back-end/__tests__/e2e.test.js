@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const jsdom = require('jsdom')
+// const jsdom = require('jsdom')
 
 describe("testing end to end...testing", () => {
 
@@ -53,23 +53,6 @@ describe("testing end to end...testing", () => {
         expect(textValue).toEqual("Teacher Dashboard")
         
     })
-
-    // function f(){
-    //     return new Promise(
-    //         (resolve, reject)=>{
-    //         //logic beefore await
-    //         }
-    //     )
-    //     .then(()=>{
-    //         // logic in await
-    //         // return promise
-    //     })
-    //     .then(()=>{
-    //         // logic after await
-    //     })
-
-    // }
-
 
 });
 
