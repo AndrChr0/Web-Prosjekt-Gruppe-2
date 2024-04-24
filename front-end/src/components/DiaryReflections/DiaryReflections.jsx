@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 
 function DiaryReflections() {
   const [reflections, setReflections] = useState([]);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   
   function formatDate(dateString) {
     const date = new Date(dateString);
-    return `${date.toLocaleDateString()}/${date.toLocaleTimeString()}`;
+    const options = { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Europe/Oslo' };
+    return `${date.toLocaleDateString("no-NO", options)}/${date.toLocaleTimeString("no-NO", options)}`;
   }
 
   useEffect(() => {
@@ -29,11 +31,12 @@ function DiaryReflections() {
       .catch((error) => {
         console.log(error);
         setLoading(false);
+        setError("Failed to load reflections. Please try again.");
       });
   }, []);
 
   return (
-    <main>
+    <main id="test-id-diary-reflections">
       <div>
         <h2>My reflections</h2>
         {loading ? (
@@ -58,6 +61,8 @@ function DiaryReflections() {
             </ul>
           </div>
         )}
+        {reflections.length === 0 && !loading && <p>No reflections found</p>}
+        {error && <p>{error}</p>}
       </div>
     </main>
   );

@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ a-component-testing ]
   pull_request:
-    branches: [ main ]
+    branches: [ a-component-testing ]
 
 jobs:
   build-back-end:
@@ -22,7 +22,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest
 
-  build:
+  build-front-end:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,3 +36,17 @@ jobs:
           context: ./front-end
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest
+
+  ANDREAS-run-tests:
+    needs: [build-back-end, build-front-end]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pull and run back-end tests
+        run: |
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest
+          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2:latest npm test
+      - name: Pull and run front-end tests
+        run: |
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest
+          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest npm test --run

@@ -41,6 +41,7 @@ const Login = () => {
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <input
+          id="email"
           type="email"
           name="email"
           placeholder="Email"
@@ -50,6 +51,7 @@ const Login = () => {
           className="login-input"
         />
         <input
+          id="password"
           type="password"
           name="password"
           placeholder="Password"
@@ -58,7 +60,7 @@ const Login = () => {
           required
           className="login-input"
         />
-        <button type="submit" className="login-button">
+        <button id="logInBtn" type="submit" className="login-button">
           Log In
         </button>
       </form>

@@ -27,7 +27,7 @@ const Header = () => {
             <li><Link to="/" className="nav-link" id="nav-logo"><FontAwesomeIcon icon={faLeaf} /> Sustainability Diary</Link></li>
             </div>
             <div className='login-register-links'>
-                <li><Link to="/login" className="nav-link">Login</Link></li>
+                <li><Link to="/login" className="nav-link" id="login">Login</Link></li>
               </div>
             </>
           )}

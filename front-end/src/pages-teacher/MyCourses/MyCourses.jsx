@@ -7,10 +7,10 @@ import MainMenuButton from "../../components/MainmenuButton/MainMenuButton";
 const TeacherCourses = () =>{
 
     const [courses, setCourses] = useState([]);
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
   
     useEffect(() => {
-      setLoading(true);
+      // setLoading(true);
       const token = localStorage.getItem("authToken");
 
       axios
@@ -21,11 +21,11 @@ const TeacherCourses = () =>{
       })
         .then((res) => {
           setCourses(res.data.data);
-          setLoading(false);
+          // setLoading(false);
         })
         .catch((error) => {
           console.log(error);
-          setLoading(false);
+          // setLoading(false);
         });
     }, []);
 

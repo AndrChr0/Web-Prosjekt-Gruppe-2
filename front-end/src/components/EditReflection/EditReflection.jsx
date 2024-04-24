@@ -15,7 +15,6 @@ function EditReflection() {
     content: "",
     visibility: false,
   });
-  const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -46,7 +45,7 @@ function EditReflection() {
     fetchReflection();
   }, [reflectionId]);
 
-  //
+  
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const fetchCourses = async () => {
@@ -57,7 +56,6 @@ function EditReflection() {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setCourses(response.data.courses);
       } catch (error) {
         console.error(error);
         setError(error.message || "An error occurred while fetching courses.");
@@ -120,7 +118,7 @@ function EditReflection() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <main>
+    <main id="test-id">
       <form onSubmit={handleSubmit}>
         <label>Title:</label>
         <input
@@ -129,20 +127,8 @@ function EditReflection() {
           value={reflection.title}
           onChange={handleChange}
         />
-        {/* <label>Course ID:</label>
-        <input
-          type="text"
-          name="courseId"
-          value={reflection.courseId}
-          onChange={handleChange}
-        /> */}
+  
         <label>Content:</label>
-        {/* <textarea
-          name="content"
-          value={reflection.content}
-          onChange={handleChange}
-        /> */}
-
         <ReactQuill
           theme="snow"
           value={reflection.content}
