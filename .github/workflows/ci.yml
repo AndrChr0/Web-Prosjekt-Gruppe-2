@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ a-component-testing ]
+    branches: [ bruk din egen branch! ]
   pull_request:
-    branches: [ a-component-testing ]
+    branches: [ bruk din egen branch! ]
 
 jobs:
   build-back-end:
@@ -37,7 +37,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest
 
-  ANDREAS-run-tests:
+  run-tests:
     needs: [build-back-end, build-front-end]
     runs-on: ubuntu-latest
     steps:
