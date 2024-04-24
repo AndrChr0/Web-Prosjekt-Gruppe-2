@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ bruk din egen branch! ]
+    branches: [ testing-branch-2.0-Maja ]
   pull_request:
-    branches: [ bruk din egen branch! ]
+    branches: [ testing-branch-2.0-Maja ]
 
 jobs:
   build-back-end:

@@ -21,9 +21,7 @@
   width: calc(100% - 22px); /* Adjust width to fit within the container */
 }
 
-.register-button:hover {
-  background-color: rgb(233, 199, 4);
-}
+
 
 .error-message {
   color: red;
