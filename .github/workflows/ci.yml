@@ -49,4 +49,4 @@ jobs:
       - name: Pull and run front-end tests
         run: |
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest
-          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest npm test --run
+          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/sustainability-diary-g2-front-end:latest npm test --run --verbose
