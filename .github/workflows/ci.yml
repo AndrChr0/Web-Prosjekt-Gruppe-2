@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ bruk din egen branch! ]
+    branches: [ s13-andreas ]
   pull_request:
-    branches: [ bruk din egen branch! ]
+    branches: [ s13-andreas ]
 
 jobs:
   build-back-end:

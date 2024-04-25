@@ -5,6 +5,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
 import DiaryReflections from '../src/components/DiaryReflections/DiaryReflections';
+import { it } from 'vitest';
 
 vi.mock('axios');
 Storage.prototype.getItem = vi.fn(); // Mock localStorage globally
@@ -17,7 +18,7 @@ const renderComponent = () => {
   );
 };
 
-describe('DiaryReflections Component', () => {
+describe('ANDREAS - DiaryReflections Component tests', () => {
   // Clear all mocks before each test
   beforeEach(() => {
     // Mock localStorage.getItem to return a token
@@ -38,7 +39,7 @@ describe('DiaryReflections Component', () => {
           { _id: '2', title: 'My second reflection', updatedAt: '2021-05-22T12:00:00.000Z' }
         ]}
       });
-// 
+
       renderComponent();
       await waitFor(() => {
         expect(screen.getByText('My first reflection')).toBeInTheDocument();
@@ -60,19 +61,19 @@ describe('DiaryReflections Component', () => {
 
   });
 
-  describe('Boundary Cases', () => {
+  describe('ANDREAS - diaryReflection Boundary Cases', () => {
     it('handles exactly one reflection', async () => {
       axios.get.mockResolvedValue({
         data: { data: [
-          { _id: '1', title: 'Only one Reflection', updatedAt: '2021-04-22T12:00:00.000Z' }
+          { _id: '1', title: 'Why feeding wild chickens might not be a good idea after all.', updatedAt: '2021-04-22T12:00:00.000Z' }
         ]}
       });
 
       renderComponent();
       await waitFor(() => {
-        expect(screen.getByText('Only one Reflection')).toBeInTheDocument();
+        expect(screen.getByText('Why feeding wild chickens might not be a good idea after all.')).toBeInTheDocument();
         expect(screen.queryByText('No reflections found')).not.toBeInTheDocument();
-        expect(screen.getByText('22.4.2021, 14:00:00/14:00:00')).toBeInTheDocument();
+        expect(screen.getByText('22.4.2021, 14:00:00')).toBeInTheDocument();
       });
     });
 
@@ -80,16 +81,17 @@ describe('DiaryReflections Component', () => {
   });
 
   describe('Edge Cases', () => {
+
     it('handles far future dates', async () => {
       axios.get.mockResolvedValue({
         data: { data: [
-          { _id: '1', title: 'Future Reflection', updatedAt: '3000-01-01T00:00:00.000Z' }
+          { _id: '1', title: 'Space... the final frontier', updatedAt: '3000-01-01T00:00:00.000Z' }
         ]}
       });
 
       renderComponent();
       await waitFor(() => {
-        expect(screen.getByText('1.1.3000, 01:00:00/01:00:00')).toBeInTheDocument();
+        expect(screen.getByText('1.1.3000, 01:00:00')).toBeInTheDocument();
       });
     });
 
@@ -102,7 +104,7 @@ describe('DiaryReflections Component', () => {
 
       renderComponent();
       await waitFor(() => {
-        expect(screen.getByText('1.1.1900, 01:00:00/01:00:00')).toBeInTheDocument();
+        expect(screen.getByText('1.1.1900, 01:00:00')).toBeInTheDocument();
       });
     });
 
@@ -127,6 +129,7 @@ describe('DiaryReflections Component', () => {
       renderComponent();
       await waitFor(() => {
         expect(screen.queryByText('Failed to load reflections. Please try again.')).toBeInTheDocument(); 
+    
       });
     }); 
 
