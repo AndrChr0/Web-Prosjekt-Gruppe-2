@@ -30,7 +30,7 @@ describe('ANDREAS - DiaryReflections Component tests', () => {
     vi.clearAllMocks();
   });
 
-  describe('Realistic Usage', () => {
+  describe('ANDREAS - DiaryReflections Realistic Usage cases', () => {
     it('renders multiple reflections correctly', async () => {
       // Mock the API response
       axios.get.mockResolvedValue({
@@ -62,7 +62,7 @@ describe('ANDREAS - DiaryReflections Component tests', () => {
   });
 
   describe('ANDREAS - diaryReflection Boundary Cases', () => {
-    it('handles exactly one reflection', async () => {
+    it('it should handle exactly one reflection', async () => {
       axios.get.mockResolvedValue({
         data: { data: [
           { _id: '1', title: 'Why feeding wild chickens might not be a good idea after all.', updatedAt: '2021-04-22T12:00:00.000Z' }
@@ -80,7 +80,7 @@ describe('ANDREAS - DiaryReflections Component tests', () => {
     
   });
 
-  describe('Edge Cases', () => {
+  describe('ANDREAS - diaryReflection Edge Cases', () => {
 
     it('handles far future dates', async () => {
       axios.get.mockResolvedValue({
@@ -123,13 +123,14 @@ describe('ANDREAS - DiaryReflections Component tests', () => {
 
   });
 
-  describe('Negative Cases', () => {
+  describe('ANDREAS - diaryReflection Negative Cases', () => {
+
     it('handles API failures gracefully', async () => {
       axios.get.mockRejectedValue(new Error('Network Error'));
       renderComponent();
+
       await waitFor(() => {
         expect(screen.queryByText('Failed to load reflections. Please try again.')).toBeInTheDocument(); 
-    
       });
     }); 
 

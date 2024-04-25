@@ -3,19 +3,29 @@ const express = require("express");
 const Course = require("../models/courseModel");
 const router = require("../routes/courseRoute");
 
-const app = express();
-app.use(express.json());
+// // Realistic object ID for testing
+const mockID = "661e400cf9ef626437d5b49a";
 
-// middleware to mock user authentication
-app.use((req, res, next) => {
-  req.user = { userId: "660eeb50894bfddb29d726dd" };
-  next();
+let app;
+
+// Setup the Express app before each test
+beforeEach(() => {
+  app = express();
+  app.use(express.json());
+
+  // Mock middleware for user authentication
+  app.use((req, res, next) => {
+    req.user = { userId: "660eeb50894bfddb29d726dd" };
+    next();
+  });
+
+  app.use("/courses", router);
 });
 
-app.use("/courses", router);
-
-// Realistic object ID for testing
-const mockID = "661e400cf9ef626437d5b49a";
+// Teardown after each test
+afterEach(() => {
+  app = null;
+});
 
 describe("ANDREAS Course Route Tests", () => {
   // Realistic Usage Cases

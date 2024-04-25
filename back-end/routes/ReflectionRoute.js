@@ -57,7 +57,7 @@ const upload = multer({
 
 
 
-router.get("/search", async (req, res) => {
+router.get("/search", requireRole(["student", "teacher"]), async (req, res) => {
   try {
     const visibility = Boolean(req.query.visibility);
     let reflections;
@@ -90,7 +90,7 @@ router.get("/search", async (req, res) => {
 
 
 // Route for handling POST requests to create a new reflection
-router.post("/", upload.array("files", 5), verifyToken ,requireRole(["student"]), async (req, res) => {
+router.post("/", upload.array("files", 5), requireRole("student"), async (req, res) => {
   try {
     // Check if all required fields are provided
     if (!req.body.title || !req.body.content) {
@@ -130,7 +130,7 @@ router.post("/", upload.array("files", 5), verifyToken ,requireRole(["student"])
 });
 
 // Route for handling GET requests to retrieve all reflections from the database
-router.get("/", async (req, res) => {
+router.get("/", requireRole(["student", "teacher"]), async (req, res) => {
   try {
     // Retrieve all reflections from the database
     const userId = req.user.userId;
@@ -151,30 +151,8 @@ router.get("/", async (req, res) => {
 });
 
 
-/* 
-// GET request for a single reflection, verifying ownership
-router.get("/:id", verifyToken, async (req, res) => {
-  try {
-    // Corrected to use req.params.id to get the reflection ID from the URL
-    const reflection = await Reflection.findById(req.params.id);
-    if (!reflection) {
-      return res.status(404).json({ message: "Reflection not found" });
-    }
-    // Now correctly checks if the logged-in user's ID matches the studentId in the reflection
-    // Make sure to convert both to strings for a proper comparison, as one might be an ObjectId
-    if (reflection.studentId.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: "Unauthorized" });
-    }
-    res.json(reflection);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-});
-
-*/
-
 // Route for handling GET requests to retrieve a single reflection by ID
-router.get("/:id", verifyToken, async (req, res) => {
+router.get("/:id", requireRole(["student", "teacher"]), async (req, res) => {
   try {
     const { id } = req.params;
     // Retrieve a reflection by its ID from the database
@@ -203,7 +181,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 
 
 // Route for handling PUT requests to update a reflection by ID
-router.put("/:id", async (req, res) => {
+router.put("/:id",  requireRole("student"), async (req, res) => {
   try {
     // Check if all required fields are provided
     if (!req.body.title || !req.body.content) {
@@ -228,7 +206,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Route for handling DELETE requests to delete a reflection by ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireRole("student"), async (req, res) => {
   try {
     const { id } = req.params;
     // Delete a reflection by its ID from the database

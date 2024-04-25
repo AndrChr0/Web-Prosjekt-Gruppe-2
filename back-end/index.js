@@ -1,7 +1,7 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
-const ReflectionRoute = require("./routes/ReflectionRoute.js");
+const reflectionRoute = require("./routes/reflectionRoute.js");
 const courseRoute = require("./routes/courseRoute.js");
 const userRoute = require("./routes/userRoute.js");
 const reflectionActivityRoute = require("./routes/reflectionActivityRoute.js");
@@ -27,7 +27,7 @@ app.use(express.json());
 // Middelware for handeling CORS policy
 app.use(cors());
 
-app.use("/reflections", verifyToken, ReflectionRoute);
+app.use("/reflections", verifyToken, reflectionRoute);
 app.use("/courses", verifyToken, courseRoute);
 app.use("/users", userRoute);
 app.use('/my_courses', courseRoute); // This will handle all routes prefixed with '/my_courses'
@@ -36,7 +36,7 @@ app.use("/uploads", express.static("uploads")); // make the uploads folder publi
 // reflection activities
 app.use("/activities", reflectionActivityRoute);
 
-app.use("/feedback", verifyToken, FeedbackRoute);
+app.use("/feedback", verifyToken, requireRole("student", "teacher"), FeedbackRoute);
 
 app.use("/notifications", verifyToken, NotificationRoute);
 
