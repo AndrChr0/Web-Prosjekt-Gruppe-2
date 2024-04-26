@@ -28,18 +28,17 @@ const requireRole = (roles) => (req, res, next) => {
     roles = [roles];
   } 
 
-
   // If roles is not an array or any of the roles is not a string, throw an error
   if (!Array.isArray(roles) || roles.some(role => typeof role !== 'string')) {
     return res.status(500).json({ message: "Invalid roles" });
   }
-    // Check if the roles array contains more than two roles and return an error if it does
-    if (roles.length > 2) {
-      return res.status(400).json({ message: "Error: No more than two roles are allowed." });
-    }
-  
 
-// if the user role is not in the roles array, return 403 Forbidden
+  // Check if the roles array contains more than two roles and return an error if it does
+  if (roles.length > 2) {
+    return res.status(400).json({ message: "Error: No more than two roles are allowed." });
+  }
+
+  // if the user role is not in the roles array, return 403 Forbidden
   if (!roles.includes(req.user.role)) {
     return res.status(403).json({ message: "Forbidden" });
   }
