@@ -18,7 +18,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
+    try { 
       const response = await axios.post(
         "http://localhost:5151/users/login",
         credentials
@@ -71,5 +71,26 @@ const Login = () => {
     </div>
   );
 };
+
+  export const handleSubmit = async (credentials) => {
+    try { 
+      const response = await axios.post(
+        "http://localhost:5151/users/login",
+        credentials
+      );
+      localStorage.setItem("authToken", response.data.token); // Storing the token
+      decodeAndSetUser(response.data.token); // Decode and set user upon successful login
+      console.log("Login successful:", response.data);
+      
+      const userRole = JSON.parse(atob(response.data.token.split(".")[1])).role; // Ensure role is included in the token
+      navigate(
+        userRole === "teacher" ? "/teacher_dashboard" : "/student-dashboard"
+      );
+    } catch (error) {
+      /* setLoginError("Failed to login. Please check your input and try again."); */
+      console.error("Login failed:", error.response?.data || error.message);
+    }
+  };
+
 
 export default Login;
