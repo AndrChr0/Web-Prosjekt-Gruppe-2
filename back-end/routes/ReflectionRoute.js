@@ -131,7 +131,7 @@ router.post("/", upload.array("files", 5)/* , verifyToken ,requireRole(["student
 });
 
 // Route for handling GET requests to retrieve all reflections from the database
-router.get("/", requireRole(["student", "teacher"]), async (req, res) => {
+router.get("/", /* requireRole(["student", "teacher"]) */ async (req, res) => {
   try {
     // Retrieve all reflections from the database
     const userId = req.user.userId;
