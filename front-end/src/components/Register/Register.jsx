@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./Register.css";
-
+ 
 const Register = () => {
   const [credentials, setCredentials] = useState({
     email: "",
@@ -12,17 +12,16 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [registrationError, setRegistrationError] = useState("");
   const navigate = useNavigate();
-
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "confirmPassword") {
       setConfirmPassword(value);
     } else {
       setCredentials({ ...credentials, [name]: value });
-    }const [registrationError, setRegistrationError] = useState("");
+    }
   };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (credentials.password !== confirmPassword) {
@@ -30,9 +29,10 @@ const Register = () => {
       return;
     } else if (credentials.password.length < 8) {
       setRegistrationError("Password must be at least 8 characters long.");
-      return;
+      return; // Return early if password is too short
     }
     try {
+      // Continue with registration process
       await axios.post("http://localhost:5151/users/register", credentials);
       navigate("/login"); // Redirect to login page after successful registration
     } catch (error) {
@@ -45,7 +45,8 @@ const Register = () => {
       );
     }
   };
-
+ 
+ 
   return (
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
@@ -99,5 +100,5 @@ const Register = () => {
     </div>
   );
 };
-
+ 
 export default Register;

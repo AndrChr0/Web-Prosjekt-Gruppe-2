@@ -8,10 +8,11 @@ function DiaryReflections() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   
+    // Utility function to format date strings into a more readable format
   function formatDate(dateString) {
     const date = new Date(dateString);
     const options = { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Europe/Oslo' };
-    return `${date.toLocaleDateString("no-NO", options)}/${date.toLocaleTimeString("no-NO", options)}`;
+    return `${date.toLocaleDateString("no-NO", options)}`;
   }
 
   useEffect(() => {

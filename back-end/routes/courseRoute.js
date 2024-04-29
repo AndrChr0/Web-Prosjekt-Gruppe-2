@@ -1,23 +1,25 @@
-
 const express = require("express");
 const Course = require("../models/courseModel.js");
+
+// Import required modules
 const router = express.Router();
 
+// Function to validate course data
 function validateCourse(req, res) {
     if (!req.body.title || !req.body.courseCode) {  
         return res.status(400).json({ message: "Title and course code are required." });
     } else if (req.body.title.length < 3) {  
         return res.status(400).json({ message: "Title must be at least 3 characters." });
-    }else if (req.body.title.length > 100) {  
+    } else if (req.body.title.length > 100) {  
         return res.status(400).json({ message: "Title must be at most 100 characters." }); 
     } else if (req.body.courseCode.length < 4) {  
         return res.status(400).json({ message: "Course code must be at least 4 characters." });
-    }else if (req.body.courseCode.length > 10) {  
+    } else if (req.body.courseCode.length > 10) {  
         return res.status(400).json({ message: "Course code must be at most 10 characters." });
     }
 }
 
-// get a specific course from db
+// Get a specific course from the database
 router.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
@@ -26,7 +28,6 @@ router.get("/:id", async (req, res) => {
         if (!course) {
             return res.status(404).json({ message: "Course not found" });
         }
-
         return res.status(200).json({ data: course });
     } catch (error) {
         console.log(error.message);
@@ -34,10 +35,9 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// get all courses from db
+// Get all courses from the database
 router.get("/", async (req, res) => {
     try {
-
         const userId = req.user.userId;
         const courses = await Course.find({ userId: userId });
 
@@ -49,10 +49,9 @@ router.get("/", async (req, res) => {
         console.log(error.message);
         res.status(500).send({ message: error.message });
     }
-  });
+});
 
-
-// add new course to db
+// Add a new course to the database
 router.post("/", async (req, res) => {
     const validationResponse = validateCourse(req, res);
     if (validationResponse) {
@@ -75,23 +74,20 @@ router.post("/", async (req, res) => {
     }
 });
 
-
-// update a course
+// Update a course
 router.put("/:id", async (req, res) => {
     try {
         const { id } = req.params;
 
-   const validationResponse = validateCourse(req, res);
-   if (validationResponse) {
-       return validationResponse; 
-   }
-
+        const validationResponse = validateCourse(req, res);
+        if (validationResponse) {
+            return validationResponse; 
+        }
+        
         const result = await Course.findByIdAndUpdate(id, req.body, { new: true });
-
         if (!result) {
             return res.status(404).json({ message: "Course not found" });
         }
-
         return res.status(200).send({ message: "Course updated successfully", data: result });
     } catch (error) {
         console.log(error.message);
@@ -99,23 +95,21 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-
-
-// delete a course
+// Delete a course
 router.delete("/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const result = await Course.findByIdAndDelete(id);
 
         if (!result) {
-            return res.status(404).json({ message: "course not found" });
+            return res.status(404).json({ message: "Course not found" });
         }
-
-        return res.status(200).send({ message: "course deleted successfully" });
+        return res.status(200).send({ message: "Course deleted successfully" });
     } catch (error) {
         console.log(error.message);
         res.status(500).send({ message: error.message });
     }
 });
 
+// Export the router
 module.exports = router;
