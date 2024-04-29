@@ -90,12 +90,13 @@ router.get("/search", requireRole(["student", "teacher"]), async (req, res) => {
 
 
 // Route for handling POST requests to create a new reflection
-router.post("/", upload.array("files", 5), requireRole("student"), async (req, res) => {
+router.post("/", upload.array("files", 5)/* , verifyToken ,requireRole(["student"]) */, async (req, res) => {
+
   try {
     // Check if all required fields are provided
     if (!req.body.title || !req.body.content) {
       return res.status(400).send({
-        message: "Send all required fields: title, content, courseId",
+        message: "Send all required fields: title, content",
       });
     } else if(req.body.title.length < 3 || req.body.title.length > 100) {
       return res.status(400).send({
@@ -103,7 +104,7 @@ router.post("/", upload.array("files", 5), requireRole("student"), async (req, r
       });
     } else if(req.body.content.length < 10 || req.body.content.length > 15000) {
       return res.status(400).send({
-        message: "Content must be between 100 and 15000 characters",
+        message: "Content must be between 10 and 15000 characters",
       });
     }
     // Map paths of files

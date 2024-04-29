@@ -24,7 +24,7 @@ const app = express();
 app.use(express.json());
 
 
-// Middelware for handeling CORS policy
+// Middelware for handeling CORS policy.
 app.use(cors());
 
 app.use("/reflections", verifyToken, reflectionRoute);
