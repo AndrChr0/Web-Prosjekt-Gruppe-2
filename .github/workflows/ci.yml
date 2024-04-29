@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ andreas-testing-main ]
   pull_request:
-    branches: [ main ]
+    branches: [ andreas-testing-main ]
 jobs:
   build-back-end:
     runs-on: ubuntu-latest

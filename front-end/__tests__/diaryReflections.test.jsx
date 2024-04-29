@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, act } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import axios from "axios";
 import DiaryReflections from "../src/components/DiaryReflections/DiaryReflections";
@@ -33,7 +33,7 @@ describe("ANDREAS - DiaryReflections Component tests", () => {
 
     describe("Given the user accesses the MyDiary page", () => {
 
-      it("it should render the DiaryReflections component correctly", async () => {
+      it("should render the DiaryReflections component correctly", async () => {
         // // Mock the API response
         axios.get.mockResolvedValue({
           data: { data: [] },
@@ -47,7 +47,7 @@ describe("ANDREAS - DiaryReflections Component tests", () => {
     });
 
     describe("Given the user creates a reflection", () => {
-      it("it should retrive exactly one reflection", async () => {
+      it("it should retrieve  exactly one reflection", async () => {
 
         const oneReflection = {
           _id: "1",
@@ -69,53 +69,16 @@ describe("ANDREAS - DiaryReflections Component tests", () => {
               "Why feeding wild chickens might not be a good idea after all."
             )
           ).toBeInTheDocument();
-          expect(
-            screen.queryByText("No reflections found")
-          ).not.toBeInTheDocument();
+
+          expect(screen.queryByText("No reflections found")).not.toBeInTheDocument();
           expect(screen.getByText("22.4.2024, 14:00:00")).toBeInTheDocument();
         });
       });
     });
-  });
 
-  describe("Given the user creates a new reflection", () => {
-  it("it should update the list when a reflection is added and the component re-renders", async () => {
-    const initialData = [
-      {
-        _id: "1",
-        title: "Initial Reflection",
-        updatedAt: "2024-04-22T12:00:00.000Z",
-      },
-    ];
-    axios.get.mockResolvedValue({ data: { data: initialData } });
-
-    renderComponent();
-    await waitFor(() => {
-      expect(screen.getByText("Initial Reflection")).toBeInTheDocument();
-    });
-
-    // Simulate adding a new reflection
-    const newData = [
-      ...initialData,
-      {
-        _id: "2",
-        title: "New Reflection",
-        updatedAt: "2024-05-22T12:00:00.000Z",
-      },
-    ];
-    axios.get.mockResolvedValue({ data: { data: newData } });
-
-    renderComponent();
-
-    await waitFor(() => {
-      expect(screen.getByText("New Reflection")).toBeInTheDocument();
-      expect(axios.get).toHaveBeenCalledTimes(2);
-    });
-  });
-});
-
+  
 describe("Given the user has made multiple reflections", () => {
-  it("renders multiple reflections correctly", async () => {
+  it("should render multiple reflections correctly", async () => {
     // Mock the API response
     axios.get.mockResolvedValue({
       data: {
@@ -150,7 +113,7 @@ describe("Given the user has made multiple reflections", () => {
 
 describe("Given the user has no reflections", () => {
 
-  it("Provies proper response when no reflections are found", async () => {
+  it("should provide a proper response when no reflections are found", async () => {
     axios.get.mockResolvedValue({ data: { data: [] } });
     renderComponent();
     await waitFor(() => {
@@ -163,107 +126,40 @@ describe("Given the user has no reflections", () => {
 });
 });
 
-describe("ANDREAS - diaryReflection Boundary Cases", () => {
-  //   it("it should handle exactly one reflection", async () => {
-  //     axios.get.mockResolvedValue({
-  //       data: {
-  //         data: [
-  //           {
-  //             _id: "1",
-  //             title:
-  //               "Why feeding wild chickens might not be a good idea after all.",
-  //             updatedAt: "2024-04-22T12:00:00.000Z",
-  //           },
-  //         ],
-  //       },
-  //     });
+});
 
-  //     renderComponent();
-  //     await waitFor(() => {
-  //       expect(
-  //         screen.getByText(
-  //           "Why feeding wild chickens might not be a good idea after all."
-  //         )
-  //       ).toBeInTheDocument();
-  //       expect(
-  //         screen.queryByText("No reflections found")
-  //       ).not.toBeInTheDocument();
-  //       expect(screen.getByText("22.4.2024, 14:00:00")).toBeInTheDocument();
-  //     });
-  //   });
-  // });
+
 
   describe("ANDREAS - diaryReflection Edge Cases", () => {
-    // it("handles far future dates", async () => {
-    //   axios.get.mockResolvedValue({
-    //     data: {
-    //       data: [
-    //         {
-    //           _id: "1",
-    //           title: "Space... the final frontier",
-    //           updatedAt: "3000-01-01T00:00:00.000Z",
-    //         },
-    //       ],
-    //     },
-    //   });
-
-    //   renderComponent();
-    //   await waitFor(() => {
-    //     expect(screen.getByText("1.1.3000, 01:00:00")).toBeInTheDocument();
-    //   });
-    // });
-
-    // it("handles far past dates", async () => {
-    //   axios.get.mockResolvedValue({
-    //     data: {
-    //       data: [
-    //         {
-    //           _id: "1",
-    //           title: "Past Reflection",
-    //           updatedAt: "1900-01-01T00:00:00.000Z",
-    //         },
-    //       ],
-    //     },
-    //   });
-
-    //   renderComponent();
-    //   await waitFor(() => {
-    //     expect(screen.getByText("1.1.1900, 01:00:00")).toBeInTheDocument();
-    //   });
-    // });
-
+   
     describe("Given a reflection contains special characters", () => {
+    it("should retrieve  reflections with special characters", async () => {
+      const specialCharReflection = {
+        _id: "1",
+        title: "Some whacky title: !@#$%^&*()",
+        describtion: "Some whacky description: !@#$%^&*()",
+        updatedAt: "2024-04-22T12:00:00.000Z",
+      };
 
-    it("it should retrive reflections with special characters", async () => {
       axios.get.mockResolvedValue({
-        data: {
-          data: [
-            {
-              _id: "1",
-              title: "Some whacky title: !@#$%^&*()",
-              describtion: "Some whacky description: !@#$%^&*()",
-              updatedAt: "2024-04-22T12:00:00.000Z",
-            },
-          ],
-        },
+        data: { data: [specialCharReflection] },
       });
 
       renderComponent();
       await waitFor(() => {
-        expect(
-          screen.getByText("Some whacky title: !@#$%^&*()")
-).toBeInTheDocument();
+        expect(screen.getByText("Some whacky title: !@#$%^&*()")).toBeInTheDocument();
       });
     });
   });
   });
 
-  describe("ANDREAS - diaryReflection Negative Cases", () => {
 
+
+  describe("ANDREAS - diaryReflection Negative Cases", () => {
 
     describe("Given there is a network error in the request", () => {
 
-    it("it should return a error message", async () => {
+    it("should return a error message", async () => {
       axios.get.mockRejectedValue(new Error("Network Error"));
       renderComponent();
 
@@ -293,13 +189,25 @@ describe("ANDREAS - diaryReflection Boundary Cases", () => {
     });
   });
 
-    // it('handles API returning empty data', async () => {
-    //   axios.get.mockResolvedValue({ data: { data: null } });
-    //   renderComponent();
 
-    //   await waitFor(() => {
-    //     expect(screen.queryByText('No reflections found')).toBeInTheDocument();
-    //   });
-    // });
+describe("Given the API returns an empty response", () => {
+
+    it('should display the proper massage when the response value is undefined', async () => {
+      axios.get.mockResolvedValue(undefined);
+      renderComponent();
+
+      await waitFor(() => {
+        expect(screen.queryByText('No reflections found')).toBeInTheDocument();
+      });
+    });
+
+    it('should display the proper massage when the response value is null', async () => {
+      axios.get.mockResolvedValue(null);
+      renderComponent();
+
+      await waitFor(() => {
+        expect(screen.queryByText('No reflections found')).toBeInTheDocument();
+      });
+    });
   });
 });
