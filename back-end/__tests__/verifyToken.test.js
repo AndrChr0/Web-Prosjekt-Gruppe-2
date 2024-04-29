@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 jest.mock('jsonwebtoken');
 
-describe('verifyToken', () => {
+describe('EDGAR - verifyToken', () => {
   let req, res, next;
 
   beforeEach(() => {

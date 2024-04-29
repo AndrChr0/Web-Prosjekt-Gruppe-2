@@ -17,7 +17,7 @@ const renderComponent = () => {
   );
 };
 
-describe("Register Component", () => {
+describe("EDGAR - Register Component", () => {
   beforeEach(() => {
     Storage.prototype.getItem = vi.fn().mockReturnValue(null);
   });

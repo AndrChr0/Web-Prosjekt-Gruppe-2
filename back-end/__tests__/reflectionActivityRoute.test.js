@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use('/reflection-activities', router);
 
-describe('Reflection Activity Route Tests', () => {
+describe('EDGAR - Reflection Activity Route Tests', () => {
 
     describe('Realistic Usage Cases', () => {
 
