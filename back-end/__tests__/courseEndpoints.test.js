@@ -3,7 +3,7 @@ const express = require("express");
 const Course = require("../models/courseModel");
 const router = require("../routes/courseRoute");
 
-// // Realistic object ID for testing
+// Realistic object ID for testing
 const mockID = "661e400cf9ef626437d5b49a";
 
 let app;
@@ -27,12 +27,10 @@ afterEach(() => {
   app = null;
 });
 
-describe("ANDREAS Course Route Tests", () => {
+describe("ANDREAS Course Endpoints Tests", () => {
   // Realistic Usage Cases
-  describe("Realistic Usage Cases GET/POST/PUT", () => {
-
+  describe("Realistic Usage Cases", () => {
     describe("Given that the user requests a course by its ID ", () => {
-
       it("it should return a course", async () => {
         const mockCourse = {
           _id: mockID,
@@ -41,14 +39,12 @@ describe("ANDREAS Course Route Tests", () => {
         };
         jest.spyOn(Course, "findById").mockResolvedValue(mockCourse);
         const response = await request(app).get(`/courses/${mockID}`);
-        expect(200);
+        expect(response.status).toBe(200);
         expect(response.body.data).toEqual(mockCourse);
       });
-
     });
 
     describe("Given that the user wants to receive all courses", () => {
-
       it("it should return all courses for the user", async () => {
         const mockCourses = [
           { title: "Course 1", description: "First course" },
@@ -58,7 +54,7 @@ describe("ANDREAS Course Route Tests", () => {
 
         const response = await request(app).get("/courses");
 
-        expect(200);
+        expect(response.status).toBe(200);
         expect(response.body.data).toEqual(mockCourses);
         expect(response.body.count).toBe(mockCourses.length);
       });
@@ -68,14 +64,13 @@ describe("ANDREAS Course Route Tests", () => {
 
         const response = await request(app).get("/courses");
 
-        expect(200);
+        expect(response.status).toBe(200);
         expect(response.body.data).toEqual([]);
         expect(response.body.count).toBe(0);
       });
     });
 
     describe("Given that the user wants to create a course", () => {
-
       it("it should create a course when given typical data", async () => {
         const typicalCourse = {
           title: "Introduction to Cows",
@@ -86,13 +81,12 @@ describe("ANDREAS Course Route Tests", () => {
         const response = await request(app)
           .post("/courses")
           .send(typicalCourse);
-        expect(201);
+        expect(response.status).toBe(201);
         expect(response.body).toEqual(typicalCourse);
       });
     });
 
     describe("Given the user wants to update a course", () => {
-
       it("it should update a course when given typical data", async () => {
         const updatedCourse = {
           title: "Introduction to small Cows",
@@ -105,17 +99,30 @@ describe("ANDREAS Course Route Tests", () => {
         const response = await request(app)
           .put(`/courses/${mockID}`)
           .send(updatedCourse);
-        expect(200);
+        expect(response.status).toBe(200);
         expect(response.body.data).toEqual(updatedCourse);
+      });
+    });
+
+    describe("Given that the user wants to delete a course", () => {
+      it("it should return 200 when deleting a course", async () => {
+        jest.spyOn(Course, "findByIdAndDelete").mockResolvedValue({
+          title: "Introduction to small Cows(Deleted))",
+          description: "Introduction to the smaller cows of the world",
+          courseCode: "6789",
+        });
+        const response = await request(app).delete(`/courses/${mockID}`);
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual({
+          message: "Course deleted successfully",
+        });
       });
     });
   });
 
   // Boundary Cases
   describe("Boundary Cases", () => {
-
-    describe("Given that the user wants to cerate a new course", () => {
-
+    describe("Given that the user wants to create a new course", () => {
       it("it should return 201 when courseCode is exactly at minimum length of 4 characters", async () => {
         const course = {
           title: "Short Code",
@@ -124,22 +131,8 @@ describe("ANDREAS Course Route Tests", () => {
         };
         jest.spyOn(Course.prototype, "save").mockResolvedValue(course);
         const response = await request(app).post("/courses").send(course);
-        expect(201);
+        expect(response.status).toBe(201);
         expect(response.body).toEqual(course);
-      });
-
-      it("it should return 400 when title is below the minLength of 3 chracters", async () => {
-        const course = {
-          title: "Ti",
-          description: "A fun course",
-          courseCode: "FUN1",
-        };
-        jest.spyOn(Course.prototype, "save").mockResolvedValue(course);
-        const response = await request(app).post("/courses").send(course);
-        expect(400);
-        expect(response.body.message).toEqual(
-          "Title must be at least 3 characters."
-        );
       });
 
       it("it should handle a course title just at the limit of 100 characters", async () => {
@@ -152,17 +145,53 @@ describe("ANDREAS Course Route Tests", () => {
         const response = await request(app)
           .post("/courses")
           .send(longTitleCourse);
-        expect(201);
+        expect(response.status).toBe(201);
         expect(response.body).toEqual(longTitleCourse);
       });
+    });
 
+    describe("Given that the user wants to update a course", () => {
+      it("it should return 200 when courseCode is exactly at maximum length of 10 characters", async () => {
+        const updatedCourse = {
+          title: "Introduction to small Cows",
+          description: "Introduction to the smaller cows of the world",
+          courseCode: "0123456789",
+        };
+        jest
+          .spyOn(Course, "findByIdAndUpdate")
+          .mockResolvedValue(updatedCourse);
+        const response = await request(app)
+          .put(`/courses/${mockID}`)
+          .send(updatedCourse);
+        expect(response.status).toBe(200);
+        expect(response.body.data).toEqual(updatedCourse);
+      });
     });
   });
 
   // Edge Cases
   describe("Edge Cases", () => {
+    describe("Given that the user wants to delete a course", () => {
+      it("it should return 404 when trying to delete a non-existent course", async () => {
+        jest.spyOn(Course, "findByIdAndDelete").mockResolvedValue(null);
+        const response = await request(app).delete(`/courses/${mockID}`);
+        expect(response.status).toBe(404);
+        expect(response.body.message).toEqual("Course not found");
+      });
+    });
+  });
 
-    describe("Given that the user wants to create a new course", () => {
+  // Negative Cases
+  describe("Negative Cases", () => {
+    describe("Given the user wants to create a new course", () => {
+      it("it should return an error if the endpoint is invalid", async () => {
+        const response = await request(app).post("/courses/invalid").send({
+          title: "Once i slipped on a banana peel",
+          description: "Have you ever seen a man do a backflip on a banana?",
+          courseCode: "WAHOOTIME",
+        });
+        expect(response.status).toBe(404);
+      });
 
       it("it should return an error when the title lengt is just over 100 characters", async () => {
         const longTitleCourse = {
@@ -171,68 +200,66 @@ describe("ANDREAS Course Route Tests", () => {
           courseCode: "LALALONG",
         };
         jest.spyOn(Course.prototype, "save");
-        await request(app).post("/courses").send(longTitleCourse);
-        expect(400);
-      });
-
-      it("it should return an error if the endpoint is invalid", async () => {
-        await request(app).post("/courses/invalid").send({
-          title: "Once i slipped on a banana peel",
-          description: "Have you ever seen a man do a backflip on a banana?",
-          courseCode: "WAHOOTIME",
-        });
-        expect(404);
-      });
-    });
-
-  });
-
-  // Negative Cases
-  describe("Negative Cases", () => {
-
-    describe("Given the user wants to create a new course", () => {
-
-      it("it should reject a course with missing courseCode", async () => {
         const response = await request(app)
           .post("/courses")
-          .send({
-            title: "I woke up today with a missing leg",
-            description: "I should visit the doctor more often",
-          });
-        expect(400);
+          .send(longTitleCourse);
+        expect(response.status).toBe(400);
+        expect(response.body.message).toEqual(
+          "Title must be at most 100 characters."
+        );
+      });
+
+      it("it should return 400 when title is below the minLength of 3 characters", async () => {
+        const course = {
+          title: "Ti",
+          description: "A fun course",
+          courseCode: "FUN1",
+        };
+        jest.spyOn(Course.prototype, "save").mockResolvedValue(course);
+        const response = await request(app).post("/courses").send(course);
+        expect(response.status).toBe(400);
+        expect(response.body.message).toEqual(
+          "Title must be at least 3 characters."
+        );
+      });
+
+      it("it should reject a course with missing courseCode", async () => {
+        const response = await request(app).post("/courses").send({
+          title: "I woke up today with a missing leg",
+          description: "I should visit the doctor more often",
+        });
+        expect(response.status).toBe(400);
         expect(response.body.message).toBe(
           "Title and course code are required."
         );
       });
 
       it("it should reject a course with missing title", async () => {
-        const response = await request(app)
-          .post("/courses")
-          .send({
-            description: "I should visit the doctor more often",
-            courseCode: "DOC113",
-          });
-        expect(400);
+        const response = await request(app).post("/courses").send({
+          description: "I should visit the doctor more often",
+          courseCode: "DOC113",
+        });
+        expect(response.status).toBe(400);
         expect(response.body.message).toBe(
           "Title and course code are required."
         );
       });
-
     });
 
-    describe("Given that the user wants to create a new course", () => {
-
-        it("it should return 404 when trying to update a non-existent course", async () => {
-            const updateData = {
-              title: "Non-existent course update attempt",
-              description: "This course does not exist",
-              courseCode: "NOEXIST",
-            };
-            jest.spyOn(Course, "findByIdAndUpdate").mockResolvedValue(null);
-            const response = await request(app).put(`/courses/${mockID}`).send(updateData);
-            expect(response.status).toBe(404);
-          });
+    describe("Given that the user wants to update a course", () => {
+      it("it should return 404 when trying to update a non-existent course", async () => {
+        const updateData = {
+          title: "Non-existent course update attempt",
+          description: "This course does not exist",
+          courseCode: "NOEXIST",
+        };
+        jest.spyOn(Course, "findByIdAndUpdate").mockResolvedValue(null);
+        const response = await request(app)
+          .put(`/courses/${mockID}`)
+          .send(updateData);
+        expect(response.status).toBe(404);
+        expect(response.body.message).toEqual("Course not found");
+      });
     });
-
   });
 });

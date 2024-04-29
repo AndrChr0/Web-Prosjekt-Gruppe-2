@@ -1,19 +1,20 @@
 const { requireRole } = require("../middlewares/authMiddleware");
 
-function setup() {
-  const req = { user: { role: "teacher" } };
-  const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
-  const next = jest.fn();
-  return { req, res, next };
-}
 
 describe("ANDREAS - test for requireRole middleware", () => {
-  describe("Realistic Use Cases for requireRole middleware", () => {
-    let req, res, next;
 
-    beforeEach(() => {
-      ({ req, res, next } = setup());
-    });
+  let req, res, next; 
+
+  beforeEach(() => {
+    req = { user: { role: "teacher" } }; // Initialize `req` with a user role
+    res = { 
+      status: jest.fn().mockReturnThis(), 
+      json: jest.fn() 
+    }; // Mock `res` object methods
+    next = jest.fn(); // Mock `next` function
+  });
+
+  describe("Realistic Use Cases for requireRole middleware", () => {
 
     test("it should call next if the user has the required role", () => {
       requireRole("teacher")(req, res, next);
@@ -28,11 +29,6 @@ describe("ANDREAS - test for requireRole middleware", () => {
   });
 
   describe("Edge Cases for requireRole middleware", () => {
-    let req, res, next;
-
-    beforeEach(() => {
-      ({ req, res, next } = setup());
-    });
 
     test("it should handle roles defined as a single character string", () => {
       req.user.role = "a";
@@ -40,15 +36,10 @@ describe("ANDREAS - test for requireRole middleware", () => {
       expect(next).toHaveBeenCalled();
     });
 
-
   });
 
   describe("Boundary Cases for requireRole middleware", () => {
-    let req, res, next;
 
-    beforeEach(() => {
-      ({ req, res, next } = setup());
-    });
 
     test("it should give an error when there are more that two roles in the roles array", () => {
       requireRole(["teacher", "student", "admin"])(req, res, next);
@@ -60,12 +51,7 @@ describe("ANDREAS - test for requireRole middleware", () => {
   });
 
   describe("Negative Cases for requireRole middleware", () => {
-    let req, res, next;
-
-    beforeEach(() => {
-      ({ req, res, next } = setup());
-    });
-
+  
     test("it should return 403 if no user role found", () => {
       delete req.user.role;
       requireRole("teacher")(req, res, next);
