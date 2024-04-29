@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ s13-andreas ]
+    branches: [ testing-to-main ]
   pull_request:
-    branches: [ s13-andreas ]
+    branches: [ testing-to-main ]
 
 jobs:
   build-back-end:
