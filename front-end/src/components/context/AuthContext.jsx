@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
+const apiURL = import.meta.env.VITE_URL;
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -23,7 +24,7 @@ export const AuthProvider = ({ children }) => {
             setCurrentUser(decoded);
 
             try {
-                const response = await axios.get('http://localhost:5151/users/profile', {
+                const response = await axios.get(`${apiURL}/users/profile`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setCurrentUser(response.data); // set current user to user data
@@ -53,7 +54,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUserData = async (token) => {
     setLoading(true);  
     try {
-      const response = await axios.get('http://localhost:5151/users/profile', {
+      const response = await axios.get(`${apiURL}/users/profile`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -75,7 +76,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('authToken');
       if (token) {
-        await axios.put('http://localhost:5151/users/update-email', { email: newEmail }, {
+        await axios.put(`${apiURL}/users/update-email`, { email: newEmail }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -91,7 +92,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('authToken');
       if (token) {
-        await axios.put('http://localhost:5151/users/update-password', { password: newPassword }, {
+        await axios.put(`${apiURL}/users/update-password`, { password: newPassword }, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -106,7 +107,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('authToken');
       if (token) {
-        await axios.delete('http://localhost:5151/users/delete', {
+        await axios.delete(`${apiURL}/users/delete`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

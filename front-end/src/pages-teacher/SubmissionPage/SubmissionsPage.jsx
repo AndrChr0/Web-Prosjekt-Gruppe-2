@@ -7,6 +7,7 @@ import "./Submissions.css";
 
 const SubmissionsPage = () => {
     
+  const apiURL = import.meta.env.VITE_URL;
 
     const [reflections, setReflections] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ const SubmissionsPage = () => {
       const token = localStorage.getItem("authToken");
         setLoading(true);
         axios
-        .get("http://localhost:5151/reflections/search?visibility=true", {
+        .get(`${apiURL}/reflections/search?visibility=true`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

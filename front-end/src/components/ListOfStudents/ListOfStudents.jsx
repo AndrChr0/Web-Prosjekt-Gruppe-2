@@ -4,13 +4,15 @@ import { useParams } from 'react-router-dom';
 import './ListOfStudents.css';
 
 const ListOfStudents = () => {
+const apiURL = import.meta.env.VITE_URL;
+
   const [students, setStudents] = useState([]);
   const [courseTitle, setCourseTitle] = useState('');
   const [courseCode, setCourseCode] = useState('');
   const { courseId } = useParams(); // Use useParams to get courseId from URL
 
   useEffect(() => {
-    axios.get('http://localhost:5151/search?role=student', {
+    axios.get(`${apiURL}/search?role=student`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
     }) // Fetch only students
       .then(response => {
@@ -22,7 +24,7 @@ const ListOfStudents = () => {
 
 
     // fetching course title (to display in the notification)
-    axios.get(`http://localhost:5151/courses/${courseId}`, {
+    axios.get(`${apiURL}/courses/${courseId}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
     })
       .then(response => {
@@ -37,7 +39,7 @@ const ListOfStudents = () => {
   }, [courseId]);
 
   const handleAddStudent = (userId) => {
-    axios.put(`http://localhost:5151/users/${userId}/add_course`, { courseId }, {
+    axios.put(`${apiURL}/users/${userId}/add_course`, { courseId }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
     })
       .then(() => {
@@ -52,7 +54,7 @@ const ListOfStudents = () => {
   };
 
   const sendNotification = (userId, courseTitle, courseCode) => {
-    axios.post('http://localhost:5151/notifications', {
+    axios.post(`${apiURL}/notifications`, {
       content: `You have been added to a course: ${courseCode} ${courseTitle}`,
       userId: userId,
     }, {

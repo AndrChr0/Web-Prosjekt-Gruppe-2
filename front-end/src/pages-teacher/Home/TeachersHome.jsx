@@ -7,14 +7,14 @@ import HomeWelcomeCard from "../../components/HomeWelcomeCard/HomeWelcomeCard";
 
 const TeachersHome = () => {
 
-
+    const apiURL = import.meta.env.VITE_URL;
     const [reflections, setReflections] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true);
         axios
-          .get("http://localhost:5151/reflections")
+          .get(`${apiURL}/reflections`)
           .then((res) => {
         
             // displays the 5 most recent reflections

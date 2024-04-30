@@ -5,6 +5,7 @@ import axios from "axios";
 import "./CourseInfo.css";
 
 const CourseInfo = () => {
+const apiURL = import.meta.env.VITE_URL;
 
     const [course, setCourse] = useState({});
     const [loading, setLoading] = useState(false);
@@ -14,7 +15,7 @@ const CourseInfo = () => {
         const token = localStorage.getItem("authToken");
         setLoading(true);
         axios
-        .get(`http://localhost:5151/courses/${id}`, {
+        .get(`${apiURL}/courses/${id}`, {
             headers: {
               Authorization: `Bearer ${token}`, // Include JWT token in request headers
             },

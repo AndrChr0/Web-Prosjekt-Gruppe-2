@@ -4,6 +4,8 @@ import './InboxNotification.css';
 
 
 const Notifications = () => {
+const apiURL = import.meta.env.VITE_URL;
+
     const [notifications, setNotifications] = useState([]);
     const [olderNotifications, setOlderNotifications] = useState([]);
     const [toggle, setToggle] = useState(false);
@@ -12,7 +14,7 @@ const Notifications = () => {
         const token = localStorage.getItem('authToken');
     
         axios
-            .get('http://localhost:5151/notifications', {
+            .get(`${apiURL}/notifications`, {
 
                 headers: {
                     Authorization: `Bearer ${token}`,

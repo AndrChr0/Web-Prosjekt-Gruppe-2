@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Courses() {
+  
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const apiURL = import.meta.env.VITE_URL;
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -17,7 +20,7 @@ function Courses() {
           return;
         }
 
-        const response = await axios.get('http://localhost:5151/users/profile', {
+        const response = await axios.get(`${apiURL}/users/profile`, {
           headers: {
             Authorization: `Bearer ${token}`
           },

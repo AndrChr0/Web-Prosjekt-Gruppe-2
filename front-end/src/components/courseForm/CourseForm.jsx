@@ -4,6 +4,7 @@ import axios from "axios";
 import "./courseForm.css";
 
 const CourseForm = () => {
+const apiURL = import.meta.env.VITE_URL;
   const navigate = useNavigate();
   const [courseError, setCourseError] = useState("");
   const [courseData, setCourseData] = useState({
@@ -35,7 +36,7 @@ const CourseForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5151/courses",
+        `${apiURL}/courses`,
         courseData,
         {
           headers: {

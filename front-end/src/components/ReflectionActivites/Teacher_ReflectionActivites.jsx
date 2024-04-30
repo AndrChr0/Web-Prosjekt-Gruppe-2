@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import "./Activites-list.css";
 
 const ReflectionActivites = () => {
+  const apiURL = import.meta.env.VITE_URL;
+
   const [activities, setActivities] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:5151/activities")
+      .get(`${apiURL}/activities`)
       .then((res) => {
         setActivities(res.data.data); 
       })

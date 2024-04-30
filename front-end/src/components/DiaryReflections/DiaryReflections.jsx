@@ -4,6 +4,7 @@ import "./DiaryReflections.css";
 import { Link } from "react-router-dom";
 
 function DiaryReflections() {
+const apiURL = import.meta.env.VITE_URL;
   const [reflections, setReflections] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ function DiaryReflections() {
     setLoading(true);
     const token = localStorage.getItem("authToken"); 
     axios
-      .get("http://localhost:5151/reflections", {
+      .get(`${apiURL}/reflections`, {
         headers: {
           Authorization: `Bearer ${token}`, 
         },

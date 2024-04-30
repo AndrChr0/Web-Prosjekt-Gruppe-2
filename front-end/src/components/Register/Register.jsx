@@ -4,6 +4,10 @@ import { useNavigate, Link } from "react-router-dom";
 import "./Register.css";
  
 const Register = () => {
+
+  const apiURL = import.meta.env.VITE_URL;
+
+
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -33,7 +37,7 @@ const Register = () => {
     }
     try {
       // Continue with registration process
-      await axios.post("http://localhost:5151/users/register", credentials);
+      await axios.post(`${apiURL}/users/register`, credentials);
       navigate("/login"); // Redirect to login page after successful registration
     } catch (error) {
       setRegistrationError(

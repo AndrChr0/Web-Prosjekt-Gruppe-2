@@ -12,6 +12,6 @@ RUN ls
 
 RUN npm install
 
-EXPOSE 5151
+EXPOSE 8092
 
 CMD ["npm", "start"]
