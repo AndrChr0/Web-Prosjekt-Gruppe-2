@@ -64,6 +64,7 @@ const CourseForm = () => {
             type="text"
             name="title"
             value={courseData.title}
+            placeholder="Enter course name"
             onChange={handleChange}
             required
           />
@@ -75,6 +76,7 @@ const CourseForm = () => {
             type="text"
             name="courseCode"
             value={courseData.courseCode}
+            placeholder="Enter course code"
             onChange={handleChange}
             required
           />
