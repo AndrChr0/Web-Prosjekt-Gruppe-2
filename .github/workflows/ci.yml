@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ more-tests-maja ]
   pull_request:
-    branches: [ main ]
+    branches: [ more-tests-maja ]
 jobs:
   build-back-end:
     runs-on: ubuntu-latest
