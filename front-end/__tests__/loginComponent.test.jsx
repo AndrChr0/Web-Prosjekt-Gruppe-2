@@ -15,22 +15,7 @@ import { handleSubmit } from '../src/components/Login/loginComponent';
 vi.mock('axios');
 Storage.prototype.getItem = vi.fn();
 
-
 // login component relies on useAuth hook, so we need to wrap it with AuthProvider in order to test it properly
-// test if login component renders
-  describe('check login component render', () => {
-    it('should render', () => {
-        const { container } = render(
-          <Router>
-            <AuthProvider>
-              <Login />
-            </AuthProvider>
-          </Router>
-        );
-        expect(container).toBeInTheDocument();
-    });
-});
-
 // reusable function to render component
 const renderLogin = () => {
     return render(
@@ -44,6 +29,19 @@ const renderLogin = () => {
 
 
 describe('Realistic cases', () => {
+    // test if login component renders
+    describe('check login component render', () => {
+        it('should render', () => {
+            const { container } = render(
+            <Router>
+                <AuthProvider>
+                <Login />
+                </AuthProvider>
+            </Router>
+            );
+            expect(container).toBeInTheDocument();
+        });
+    });
 
     describe('Check that email and password fields are able to render', () => {
         it('should render the login input fields', async () => {

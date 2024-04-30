@@ -50,29 +50,6 @@ describe("Realistic use cases", () => {
       });
     });
 
-    /* describe("Given that a user requests one reflection", () => {
-      it("should return the reflection with the given id", async () => {
-        const mockReflection = {
-          title: "another reflection",
-          content: "hello i am one reflection",
-          visibility: "true",
-          files: ["file"],
-          userId: userIdMock,
-          courseId: "1",
-        };
-        // use findbyid method
-        jest.spyOn(Reflection, "findById").mockResolvedValue(mockReflection);
-
-        const mockIdReflection = "661d5984cc5d5ba086920b88";
-        // do the get request
-        const response = await request(app).get(`/reflections/${mockIdReflection}`);
-
-        expect(response.status).toBe(200);
-        expect(response.body).toMatchObject(mockReflection);
-      });
-    });
-    */
-
     describe("Given that a user creates a new reflection", () => {
       it("should return status code 201 and create a new reflection", async () => {
         const mockReflection = {
@@ -100,6 +77,26 @@ describe("Realistic use cases", () => {
         expect(response.body).toMatchObject(mockReflection);
       });
 
+    });
+    describe("Given that user wants to delete a reflection", () => {
+    
+      it("should successfully delete the reflection", async () => {
+        const reflectionId = "1324243";
+    
+        jest.spyOn(Reflection, "findByIdAndDelete").mockResolvedValue({
+          _id: reflectionId,
+          title: "a reflection",
+          content: "here is a contents of my reflection",
+          visibility: "true",
+          userId: userIdMock,
+        });
+  
+        const response = await request(app).delete(`/reflections/${reflectionId}`)
+          .send();
+    
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("Reflection deleted successfully");
+      });
     });
   });
 

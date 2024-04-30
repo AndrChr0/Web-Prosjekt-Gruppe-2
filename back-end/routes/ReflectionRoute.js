@@ -57,7 +57,7 @@ const upload = multer({
 
 
 
-router.get("/search", requireRole(["student", "teacher"]), async (req, res) => {
+router.get("/search", /* requireRole(["student", "teacher"]), */ async (req, res) => {
   try {
     const visibility = Boolean(req.query.visibility);
     let reflections;
@@ -153,7 +153,7 @@ router.get("/", /* requireRole(["student", "teacher"]) */ async (req, res) => {
 
 
 // Route for handling GET requests to retrieve a single reflection by ID
-router.get("/:id", requireRole(["student", "teacher"]), async (req, res) => {
+router.get("/:id", /* requireRole(["student", "teacher"]), */ async (req, res) => {
   try {
     const { id } = req.params;
     // Retrieve a reflection by its ID from the database
@@ -182,7 +182,7 @@ router.get("/:id", requireRole(["student", "teacher"]), async (req, res) => {
 
 
 // Route for handling PUT requests to update a reflection by ID
-router.put("/:id",  requireRole("student"), async (req, res) => {
+router.put("/:id",  /* requireRole("student"), */ async (req, res) => {
   try {
     // Check if all required fields are provided
     if (!req.body.title || !req.body.content) {
@@ -207,7 +207,7 @@ router.put("/:id",  requireRole("student"), async (req, res) => {
 });
 
 // Route for handling DELETE requests to delete a reflection by ID
-router.delete("/:id", requireRole("student"), async (req, res) => {
+router.delete("/:id", /* requireRole("student") */ async (req, res) => {
   try {
     const { id } = req.params;
     // Delete a reflection by its ID from the database
