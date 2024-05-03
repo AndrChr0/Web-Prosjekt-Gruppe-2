@@ -7,8 +7,6 @@ import { renderHook } from "@testing-library/react-hooks/dom"
 import { useLatestReflections } from "../src/pages-teacher/Home/useLatestReflections"
 import axios from "axios"
 
-//axios.defaults.adapter = require("axios/lib/adapters/http")
-
 const server = setupServer(
   rest.get("http://localhost:5151/reflections", (req, res, ctx) => {
     return res(
