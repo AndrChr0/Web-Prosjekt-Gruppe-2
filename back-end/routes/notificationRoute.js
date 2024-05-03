@@ -11,9 +11,10 @@ router.post('/', async (req, res) => {
     }
     try {
         const notification = await Notification.create(newNotification);
-        return res.status(201).json({ 
+        return res.status(201).json({
             count: notification.length,
-            data: notification });
+            data: notification
+        });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error' });
     }
