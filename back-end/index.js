@@ -1,7 +1,7 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
-const reflectionRoute = require("./routes/reflectionRoute.js");
+const reflectionRoute = require("./routes/ReflectionRoute.js");
 const courseRoute = require("./routes/courseRoute.js");
 const userRoute = require("./routes/userRoute.js");
 const reflectionActivityRoute = require("./routes/reflectionActivityRoute.js");
@@ -24,25 +24,15 @@ const app = express();
 app.use(express.json());
 
 
+const corsOptions = {
+  origin: "http://localhost:8082",
+  credentials: true
+}
+app.use(cors(corsOptions));
 // Middelware for handeling CORS policy.
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // Use "http://localhost:5174" for a specific origin
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  if (req.method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-    return res.status(200).json({});
-  }
-  next();
-});
+// app.use(cors());
 
 
-app.use((req, res, next) => {
-  console.log('Received headers:', req.headers);
-  next();
-});
 
 
 app.use("/reflections", verifyToken, reflectionRoute);
@@ -111,7 +101,7 @@ mongoose
   .then(() => {
     console.log("app connected to DB");
     app.listen(PORT, () => {
-      console.log(`app is lissstening on ${PORT}`);
+      console.log(`app is listening on ${PORT}`);
     });
   })
   .catch((error) => {
