@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ DANIEL-TESTING2 ]
   pull_request:
-    branches: [ main ]
+    branches: [ DANIEL-TESTING2 ]
 jobs:
   build-back-end:
     runs-on: ubuntu-latest
