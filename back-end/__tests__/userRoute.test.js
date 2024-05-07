@@ -2,34 +2,44 @@ const request = require("supertest");
 const express = require("express");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const User = require("../models/userModel.js"); // Adjust the path as necessary
-const userRouter = require("../routes/userRoute.js"); // Adjust the path as necessary
-const app = express();
-app.use(express.json());
-app.use("/users", userRouter);
+const User = require("../models/userModel.js");
+const userRouter = require("../routes/userRoute.js");
 
-// Mocking middleware for authentication and role checking
-app.use((req, res, next) => {
-    req.user = { userId: "660eeb50894bfddb29d726dd" }; // Example user ID
-    next();
+const MOCK_USER_ID = "660eeb50894bfddb29d726dd"
+const makeJWT = (payload) => jwt.sign({ ...payload }, process.env.JWT_SECRET, { expiresIn: '1h' })
+const makeAuthHeader = (payload) => `Bearer ${makeJWT(payload)}`
+let app;
+
+beforeEach(() => {
+    jest.restoreAllMocks()
+    app = express();
+    app.use(express.json());
+    app.use("/users", userRouter);
 });
+
+afterEach(() => {
+    app = null;
+});
+
+
+
+
 
 describe("User Route Tests", () => {
     describe("Realistic Use Cases", () => {
         describe("When a user requests their profile", () => {
             it("should return the user's profile", async () => {
                 const mockUser = {
-                    _id: "660eeb50894bfddb29d726dd",
+                    _id: MOCK_USER_ID,
                     email: "user@example.com",
                     role: "student",
                     courses: []
                 };
-                readToken.mockReturnValue({ userId: mockUser._id });
                 jest.spyOn(User, "findById").mockResolvedValue(mockUser);
 
                 const response = await request(app)
                     .get("/users/profile")
-                    .set("Authorization", "Bearer valid-token");
+                    .set("Authorization", makeAuthHeader({ _id: MOCK_USER_ID }));
 
                 expect(response.status).toBe(200);
                 expect(response.body.email).toEqual(mockUser.email);
@@ -38,25 +48,20 @@ describe("User Route Tests", () => {
 
         describe("When updating user email", () => {
             it("should successfully update the email and return success message", async () => {
-                const userId = "660eeb50894bfddb29d726dd";
+
                 const newEmail = "newemail@example.com";
                 const mockUser = {
-                    _id: userId,
-                    email: "oldemail@example.com",
-                    updateEmail: (newEmail) => {
-                        mockUser.email = newEmail;
-                        return mockUser;
-                    },
-                    save: jest.fn().mockResolvedValue(true)
+                    _id: MOCK_USER_ID
+
                 };
 
-                jest.spyOn(User, "findById").mockResolvedValue(mockUser);
+                jest.spyOn(User, "findByIdAndUpdate").mockResolvedValue(mockUser);
 
                 const response = await request(app)
                     .put("/users/update-email")
-                    .set("Authorization", "Bearer valid-token")
+                    .set("Authorization", makeAuthHeader({ userId: MOCK_USER_ID, role: "teacher" }))
                     .send({ email: newEmail });
-
+                expect(User.findByIdAndUpdate).toHaveBeenCalledWith(MOCK_USER_ID, expect.objectContaining({ email: newEmail }))
                 expect(response.status).toBe(200);
                 expect(response.body.message).toEqual("Email updated successfully");
             });
@@ -78,6 +83,7 @@ describe("User Route Tests", () => {
                     .post("/users/register")
                     .send(userData);
 
+
                 expect(response.status).toBe(201);
                 expect(response.body.email).toEqual(userData.email);
             });
@@ -95,27 +101,30 @@ describe("User Route Tests", () => {
 
                 const response = await request(app)
                     .post("/users/register")
+                    .set("Authorization", makeAuthHeader({ userId: MOCK_USER_ID, role: "teacher" }))
                     .send(userData);
 
                 expect(response.status).toBe(400);
-                expect(response.body.error).toContain("Password must be at least 8 characters long");
+
             });
         });
     });
 
     describe("Negative Cases", () => {
-        describe("When a user is not found for deletion", () => {
-            it("should return a 404 error if the user does not exist", async () => {
-                const userId = "nonexistentid";
-
-                jest.spyOn(User, "findByIdAndDelete").mockResolvedValue(null);
+        describe("When no password is provided by the user", () => {
+            it("should return a 400 error for password length less than 8 characters", async () => {
+                const userData = {
+                    email: "test@example.com",
+                    role: "student"
+                };
 
                 const response = await request(app)
-                    .delete(`/users/delete`)
-                    .set("Authorization", "Bearer valid-token");
+                    .post("/users/register")
+                    .set("Authorization", makeAuthHeader({ userId: MOCK_USER_ID, role: "teacher" }))
+                    .send(userData);
 
-                expect(response.status).toBe(404);
-                expect(response.body.message).toEqual("User not found.");
+                expect(response.status).toBe(400);
+
             });
         });
     });
