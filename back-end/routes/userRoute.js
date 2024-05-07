@@ -3,27 +3,23 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 const User = require('../models/userModel.js');
-const {verifyToken ,requireRole} = require("../middlewares/authMiddleware.js");
+const { verifyToken, requireRole } = require("../middlewares/authMiddleware.js");
 
 
-router.get('/profile', async (req, res) => {
+router.get('/profile', verifyToken, async (req, res) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.userId)
-                               .populate('courses') 
-                               .exec();
+        const user = await User.findById(req.user.userId)
 
         if (!user) {
             return res.status(404).send('User not found.');
         }
 
         return res.status(200).json({
-            id: user._id, 
+            id: user._id,
             email: user.email,
             role: user.role,
-            courses: user.courses, 
-           
+            courses: user.courses,
+
         });
 
     } catch (error) {
@@ -32,36 +28,29 @@ router.get('/profile', async (req, res) => {
     }
 });
 
-
-router.put('/update-email',verifyToken ,requireRole(["teacher", "student"]), async (req, res) => {
+const updateEmail = async (req, res) => {
+    console.log(req.user);
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const userId = decoded.userId;
-        const newEmail = req.body.email;
 
-        const user = await User.findById(userId);
+        const user = await User.findByIdAndUpdate(req.user.userId, { email: req.body.email });
         if (!user) {
             return res.status(404).send('User not found.');
         }
 
-        user.email = newEmail;
-        await user.save();
 
         return res.status(200).json({ message: 'Email updated successfully' });
     } catch (error) {
         return res.status(500).send('Error updating email.');
     }
-});
+}
+router.put('/update-email', verifyToken, requireRole(["teacher", "student"]), updateEmail);
 
-router.put('/update-password', verifyToken ,requireRole(["teacher", "student"]), async (req, res) => {
+router.put('/update-password', verifyToken, requireRole(["teacher", "student"]), async (req, res) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const userId = decoded.userId;
-        const { password } = req.body;
 
-        const user = await User.findById(userId);
+        const { password } = req.body;
+        if (password?.length() < 8) return res.status(400).send('Password must be at least 8 characters long');
+        const user = await User.findById(req.user.userId);
         if (!user) {
             return res.status(404).send('User not found.');
         }
@@ -76,7 +65,7 @@ router.put('/update-password', verifyToken ,requireRole(["teacher", "student"]),
     }
 });
 
-router.delete('/delete', verifyToken ,requireRole(["teacher", "student"]), async (req, res) => {
+router.delete('/delete', verifyToken, requireRole(["teacher", "student"]), async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -128,7 +117,7 @@ router.get("/", async (req, res) => {
 
 
 // Updated post for User Registration 
-router.post('/register', async (req, res) => { 
+router.post('/register', async (req, res) => {
     try {
         const newUser = new User({
             email: req.body.email,
