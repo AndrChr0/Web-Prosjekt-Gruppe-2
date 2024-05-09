@@ -17,7 +17,7 @@ function Courses() {
           return;
         }
 
-        const response = await axios.get('http://localhost:5151/users/profile', {
+        const response = await axios.get('http://localhost:5151/users/profile/user_courses', {
           headers: {
             Authorization: `Bearer ${token}`
           },

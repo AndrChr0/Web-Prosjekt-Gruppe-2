@@ -30,7 +30,7 @@ function ReflectionForm() {
         }
 
         const response = await axios.get(
-          "http://localhost:5151/users/profile",
+          "http://localhost:5151/users/profile/user_courses",
           {
             headers: {
               Authorization: `Bearer ${token}`,
