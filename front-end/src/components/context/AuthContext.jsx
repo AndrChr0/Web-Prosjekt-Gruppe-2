@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log("currentUser", currentUser);
 
   useEffect(() => {
     async function fetchAndSetUser() {

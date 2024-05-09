@@ -28,6 +28,33 @@ router.get('/profile', verifyToken, async (req, res) => {
     }
 });
 
+
+router.get('/profile/user_courses', verifyToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.userId).populate('courses') 
+        .exec();
+
+        if (!user) {
+            return res.status(404).send('User not found.');
+        }
+
+        return res.status(200).json({
+            id: user._id,
+            email: user.email,
+            role: user.role,
+            courses: user.courses,
+
+        });
+
+    } catch (error) {
+        console.error("Error accessing profile:", error);
+        res.status(500).send('Error fetching user profile.');
+    }
+});
+
+
+
+
 const updateEmail = async (req, res) => {
     console.log(req.user);
     try {
