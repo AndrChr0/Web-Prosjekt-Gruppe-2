@@ -23,14 +23,13 @@ const app = express();
 
 app.use(express.json());
 
-
+// Middelware for handeling CORS policy.
 const corsOptions = {
   origin: "http://localhost:8082",
   credentials: true
 }
 app.use(cors(corsOptions));
-// Middelware for handeling CORS policy.
-// app.use(cors());
+
 
 
 
