@@ -36,7 +36,7 @@ app.use("/uploads", express.static("uploads")); // make the uploads folder publi
 // reflection activities
 app.use("/activities", reflectionActivityRoute);
 
-app.use("/feedback", verifyToken, requireRole("student", "teacher"), FeedbackRoute);
+app.use("/feedback", verifyToken, /* requireRole("student", "teacher"), */ FeedbackRoute);
 
 app.use("/notifications", verifyToken, NotificationRoute);
 

@@ -9,7 +9,11 @@ export const useLatestReflections = () => {
   useEffect(() => {
     setIsLoading(true)
     axios
-      .get("http://localhost:5151/reflections")
+      .get("http://localhost:5151/reflections/search?visibility=true", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      } )
       .then((res) => {
         // displays the 5 most recent reflections
         const topFiveReflections = res.data.data.reverse().splice(0, 5)

@@ -12,11 +12,8 @@ export const LatestReflectionsList = () => {
         <li className="Recent-reflection" key={reflection._id}>
           <Link className="Text-link" to={`/submissions/${reflection._id}`}>
             <div>
-              <span>
-                <b>{reflection.courseCode}</b>
-              </span>
+              <span>{reflection.courseId.title}</span>
               <span>{reflection.title}</span>
-              {/* {user.firstName} */}
               <b>Student-Name</b>{" "}
             </div>
           </Link>
