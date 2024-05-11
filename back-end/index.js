@@ -20,15 +20,34 @@ const PORT = process.env.PORT || 5555;
 const MONGO_URI = process.env.MONGO_URI;
 
 const app = express();
-
 app.use(express.json());
 
+
+
+app.use(cors());
+
+
+
 // Middelware for handeling CORS policy.
-const corsOptions = {
-  origin: "http://localhost:8082",
-  credentials: true
-}
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: "http://localhost:8082",
+//   credentials: true
+// }
+// app.use(cors(corsOptions));
+// app.use(cors({
+//   optionsSuccessStatus: 200,
+//   origin: function(origin, cb){
+//       if(!origin) return cb(null, {origin: false}); // requests that don't require origin checking
+//       if(origin.startsWith("http://localhost")){
+//           return cb(null, {origin: true}); // mirroring back the origin for localhost
+//       }else if(origin.match(/[https:\/\/tst.sustainability.it.ntnu.no(\/|$)/))]https:\/\/tst.sustainability.it.ntnu.no(\/|$)/)){
+//           return cb(null, {origin: true});
+//       }
+//       console.log("Non-allowed origin: ", origin);
+//       return cb("Unknown origin", {origin: false});
+//   }
+// }));
+
 
 
 
