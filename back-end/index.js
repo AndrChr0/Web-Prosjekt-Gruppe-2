@@ -34,19 +34,21 @@ app.use(cors());
 //   credentials: true
 // }
 // app.use(cors(corsOptions));
-// app.use(cors({
-//   optionsSuccessStatus: 200,
-//   origin: function(origin, cb){
-//       if(!origin) return cb(null, {origin: false}); // requests that don't require origin checking
-//       if(origin.startsWith("http://localhost")){
-//           return cb(null, {origin: true}); // mirroring back the origin for localhost
-//       }else if(origin.match(/[https:\/\/tst.sustainability.it.ntnu.no(\/|$)/))]https:\/\/tst.sustainability.it.ntnu.no(\/|$)/)){
-//           return cb(null, {origin: true});
-//       }
-//       console.log("Non-allowed origin: ", origin);
-//       return cb("Unknown origin", {origin: false});
-//   }
-// }));
+console.log("MONGO_URI", MONGO_URI);
+console.log("PORT", PORT);
+app.use(cors({
+  optionsSuccessStatus: 200,
+  origin: function(origin, cb){
+      if(!origin) return cb(null, {origin: false}); // requests that don't require origin checking
+      if(origin.startsWith("http://localhost")){
+          return cb(null, {origin: true}); // mirroring back the origin for localhost
+      }else if(origin.match(/[https:\/\/team2.sustainability.it.ntnu.no(\/|$)/))]https:\/\/team2.sustainability.it.ntnu.no(\/|$)/)){
+          return cb(null, {origin: true});
+      }
+      console.log("Non-allowed origin: ", origin);
+      return cb("Unknown origin", {origin: false});
+  }
+}));
 
 
 

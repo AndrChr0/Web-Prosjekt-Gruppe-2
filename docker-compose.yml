@@ -17,7 +17,7 @@ services:
       # - ./back-end:/app
       # - /app/node_modules
     ports:
-      - "5151:5151"
+      - "8092:8092"
     depends_on:
       - mongo
     networks:
