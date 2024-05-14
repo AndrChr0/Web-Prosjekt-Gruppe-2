@@ -5,7 +5,6 @@ import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
 const apiURL = import.meta.env.VITE_URL;
-// const apiURL = '/api';
 
 
 export function useAuth() {
@@ -23,19 +22,19 @@ export const AuthProvider = ({ children }) => {
         const decoded = jwtDecode(token);
         setCurrentUser(decoded);
 
-            try {
-                const response = await axios.get(`${apiURL}/users/profile`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setCurrentUser(response.data); // set current user to user data
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                setLoading(false);
-            }
-        } else {
-            setLoading(false);
+        try {
+          const response = await axios.get(`${apiURL}/users/profile`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setCurrentUser(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setLoading(false);
         }
+      } else {
+        setLoading(false);
+      }
     }
     fetchAndSetUser();
   }, []);
@@ -44,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('authToken');
       if (token) {
-        await axios.put('http://localhost:5151/users/update_profile', updatedProfile, {
+        await axios.put(`${apiURL}/users/update_profile`, updatedProfile, {
           headers: { Authorization: `Bearer ${token}` }
         });
         // Fetch updated user data after successful update
@@ -59,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('authToken');
       if (token) {
-        await axios.delete('http://localhost:5151/users/delete', {
+        await axios.delete(`${apiURL}/users/delete`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setCurrentUser(null);
@@ -79,9 +78,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axios.get(`${apiURL}/users/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` }
       });
       setCurrentUser(response.data);
       setLoading(false);
@@ -91,39 +88,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-
-
-  async function updateUserEmail(newEmail) {
+  const decodeAndSetUser = (token) => {
+    const jsonPayload = jwtDecode(token);
     try {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        await axios.put(`${apiURL}/users/update-email`, { email: newEmail }, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        setCurrentUser(prevUser => ({ ...prevUser, email: newEmail }));
-      }
+      setCurrentUser(jsonPayload);
+      fetchUserData(token); // Update user data immediately after decoding token
     } catch (error) {
       console.error("Error decoding user token:", error);
     }
   };
 
-  async function deleteUser() {
-    try {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        await axios.delete(`${apiURL}/users/delete`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        setCurrentUser(null); 
-      }
-    } catch (error) {
-      console.error("Error deleting user account:", error);
-    }
-  }
+  // Implement other functions as needed
 
   return (
     <AuthContext.Provider value={{
