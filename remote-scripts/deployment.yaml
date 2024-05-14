@@ -19,6 +19,8 @@ services:
     restart: unless-stopped
     ports:
       - "8082:8082"
+    env_file:
+      - .env
     depends_on:
       - back-end
     networks:
