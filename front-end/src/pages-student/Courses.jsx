@@ -21,7 +21,7 @@ function Courses() {
           return;
         }
 
-        const response = await axios.get(`${apiURL}/users/profile`, {
+        const response = await axios.get(`${apiURL}/users/profile/user_courses`, {
           headers: {
             Authorization: `Bearer ${token}`
           },
