@@ -9,6 +9,7 @@ function Courses() {
   const [error, setError] = useState('');
 
   const apiURL = import.meta.env.VITE_URL;
+  // const apiURL = '/api';
 
   useEffect(() => {
     const fetchCourses = async () => {

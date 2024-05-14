@@ -26,13 +26,13 @@ const corsOptions = {
     "https://team2-api.sustainability.it.ntnu.no",
     "http://localhost:8082",
     "http://localhost:8092",
-    "https://team2.sustainability.it.ntnu.no",
-    "*"
+    "https://team2.sustainability.it.ntnu.no"
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
 
-console.log("corsOptions", corsOptions);
 app.use(cors(corsOptions));
 // app.use(cors());
 // {
@@ -72,19 +72,19 @@ app.use(cors(corsOptions));
 //   }
 // }));
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header( "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header( "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 app.use(express.json());
 
-app.use("/reflections", verifyToken, reflectionRoute);
-app.use("/courses", verifyToken, courseRoute);
-app.use("/users", userRoute);
-app.use("/my_courses", courseRoute); // This will handle all routes prefixed with '/my_courses'
-app.use("/uploads", express.static("uploads")); // make the uploads folder public
+app.use("api/reflections", verifyToken, reflectionRoute);
+app.use("api/courses", verifyToken, courseRoute);
+app.use("api/users", userRoute);
+app.use("api/my_courses", courseRoute); // This will handle all routes prefixed with '/my_courses'
+app.use("api/uploads", express.static("uploads")); // make the uploads folder public
 
 // reflection activities
 app.use("/activities", reflectionActivityRoute);
