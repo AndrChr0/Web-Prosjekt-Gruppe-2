@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
+const apiURL = import.meta.env.VITE_URL;
+
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -21,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         setCurrentUser(decoded);
 
         try {
-          const response = await axios.get('http://localhost:5151/users/profile', {
+          const response = await axios.get(`${apiURL}/users/profile`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setCurrentUser(response.data);
@@ -41,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('authToken');
       if (token) {
-        await axios.put('http://localhost:5151/users/update_profile', updatedProfile, {
+        await axios.put(`${apiURL}/users/update_profile`, updatedProfile, {
           headers: { Authorization: `Bearer ${token}` }
         });
         // Fetch updated user data after successful update
@@ -56,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('authToken');
       if (token) {
-        await axios.delete('http://localhost:5151/users/delete', {
+        await axios.delete(`${apiURL}/users/delete`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setCurrentUser(null);
@@ -75,7 +77,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUserData = async (token) => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:5151/users/profile', {
+      const response = await axios.get(`${apiURL}/users/profile`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setCurrentUser(response.data);

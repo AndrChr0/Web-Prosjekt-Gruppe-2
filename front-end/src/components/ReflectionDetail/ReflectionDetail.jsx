@@ -6,6 +6,11 @@ import axios from "axios";
 import "./ReflectionDetail.css";
 
 function ReflectionDetail() {
+
+  const apiURL = import.meta.env.VITE_URL;
+  // const apiURL = '/api';
+
+
   const { reflectionId } = useParams();
   const navigate = useNavigate();
   const [reflection, setReflection] = useState(null);
@@ -18,7 +23,7 @@ function ReflectionDetail() {
     const token = localStorage.getItem("authToken");
     setLoading(true);
     axios
-      .get(`http://localhost:5151/reflections/${reflectionId}`, {
+      .get(`${apiURL}/reflections/${reflectionId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -40,7 +45,7 @@ function ReflectionDetail() {
   const fetchFeedback = () => {
     const token = localStorage.getItem("authToken");
     axios
-      .get(`http://localhost:5151/feedback?reflectionId=${reflectionId}`, {
+      .get(`${apiURL}/feedback?reflectionId=${reflectionId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -115,7 +120,7 @@ function ReflectionDetail() {
                     <img
                       onClick={() => handleClick(file)}
                       className="reflection-image"
-                      src={`http://localhost:5151/${file}`}
+                      src={`${apiURL}/${file}`}
                       alt={`Image ${index + 1}`}
                     />
                   </div>
@@ -124,7 +129,7 @@ function ReflectionDetail() {
                 return (
                   <div key={index}>
                     <a
-                      href={`http://localhost:5151/${file}`}
+                      href={`${apiURL}/${file}`}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -138,7 +143,7 @@ function ReflectionDetail() {
                     <video width="320" height="240" controls>
                       <source
                         className="reflection-video"
-                        src={`http://localhost:5151/${file}`}
+                        src={`${apiURL}/${file}`}
                         type="video/mp4"
                       />
                       Your browser does not support the video tag.
@@ -149,7 +154,7 @@ function ReflectionDetail() {
                 return (
                   <div key={index}>
                     <a
-                      href={`http://localhost:5151/${file}`}
+                      href={`${apiURL}/${file}`}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -178,7 +183,7 @@ function ReflectionDetail() {
           <div className="popup">
             <div className="popup-content">
               <img
-                src={`http://localhost:5151/${enlargedImage}`}
+                src={`${apiURL}/${enlargedImage}`}
                 alt="Enlarged Image"
               />
               <button className="main-menu-btn" onClick={handleClose}>

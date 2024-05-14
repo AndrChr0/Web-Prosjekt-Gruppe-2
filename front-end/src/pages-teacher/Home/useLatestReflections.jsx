@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 export const useLatestReflections = () => {
+  const apiURL = import.meta.env.VITE_URL;
+
   const [reflections, setReflections] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -9,7 +11,7 @@ export const useLatestReflections = () => {
   useEffect(() => {
     setIsLoading(true)
     axios
-      .get("http://localhost:5151/reflections/search?visibility=true", {
+      .get(`${apiURL}/reflections/search?visibility=true`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },

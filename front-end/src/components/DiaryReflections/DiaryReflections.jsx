@@ -4,6 +4,9 @@ import "./DiaryReflections.css";
 import { Link } from "react-router-dom";
 
 function DiaryReflections() {
+const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
+
   const [reflections, setReflections] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,18 +22,18 @@ function DiaryReflections() {
     setLoading(true);
     const token = localStorage.getItem("authToken"); 
     axios
-      .get("http://localhost:5151/reflections", {
+      .get(`${apiURL}/reflections`, {
         headers: {
           Authorization: `Bearer ${token}`, 
         },
       })
       .then((res) => {
         setReflections(res.data.data); 
-        console.log(res.data.data);
+        console.log(res);
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         setLoading(false);
         setError("Failed to load reflections. Please try again.");
       });

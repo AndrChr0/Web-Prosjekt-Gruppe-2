@@ -4,12 +4,16 @@ import { useParams } from 'react-router-dom';
 import './AddedStudentsInCourse.css';
 
 const AddedStudentsInCourse = () => {
+const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
+
+
   const [addedStudents, setAddedStudents] = useState([]);
   const { courseId } = useParams(); // Use useParams to get courseId from URL
 
   // Fetch added students when component mounts
   useEffect(() => {
-      axios.get(`http://localhost:5151/search?role=student&&courseId=${courseId}`, {
+      axios.get(`${apiURL}/search?role=student&&courseId=${courseId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
       })
       .then(response => {
