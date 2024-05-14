@@ -24,7 +24,7 @@ export default defineConfig({
     proxy: {
       // Proxy API calls to the backend server
       '/api': {
-        target: process.env.VITE_URL || 'http://localhost:8080',
+        target: process.env.VITE_URL || 'http://localhost:8092',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
