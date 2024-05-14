@@ -18,8 +18,9 @@ router.get('/profile', verifyToken, async (req, res) => {
             id: user._id,
             email: user.email,
             role: user.role,
+            firstName: user.firstName,
+            lastName: user.lastName,
             courses: user.courses,
-
         });
 
     } catch (error) {
@@ -42,8 +43,9 @@ router.get('/profile/user_courses', verifyToken, async (req, res) => {
             id: user._id,
             email: user.email,
             role: user.role,
+            firstName: user.firstName,
+            lastName: user.lastName,
             courses: user.courses,
-
         });
 
     } catch (error) {
@@ -53,46 +55,32 @@ router.get('/profile/user_courses', verifyToken, async (req, res) => {
 });
 
 
-
-
-const updateEmail = async (req, res) => {
-    console.log(req.user);
+router.put('/update_profile', async (req, res) => {
     try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.userId;
+        const { firstName, lastName, email, password } = req.body;
 
-        const user = await User.findByIdAndUpdate(req.user.userId, { email: req.body.email });
+        const user = await User.findById(userId);
         if (!user) {
             return res.status(404).send('User not found.');
         }
 
+        if (firstName) user.firstName = firstName;
+        if (lastName) user.lastName = lastName;
+        if (email) user.email = email;
+        if (password) user.password = password;
 
-        return res.status(200).json({ message: 'Email updated successfully' });
-    } catch (error) {
-        return res.status(500).send('Error updating email.');
-    }
-}
-router.put('/update-email', verifyToken, requireRole(["teacher", "student"]), updateEmail);
-
-router.put('/update-password', verifyToken, requireRole(["teacher", "student"]), async (req, res) => {
-    try {
-
-        const { password } = req.body;
-        if (password?.length() < 8) return res.status(400).send('Password must be at least 8 characters long');
-        const user = await User.findById(req.user.userId);
-        if (!user) {
-            return res.status(404).send('User not found.');
-        }
-
-        // Update password
-        user.password = password;
         await user.save();
 
-        return res.status(200).json({ message: 'Password updated successfully' });
+        return res.status(200).json({ message: 'Profile updated successfully' });
     } catch (error) {
-        return res.status(500).send('Error updating password.');
+        return res.status(500).send('Error updating profile.');
     }
 });
 
-router.delete('/delete', verifyToken, requireRole(["teacher", "student"]), async (req, res) => {
+router.delete('/delete', async (req, res) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -146,12 +134,20 @@ router.get("/", async (req, res) => {
 // Updated post for User Registration 
 router.post('/register', async (req, res) => {
     try {
+        // Check if a user with the same email already exists
+        const existingUser = await User.findOne({ email: req.body.email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'User with this email already exists' });
+        }
+
         const newUser = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
             email: req.body.email,
             password: req.body.password,
             role: req.body.role
         });
-
+        
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
         console.log('User registered successfully');
@@ -187,12 +183,17 @@ router.post('/login', async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
-        //Generate token with user id, role, email + courses
+        //Generate token with user id, role, email, first name, last name + courses
         const token = jwt.sign({
-            userId: user._id, role: user.role, email: user.email, courses: user.courses
-        }, // Including role in payload 
-            process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token }); //Send token to client
+            userId: user._id, 
+            role: user.role, 
+            email: user.email, 
+            firstName: user.firstName,
+            lastName: user.lastName, 
+            courses: user.courses
+        }, 
+        process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.json({ token }); 
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

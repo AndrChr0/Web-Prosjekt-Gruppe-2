@@ -13,51 +13,72 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     async function fetchAndSetUser() {
-        const token = localStorage.getItem('authToken');
-        if (token) {
-            const decoded = jwtDecode(token);
-            setCurrentUser(decoded);
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        const decoded = jwtDecode(token);
+        setCurrentUser(decoded);
 
-            try {
-                const response = await axios.get('http://localhost:5151/users/profile', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setCurrentUser(response.data); // set current user to user data
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                setLoading(false);
-            }
-        } else {
-            setLoading(false);
+        try {
+          const response = await axios.get('http://localhost:5151/users/profile', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setCurrentUser(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setLoading(false);
         }
+      } else {
+        setLoading(false);
+      }
     }
     fetchAndSetUser();
-}, []);
+  }, []);
 
-  const decodeAndSetUser = (token) => {
-   const jsonPayload = jwtDecode(token);
+  const updateUser = async (updatedProfile) => {
     try {
-      setCurrentUser(jsonPayload);
-      console.log( "fetching n set user data", jsonPayload);
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        await axios.put('http://localhost:5151/users/update_profile', updatedProfile, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        // Fetch updated user data after successful update
+        await fetchUserData(token);
+      }
     } catch (error) {
-      console.error("Error decoding user token:", error);
+      console.error("Error updating user profile:", error);
     }
   };
 
-  // se på typ React-Query
+  const deleteUser = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        await axios.delete('http://localhost:5151/users/delete', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setCurrentUser(null);
+      }
+    } catch (error) {
+      console.error("Error deleting user account:", error);
+    }
+  };
+
+  const logout = () => {
+    // Add logout logic here, such as clearing localStorage
+    localStorage.removeItem('authToken'); // Clear authentication token from localStorage
+    setCurrentUser(null); // Reset current user state
+  };
+
   const fetchUserData = async (token) => {
-    setLoading(true);  
+    setLoading(true);
     try {
       const response = await axios.get('http://localhost:5151/users/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` }
       });
-      setCurrentUser(response.data);  
+      setCurrentUser(response.data);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -65,68 +86,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('authToken');
-    setCurrentUser(null);
+  const decodeAndSetUser = (token) => {
+    const jsonPayload = jwtDecode(token);
+    try {
+      setCurrentUser(jsonPayload);
+      fetchUserData(token); // Update user data immediately after decoding token
+    } catch (error) {
+      console.error("Error decoding user token:", error);
+    }
   };
 
-  async function updateUserEmail(newEmail) {
-    try {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        await axios.put('http://localhost:5151/users/update-email', { email: newEmail }, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        setCurrentUser(prevUser => ({ ...prevUser, email: newEmail }));
-      }
-    } catch (error) {
-      console.error("Error updating user email:", error);
-    }
-  }
-
-  async function updateUserPassword(newPassword) {
-    try {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        await axios.put('http://localhost:5151/users/update-password', { password: newPassword }, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-      }
-    } catch (error) {
-      console.error("Error updating user password:", error);
-    }
-  }
-
-  async function deleteUser() {
-    try {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        await axios.delete('http://localhost:5151/users/delete', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        setCurrentUser(null); 
-      }
-    } catch (error) {
-      console.error("Error deleting user account:", error);
-    }
-  }
+  // Implement other functions as needed
 
   return (
-    <AuthContext.Provider value={{ 
-      currentUser, 
-      fetchUserData,
-      setCurrentUser, 
-      logout, 
-      updateUserEmail, 
-      updateUserPassword, 
+    <AuthContext.Provider value={{
+      currentUser,
+      updateUser,
       deleteUser,
-      decodeAndSetUser
+      logout,
+      fetchUserData,
+      decodeAndSetUser,
+      setCurrentUser // Include setCurrentUser in the context value
     }}>
       {children}
     </AuthContext.Provider>
