@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
-// const apiURL = import.meta.env.VITE_URL;
-const apiURL = '/api';
+const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
 
 
 export function useAuth() {

@@ -13,8 +13,8 @@ const TeacherCourseInfo = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const { id } = useParams();
-// const apiURL = import.meta.env.VITE_URL;
-const apiURL = '/api';
+const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
 
 
 

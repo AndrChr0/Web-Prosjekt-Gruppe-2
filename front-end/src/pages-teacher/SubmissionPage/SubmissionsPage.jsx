@@ -7,8 +7,8 @@ import "./Submissions.css";
 
 const SubmissionsPage = () => {
     
-  // const apiURL = import.meta.env.VITE_URL;
-const apiURL = '/api';
+  const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
 
 
     const [reflections, setReflections] = useState([]);

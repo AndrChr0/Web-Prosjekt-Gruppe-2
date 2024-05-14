@@ -4,8 +4,8 @@ import axios from "axios";
 import "./courseForm.css";
 
 const CourseForm = () => {
-// const apiURL = import.meta.env.VITE_URL;
-const apiURL = '/api';
+const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
 
   const navigate = useNavigate();
   const [courseError, setCourseError] = useState("");

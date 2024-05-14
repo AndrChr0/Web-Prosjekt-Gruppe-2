@@ -5,8 +5,8 @@ import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 import ActionButton from "./components/ActionButton/ActionButton";
 import { useNavigate } from "react-router-dom";
 
-// const apiURL = import.meta.env.VITE_URL; 
-const apiURL = '/api';
+const apiURL = import.meta.env.VITE_URL; 
+// const apiURL = '/api';
 
 console.log(apiURL)
 function Home() {

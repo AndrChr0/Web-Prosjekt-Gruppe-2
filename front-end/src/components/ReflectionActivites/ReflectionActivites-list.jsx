@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import "./Activites-list.css";
 
 const ReflectionActivites = () => {
-  // const apiURL = import.meta.env.VITE_URL;
-const apiURL = '/api';
+  const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
 
   
   const [activities, setActivities] = useState([]);

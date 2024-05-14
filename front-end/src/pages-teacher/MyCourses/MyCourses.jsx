@@ -5,8 +5,8 @@ import "./MyCourses.css";
 import MainMenuButton from "../../components/MainmenuButton/MainMenuButton";
 
 const TeacherCourses = () =>{
-  // const apiURL = import.meta.env.VITE_URL;
-  const apiURL = '/api';
+  const apiURL = import.meta.env.VITE_URL;
+  // const apiURL = '/api';
 
     const [courses, setCourses] = useState([]);
     // const [loading, setLoading] = useState(false);

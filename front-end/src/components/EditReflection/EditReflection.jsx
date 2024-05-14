@@ -7,8 +7,8 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 function EditReflection() {
-// const apiURL = import.meta.env.VITE_URL;
-const apiURL = '/api';
+const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
 
 
   const { reflectionId } = useParams();

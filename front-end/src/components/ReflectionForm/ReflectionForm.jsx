@@ -9,8 +9,8 @@ import 'react-quill/dist/quill.snow.css';
 function ReflectionForm() {
 
 
-  // const apiURL = import.meta.env.VITE_URL;
-const apiURL = '/api';
+  const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
 
 
 

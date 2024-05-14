@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 import './ListOfStudents.css';
 
 const ListOfStudents = () => {
-// const apiURL = import.meta.env.VITE_URL;
-const apiURL = '/api';
+const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
 
 
   const [students, setStudents] = useState([]);
