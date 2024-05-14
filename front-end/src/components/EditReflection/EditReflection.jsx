@@ -7,6 +7,10 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 function EditReflection() {
+const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
+
+
   const { reflectionId } = useParams();
   const navigate = useNavigate();
   const [reflection, setReflection] = useState({
@@ -25,7 +29,7 @@ function EditReflection() {
         setLoading(true);
         // fetch reflection by id
         const response = await axios.get(
-          `http://localhost:5151/reflections/${reflectionId}`,
+          `${apiURL}/reflections/${reflectionId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -51,7 +55,7 @@ function EditReflection() {
     const fetchCourses = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5151/users/profile",
+          `${apiURL}/users/profile`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -80,7 +84,7 @@ function EditReflection() {
     setLoading(true);
     try {
       await axios.put(
-        `http://localhost:5151/reflections/${reflectionId}`,
+        `${apiURL}/reflections/${reflectionId}`,
         reflection,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -101,7 +105,7 @@ function EditReflection() {
     if (isConfirmed) {
       setLoading(true);
       axios
-        .delete(`http://localhost:5151/reflections/${reflectionId}`, {
+        .delete(`${apiURL}/reflections/${reflectionId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then(() => {

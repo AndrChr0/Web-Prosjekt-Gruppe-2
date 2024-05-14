@@ -7,6 +7,13 @@ import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 
 function ReflectionForm() {
+
+
+  const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
+
+
+
   const navigate = useNavigate();
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
@@ -30,7 +37,7 @@ function ReflectionForm() {
         }
 
         const response = await axios.get(
-          "http://localhost:5151/users/profile/user_courses",
+          `${apiURL}/users/profile`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -83,7 +90,7 @@ function ReflectionForm() {
 
     try {
       await axios.post(
-        "http://localhost:5151/reflections/",
+        `${apiURL}/reflections/`,
         formDataWithFiles,
         {
           headers: {

@@ -4,6 +4,9 @@ import axios from "axios";
 import "./RecentReflection.css";
 
 const RecentReflection = () => {
+  const apiURL = import.meta.env.VITE_URL;
+  // const apiURL = '/api';
+  
   const { id } = useParams();
   const [reflection, setReflection] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,7 +18,7 @@ const RecentReflection = () => {
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     axios
-      .get(`http://localhost:5151/reflections/${id}`, {
+      .get(`${apiURL}/reflections/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`, // Include JWT token in request headers
         },
@@ -34,7 +37,7 @@ const RecentReflection = () => {
   const fetchFeedback = () => {
     const token = localStorage.getItem("authToken");
     axios
-      .get(`http://localhost:5151/feedback?reflectionId=${id}`, {
+      .get(`${apiURL}/feedback?reflectionId=${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -66,7 +69,7 @@ const RecentReflection = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `http://localhost:5151/feedback`,
+        `${apiURL}/feedback`,
         { content: feedbackText, reflectionId: id },
         {
           headers: {
@@ -91,7 +94,7 @@ const RecentReflection = () => {
     );
     if (isConfirmed) {
       axios
-        .delete(`http://localhost:5151/feedback/${feedbackId}`, {
+        .delete(`${apiURL}/feedback/${feedbackId}`, {
           headers: {
             Authorization: `Bearer ${token}`, // Include the JWT token
           },
@@ -129,7 +132,7 @@ const RecentReflection = () => {
   const sendNotificationOfFeedback = (userId) => {
     axios
       .post(
-        "http://localhost:5151/notifications",
+        `${apiURL}/notifications` ,
         {
           content: `You have received feedback on your reflection: "${reflection.title}"`,
           userId: userId,
@@ -175,7 +178,7 @@ const RecentReflection = () => {
                     <img
                       onClick={() => handleClick(file)}
                       className="reflection-image"
-                      src={`http://localhost:5151/${file}`}
+                      src={`${apiURL}/${file}`}
                       alt={`Image ${index + 1}`}
                     />
                   </div>
@@ -184,7 +187,7 @@ const RecentReflection = () => {
                 return (
                   <div key={index}>
                     <a
-                      href={`http://localhost:5151/${file}`}
+                      href={`${apiURL}/${file}`}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -198,7 +201,7 @@ const RecentReflection = () => {
                     <video width="320" height="240" controls>
                       <source
                         className="reflection-video"
-                        src={`http://localhost:5151/${file}`}
+                        src={`${apiURL}/${file}`}
                         type="video/mp4"
                       />
                       Your browser does not support the video tag.
@@ -209,7 +212,7 @@ const RecentReflection = () => {
                 return (
                   <div key={index}>
                     <a
-                      href={`http://localhost:5151/${file}`}
+                      href={`${apiURL}/${file}`}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -231,7 +234,7 @@ const RecentReflection = () => {
         <div className="popup">
           <div className="popup-content">
             <img
-              src={`http://localhost:5151/${enlargedImage}`}
+              src={`${apiURL}/${enlargedImage}`}
               alt="Enlarged Image"
             />
             <button className="main-menu-btn" onClick={handleClose}>

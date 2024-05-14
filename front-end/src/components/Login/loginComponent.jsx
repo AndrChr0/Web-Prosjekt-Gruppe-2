@@ -5,7 +5,14 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Login.css";
 
+
+
 const Login = () => {
+  // const apiURL = import.meta.env.VITE_URL;
+  const apiURL = '/api';
+  
+  
+
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
@@ -20,7 +27,7 @@ const Login = () => {
     e.preventDefault();
     try { 
       const response = await axios.post(
-        "http://localhost:5151/users/login",
+        `${apiURL}/users/login`,
         credentials
       );
       localStorage.setItem("authToken", response.data.token); // Storing the token
@@ -77,8 +84,8 @@ export const handleSubmit = async (credentials, setLoginError, navigate, decodeA
   console.log('Login credentials:', credentials);
   try { 
       const response = await axios.post(
-          "http://localhost:5151/users/login",
-          credentials
+        `${apiURL}/users/login`,
+        credentials
       );
       localStorage.setItem("authToken", response.data.token); // Storing the token
       decodeAndSetUser(response.data.token); // Decode and set user upon successful login

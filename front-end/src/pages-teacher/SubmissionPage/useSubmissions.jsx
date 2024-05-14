@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 export const useSubmissions = () => {
+  const apiURL = import.meta.env.VITE_URL;
+
   const [reflections, setReflections] = useState([])
   const [isLoading, setLoading] = useState(false)
 
@@ -9,7 +11,7 @@ export const useSubmissions = () => {
     const token = localStorage.getItem("authToken")
     setLoading(true)
     axios
-      .get("http://localhost:5151/reflections/search?visibility=true", {
+      .get(`${apiURL}/reflections/search?visibility=true`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
