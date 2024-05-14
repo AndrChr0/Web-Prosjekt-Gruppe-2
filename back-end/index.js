@@ -80,11 +80,11 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-app.use("api/reflections", verifyToken, reflectionRoute);
-app.use("api/courses", verifyToken, courseRoute);
-app.use("api/users", userRoute);
-app.use("api/my_courses", courseRoute); // This will handle all routes prefixed with '/my_courses'
-app.use("api/uploads", express.static("uploads")); // make the uploads folder public
+app.use("/reflections", verifyToken, reflectionRoute);
+app.use("/courses", verifyToken, courseRoute);
+app.use("/users", userRoute);
+app.use("/my_courses", courseRoute); // This will handle all routes prefixed with '/my_courses'
+app.use("/uploads", express.static("uploads")); // make the uploads folder public
 
 // reflection activities
 app.use("/activities", reflectionActivityRoute);
