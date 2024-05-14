@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import "./Register.css";
- 
+
 const Register = () => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
     role: "student", // Default to 'student'
+    firstName: "",
+    lastName: ""
   });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [registrationError, setRegistrationError] = useState("");
   const navigate = useNavigate();
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "confirmPassword") {
@@ -21,7 +23,7 @@ const Register = () => {
       setCredentials({ ...credentials, [name]: value });
     }
   };
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (credentials.password !== confirmPassword) {
@@ -29,10 +31,9 @@ const Register = () => {
       return;
     } else if (credentials.password.length < 8) {
       setRegistrationError("Password must be at least 8 characters long.");
-      return; // Return early if password is too short
+      return;
     }
     try {
-      // Continue with registration process
       await axios.post("http://localhost:5151/users/register", credentials);
       navigate("/login"); // Redirect to login page after successful registration
     } catch (error) {
@@ -45,11 +46,28 @@ const Register = () => {
       );
     }
   };
- 
- 
+
   return (
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="firstName"
+          placeholder="First Name"
+          value={credentials.firstName}
+          onChange={handleChange}
+          required
+          className="login-input"
+        />
+        <input
+          type="text"
+          name="lastName"
+          placeholder="Last Name"
+          value={credentials.lastName}
+          onChange={handleChange}
+          required
+          className="login-input"
+        />
         <input
           type="email"
           name="email"
@@ -92,7 +110,7 @@ const Register = () => {
         </button>
       </form>
       <p>
-        Already have an account? <Link to="/login">Click here</Link>
+        Already have an account? <Link to="/login">Sign in</Link>
       </p>
       {registrationError && (
         <p className="error-message">{registrationError}</p>
@@ -100,5 +118,5 @@ const Register = () => {
     </div>
   );
 };
- 
+
 export default Register;
