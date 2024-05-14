@@ -91,10 +91,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('authToken');
-    setCurrentUser(null);
-  };
+
 
   async function updateUserEmail(newEmail) {
     try {
