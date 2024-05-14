@@ -7,7 +7,9 @@ import HomeWelcomeCard from "../../components/HomeWelcomeCard/HomeWelcomeCard";
 
 const TeachersHome = () => {
 
-    const apiURL = import.meta.env.VITE_URL;
+    // const apiURL = import.meta.env.VITE_URL;
+const apiURL = '/api';
+
     const [reflections, setReflections] = useState([]);
     const [loading, setLoading] = useState(false);
 

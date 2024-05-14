@@ -8,7 +8,8 @@ import "./Login.css";
 
 
 const Login = () => {
-  const apiURL = import.meta.env.VITE_URL;
+  // const apiURL = import.meta.env.VITE_URL;
+  const apiURL = '/api';
   
   
 

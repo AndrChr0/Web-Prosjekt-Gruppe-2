@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext();
-const apiURL = import.meta.env.VITE_URL;
+// const apiURL = import.meta.env.VITE_URL;
+const apiURL = '/api';
+
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -14,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log("currentUser", currentUser);
+  // console.log("currentUser", currentUser);
 
   useEffect(() => {
     async function fetchAndSetUser() {

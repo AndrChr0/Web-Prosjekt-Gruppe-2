@@ -7,7 +7,8 @@ import "./ReflectionDetail.css";
 
 function ReflectionDetail() {
 
-  const apiURL = import.meta.env.VITE_URL;
+  // const apiURL = import.meta.env.VITE_URL;
+  const apiURL = '/api';
 
 
   const { reflectionId } = useParams();

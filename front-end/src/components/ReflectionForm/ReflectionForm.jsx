@@ -9,7 +9,9 @@ import 'react-quill/dist/quill.snow.css';
 function ReflectionForm() {
 
 
-  const apiURL = import.meta.env.VITE_URL;
+  // const apiURL = import.meta.env.VITE_URL;
+const apiURL = '/api';
+
 
 
   const navigate = useNavigate();

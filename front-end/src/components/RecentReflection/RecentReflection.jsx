@@ -4,7 +4,8 @@ import axios from "axios";
 import "./RecentReflection.css";
 
 const RecentReflection = () => {
-  const apiURL = import.meta.env.VITE_URL;
+  // const apiURL = import.meta.env.VITE_URL;
+  const apiURL = '/api';
   
   const { id } = useParams();
   const [reflection, setReflection] = useState(null);

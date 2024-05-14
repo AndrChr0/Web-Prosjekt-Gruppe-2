@@ -4,7 +4,9 @@ import './InboxNotification.css';
 
 
 const Notifications = () => {
-const apiURL = import.meta.env.VITE_URL;
+// const apiURL = import.meta.env.VITE_URL;
+const apiURL = '/api';
+
 
     const [notifications, setNotifications] = useState([]);
     const [olderNotifications, setOlderNotifications] = useState([]);
