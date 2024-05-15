@@ -74,15 +74,9 @@ function ReflectionDetail() {
     return feedback.map((item) => (
       <div className="feedback-item" key={item._id}>
         <p>
-          {" "}
-          <b>Teacher's comment:</b>{" "}
+          <b>{item.userId.firstName} {item.userId.lastName}</b>{" "}
         </p>
         <p>{item.content}</p>
-        <p>
-          {" "}
-          <b>Name: </b>
-        </p>
-        <p>{item.userId}</p>
       </div>
     ));
   };
@@ -98,8 +92,7 @@ function ReflectionDetail() {
     <main>
       <div className="Reflection_card">
         <div className="Reflection_card_title">
-          <h2>" {reflection.title} "</h2>
-          <b>By: Student-Name</b>
+          <h2>{reflection.title}</h2>
         </div>
         <div className="Reflection_card_content">
           <p dangerouslySetInnerHTML={{ __html: reflection.content }}></p>
@@ -171,7 +164,7 @@ function ReflectionDetail() {
         {reflection.courseId && (
           <p className="course-id">
             Course:{" "}
-            <Link to={`/courses/${reflection.courseId}`}>Course link</Link>{" "}
+            <Link to={`/courses/${reflection.courseId._id}`}>{reflection.courseId.courseCode} - {reflection.courseId.title}</Link>{" "}
           </p>
         )}
 

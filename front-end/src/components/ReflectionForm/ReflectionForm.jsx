@@ -37,7 +37,7 @@ function ReflectionForm() {
         }
 
         const response = await axios.get(
-          `${apiURL}/users/profile`,
+          `${apiURL}/users/profile/user_courses`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
