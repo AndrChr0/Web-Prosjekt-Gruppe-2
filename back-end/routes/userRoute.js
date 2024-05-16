@@ -100,6 +100,41 @@ router.delete('/delete', async (req, res) => {
     }
 });
 
+router.get('/students', async (req, res) => {
+    try {
+        const { query } = req.query;
+        let students;
+
+        if (query) {
+            // Split the query into first name and last name
+            const [firstName, lastName] = query.split(' ');
+
+            // Create a regex for case-insensitive search
+            const firstNameRegex = new RegExp(firstName, 'i');
+            const lastNameRegex = lastName ? new RegExp(lastName, 'i') : firstNameRegex;
+
+            // Search for students by email, first name or last name
+            students = await User.find({
+                $or: [
+                    { email: { $regex: firstNameRegex } }, // Case-insensitive email search
+                    { firstName: { $regex: firstNameRegex } }, // Case-insensitive first name search
+                    { lastName: { $regex: lastNameRegex } }, // Case-insensitive last name search
+                ],
+                role: 'student' // Filter only students
+            }).select('firstName lastName email'); // Select only required fields
+        } else {
+            // Fetch all students if no query provided
+            students = await User.find({ role: 'student' }).select('firstName lastName email'); // Select only required fields
+        }
+
+        res.json(students);
+    } catch (error) {
+        console.error('Failed to fetch students:', error);
+        res.status(500).send('Error fetching students');
+    }
+});
+
+
 
 //Get user by id
 router.get('/:id', async (req, res) => {
@@ -159,17 +194,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-
-router.get('/students', async (req, res) => {
-    try {
-        // Fetch only users with role "student"
-        const students = await User.find({ role: 'student' });
-        res.json(students);
-    } catch (error) {
-        console.error('Failed to fetch students:', error);
-        res.status(500).send('Error fetching students');
-    }
-});
 
 
 router.post('/login', async (req, res) => {
