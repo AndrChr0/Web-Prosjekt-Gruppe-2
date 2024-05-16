@@ -1,0 +1,147 @@
+.home-main {
+  background-color: #f5f5f5; /* Very light gray background */
+  padding: 3em 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-card {
+  background-color: #ffffff; /* White background */
+  border: none;
+  padding: 2em;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.9);
+  animation: fadeInGrow 1.5s forwards;
+}
+
+@keyframes fadeInGrow {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.home-card-header {
+  color: var(--main-text-color-dark); /* Dark text */
+  font-size: 2.5em;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  animation: textFadeIn 2s forwards;
+}
+
+.home-card-header .welcome-text {
+  margin-right: 0.5em;
+  opacity: 0;
+  animation: textFadeIn 2s forwards 0.5s; /* Delay for welcome text */
+}
+
+@keyframes textFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.home-card-header .remaining-text {
+  opacity: 0;
+  animation: textFadeIn 2s forwards 1s; /* Delay for remaining text */
+}
+
+.leaf-icon {
+  margin-left: 0.5em;
+  opacity: 0;
+  animation: growLeaf 2s forwards 1.5s; /* Leaf grows into place with a delay */
+  color: #228b22; /* Green color */
+}
+
+@keyframes growLeaf {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.home-card-text {
+  width: 90%;
+  color: var(--main-text-color-dark); /* Dark text */
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 1.5em;
+  opacity: 0;
+  animation: textFadeIn 2s forwards 2s; /* Text appears after header and leaf */
+}
+
+.move__button {
+  margin-top: 1.5em;
+  opacity: 0;
+  animation: fadeInGrow 2s forwards 2.5s; /* Button appears after text */
+}
+
+button {
+  background-color: #6c757d; /* Gray button */
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+button:hover {
+  background-color: #5a6268; /* Darker gray on hover */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  transform: scale(1.05); /* Slight scaling effect */
+}
+
+button:hover::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 10px;
+  border: 1px solid #228b22; /* Green vine border */
+  opacity: 0;
+  animation: growVines 0.5s forwards;
+}
+
+@keyframes growVines {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .home-card {
+    width: 95%;
+  }
+  .home-card-text {
+    width: 95%;
+  }
+  .home-card-header {
+    font-size: 2em;
+  }
+}
