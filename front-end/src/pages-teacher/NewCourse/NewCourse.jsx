@@ -1,6 +1,5 @@
 import React from "react";
 import CourseForm from "../../components/courseForm/CourseForm";
-import "./NewCourse.css";
 const NewCourse = () => {
     return (
         <main>
