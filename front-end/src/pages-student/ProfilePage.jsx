@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../components/context/AuthContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "../assets/styles/profilePage.css";
 
 function ProfilePage() {
-  const { currentUser, updateUser, deleteUser, setCurrentUser, logout } = useAuth(); // Add logout function from AuthContext
+  const { currentUser, updateUser, deleteUser, setCurrentUser, logout } = useAuth();
   const [editableFields, setEditableFields] = useState({
     firstName: false,
     lastName: false,
@@ -14,8 +16,8 @@ function ProfilePage() {
     firstName: "",
     lastName: "",
     email: "",
-    newPassword: "", // Initialize with empty string
-    confirmNewPassword: "", // Initialize with empty string
+    newPassword: "",
+    confirmNewPassword: "",
   });
 
   useEffect(() => {
@@ -40,66 +42,70 @@ function ProfilePage() {
       ...prevEditableFields,
       [field]: false,
     }));
-    // Reset the updatedProfile state to the original values from currentUser
     setUpdatedProfile({
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
       email: currentUser.email,
-      newPassword: "", // Reset password fields
-      confirmNewPassword: "", // Reset password fields
+      newPassword: "",
+      confirmNewPassword: "",
     });
   };
 
   const handleSave = async () => {
-    try {
-      // Check if the password fields are being edited
-      if (editableFields.password) {
-        // Check if the new password and confirm password match
-        if (updatedProfile.newPassword !== updatedProfile.confirmNewPassword) {
-          console.error("New password and confirm password do not match");
-          return;
-        }
-        
-        // Set the password field in the updatedProfile state to the new password
-        updatedProfile.password = updatedProfile.newPassword;
+    const profileUnchanged =
+      updatedProfile.firstName === currentUser.firstName &&
+      updatedProfile.lastName === currentUser.lastName &&
+      updatedProfile.email === currentUser.email &&
+      !updatedProfile.newPassword &&
+      !updatedProfile.confirmNewPassword;
+
+    if (profileUnchanged) {
+      toast.error("No changes have been made");
+      return;
+    }
+
+    if (editableFields.password) {
+      if (updatedProfile.newPassword !== updatedProfile.confirmNewPassword) {
+        toast.error("New password and confirm password do not match");
+        return;
       }
-  
-      // Update the user profile with the updated profile data
+      updatedProfile.password = updatedProfile.newPassword;
+    }
+
+    try {
       await updateUser(updatedProfile);
-  
-      // Reset the editableFields state and update the currentUser object
+
       setEditableFields({
         firstName: false,
         lastName: false,
         email: false,
         password: false,
       });
-  
-      // Update the currentUser object with the updated profile
+
       setCurrentUser((prevUser) => ({
         ...prevUser,
         firstName: updatedProfile.firstName,
         lastName: updatedProfile.lastName,
         email: updatedProfile.email,
       }));
+
+      toast.success("Profile updated successfully");
     } catch (error) {
-      console.error("Error updating profile:", error);
+      toast.error("Error updating profile: " + error.message);
     }
   };
-  
 
   const handleDeleteAccount = async () => {
     try {
-      const confirmation = window.confirm(
-        "Are you sure you want to delete your account?"
-      );
+      const confirmation = window.confirm("Are you sure you want to delete your account?");
       if (confirmation) {
         await deleteUser();
-        logout(); // Call logout function to clear user data and token
+        logout();
         window.location.href = "/register";
+        toast.success("Account deleted successfully");
       }
     } catch (error) {
-      console.error("Error deleting user account:", error);
+      toast.error("Error deleting user account: " + error.message);
     }
   };
 
@@ -237,7 +243,6 @@ function ProfilePage() {
               </div>
             ) : (
               <span className="profile-value password-input">
-                {/* For security reasons, don't show the current password */}
                 ************
               </span>
             )}
@@ -268,6 +273,7 @@ function ProfilePage() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </main>
   );
 }

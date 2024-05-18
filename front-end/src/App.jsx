@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //student pages
 import Home from "./Home";
@@ -35,6 +37,7 @@ import Unauthorized from "./components/Unauthorized/Unauthorized";
 function App() {
   return (
     <>
+      <ToastContainer />
       <div className="App-wrapper">
         <Header />
         <Routes>
