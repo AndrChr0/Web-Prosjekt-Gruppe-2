@@ -12,7 +12,7 @@ const AddedStudentsInCourse = () => {
 
   // Fetch added students when component mounts
   useEffect(() => {
-    axios.get(`${apiURL}/courses/${courseId}/students`, {
+    axios.get(`${apiURL}/search?role=student&&courseId=${courseId}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
     })
     .then(response => {
