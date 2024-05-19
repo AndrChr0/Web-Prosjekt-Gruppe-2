@@ -26,7 +26,6 @@ The Sustainability Diary is a platform created as part of NTNU's initiative to i
 
     ```sh
     git clone https://github.com/AndrChr0/Web-Prosjekt-Gruppe-2.git
-    cd sustainability-diary
     ```
 
 2. **Setup Environment Variables:**
