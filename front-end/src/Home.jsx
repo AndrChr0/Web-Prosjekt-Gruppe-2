@@ -18,7 +18,8 @@ function Home() {
     <main className="home-main">
       <div className="home-card">
         <h1 className="home-card-header">
-          <span className="welcome-text">Welcome</span>{" "}
+          <span className="welcome-text">Welcome</span>
+
           <span className="remaining-text">to the Sustainability Diary</span>
           <LeafIcon />
         </h1>
