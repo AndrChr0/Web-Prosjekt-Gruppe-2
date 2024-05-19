@@ -25,7 +25,7 @@ The Sustainability Diary is a platform created as part of NTNU's initiative to i
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/your-username/sustainability-diary.git
+    git clone https://github.com/AndrChr0/Web-Prosjekt-Gruppe-2.git
     cd sustainability-diary
     ```
 
