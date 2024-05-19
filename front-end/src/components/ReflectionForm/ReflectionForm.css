@@ -1,59 +1,60 @@
 @import "quill/dist/quill.snow.css";
 
-
 form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 2vh;
-    gap: 1vh;
-    margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 2vh;
+  gap: 1vh;
+  margin-bottom: 20px;
 }
 
-textarea, input {
-    width: 50vw;
-    height: 30px;
+textarea,
+input {
+  width: 50vw;
+  height: 30px;
 }
 
 input[type="checkbox"] {
-    width: 1em;
+  width: 1em;
 }
 .checkBox-container {
-    display: flex;
-    gap: 1vw;
-    align-items: center;
-    margin-top: 1vh;
+  display: flex;
+  gap: 1vw;
+  align-items: center;
+  margin-top: 1vh;
 }
 
 textarea {
-    height: 30vh;
-    margin-top: 1vh;
-    padding: 1vh;
-    border-radius: 5px;
+  height: 30vh;
+  margin-top: 1vh;
+  padding: 1vh;
+  border-radius: 5px;
 }
 
-label, button[type="submit"] {
-    font-weight: bold;
+label,
+button[type="submit"] {
+  font-weight: bold;
 }
 
 .submission-success {
-    background-color: rgb(0, 203, 0);
-    color: white;
-    font-weight: bold;
-    padding: .5em;
-    border-radius: 5px;
+  background-color: rgb(0, 203, 0);
+  color: white;
+  font-weight: bold;
+  padding: 0.5em;
+  border-radius: 5px;
 }
 
 .submission-error {
-    background-color: rgb(203, 0, 0);
-    color: white;
-    font-weight: bold;
-    padding: .5em;
-    border-radius: 5px;
+  background-color: rgb(203, 0, 0);
+  color: white;
+  font-weight: bold;
+  padding: 0.5em;
+  border-radius: 5px;
 }
 
 input[type="file"] {
-    display: none;
+  display: none;
 }
 
 #filesBtn {
@@ -71,44 +72,45 @@ input[type="file"] {
   background-color: var(--main-btn-color-hover);
 }
 
-.Selected-files-container button { /* remove btn margin */
-    margin-left: 1em;
-
+.Selected-files-container button {
+  /* remove btn margin */
+  margin-left: 1em;
 }
 
-.Selected-files-container div{
-    margin: .6em 0;
-    
+.Selected-files-container div {
+  margin: 0.6em 0;
 }
 
-.Selected-files-container p{
-    font-weight: bold   ;
+.Selected-files-container p {
+  font-weight: bold;
 }
-
-
 
 /* quill styles */
 
 .ql-toolbar {
-    background: #f3f3f3;
-    border-radius: 4px;
+  background: #f3f3f3;
+  border-radius: 4px;
 }
 
 /* Styling the content area of the Quill Editor */
 .ql-container {
-    box-sizing: border-box;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 13px;
-    min-height: 40vh;
-    width: 50vw;
-    margin: 0px;
-    background-color: white;
-    position: relative;
-  }
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  min-height: 40vh;
+  width: 50vw;
+  margin: 0px;
+  background-color: white;
+  position: relative;
+}
 
+.ql-editor {
+  height: 40vh;
+}
 
-  @media (max-width: 600px) {
-    .ql-container, input {
-        width: 90vw;
-    }
+@media (max-width: 600px) {
+  .ql-container,
+  input {
+    width: 90vw;
   }
+}
