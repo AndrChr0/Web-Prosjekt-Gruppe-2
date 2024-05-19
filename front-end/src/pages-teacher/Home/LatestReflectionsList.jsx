@@ -14,7 +14,7 @@ export const LatestReflectionsList = () => {
             <div>
               <span>{reflection.courseId.title}</span>
               <span>{reflection.title}</span>
-              <b>Student-Name</b>{" "}
+              <p>By: {reflection.userId.firstName} {reflection.userId.lastName}</p>{" "}
             </div>
           </Link>
         </li>

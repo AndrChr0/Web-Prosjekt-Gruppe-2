@@ -1,0 +1,19 @@
+.newCourse_form {
+    width: 300px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 80px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding: 2em;
+    align-items: center;
+}
+
+.newCourse_form input {
+    width: 100%;
+    padding: .5em;
+    margin-top: .7em;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
