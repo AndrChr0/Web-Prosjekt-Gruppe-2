@@ -32,7 +32,7 @@ const Login = () => {
       );
       localStorage.setItem("authToken", response.data.token); // Storing the token
       decodeAndSetUser(response.data.token); // Decode and set user upon successful login
-      console.log("Login successful:", response.data);
+      // console.log("Login successful:", response.data);
       // Optionally decode role here to navigate accordingly or assume role handling elsewhere
       const userRole = JSON.parse(atob(response.data.token.split(".")[1])).role; // Ensure role is included in the token
       navigate(
