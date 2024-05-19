@@ -73,7 +73,8 @@ router.get("/search", /* requireRole(["student", "teacher"]), */ async (req, res
 
       // matching the courseIds with the reflections' courseIds
       reflections = await Reflection.find({ visibility: true, courseId: { $in: courseIds } })
-      .populate('courseId', 'title');
+      .populate('courseId', 'title')
+      .populate('userId', 'firstName lastName');
 
       return res.status(200).json({
         count: reflections.length,
@@ -157,8 +158,9 @@ router.get("/:id", /* requireRole(["student", "teacher"]), */ async (req, res) =
   try {
     const { id } = req.params;
     // Retrieve a reflection by its ID from the database
-    const reflection = await Reflection.findById(id);
-
+    const reflection = await Reflection.findById(id)
+    .populate('userId', 'firstName lastName') // in case if we want to show student's name on their reflection
+    .populate('courseId', 'title courseCode');
     if (req.user.role === "teacher") {
       
       return res.status(200).json({ reflection });
@@ -168,7 +170,7 @@ router.get("/:id", /* requireRole(["student", "teacher"]), */ async (req, res) =
     if (!reflection) {
       return res.status(404).json({ message: "Reflection not found" });
     }
-    if (reflection.userId.toString() !== req.user.userId) {
+    if (reflection.userId._id.toString() !== req.user.userId) {
       return res.status(403).json({ message: "Unauthorized access" });
     }
 

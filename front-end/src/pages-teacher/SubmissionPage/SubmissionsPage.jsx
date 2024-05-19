@@ -46,7 +46,7 @@ const SubmissionsPage = () => {
               <div>
                 <span>{reflection.courseId.title}</span>
                 <span>{reflection.title}</span>
-                <span>By: Student-Name</span>
+                <span>By: {reflection.userId.firstName} {reflection.userId.lastName}</span>
               </div>
             </Link>
           </li>
