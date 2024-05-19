@@ -83,7 +83,7 @@
   line-height: 1.6;
   margin-bottom: 1.5em;
   opacity: 0;
-  animation: textFadeIn 2s forwards 2s; /* Text appears after header and leaf */
+  animation: textFadeIn 2s forwards 0.8s; /* Text appears after header and leaf */
 }
 
 .move__button {
