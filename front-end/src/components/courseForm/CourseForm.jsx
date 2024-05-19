@@ -85,7 +85,7 @@ const apiURL = import.meta.env.VITE_URL;
           />
         </label>
 
-        <input className="submit-btn" type="submit" value="Submit" />
+        <button className="main-menu-btn" type="submit" value="Submit"> Add Course </button>
         {courseError && <p className="error">{courseError}</p>}
       </form>
     </div>
