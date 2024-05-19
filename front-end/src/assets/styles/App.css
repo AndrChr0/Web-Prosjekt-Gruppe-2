@@ -102,7 +102,7 @@ main {
 
 .Course-item:hover {
   background-color: var(--secondary-bg-color);
-  transition: all 0.2s ease;
+  /* transition: all 0.2s ease; */
 }
 
 h1 {

@@ -110,18 +110,6 @@ button:hover {
   transform: scale(1.05); /* Slight scaling effect */
 }
 
-button:hover::after {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border-radius: 10px;
-  border: 1px solid #228b22; /* Green vine border */
-  opacity: 0;
-  animation: growVines 0.5s forwards;
-}
 
 @keyframes growVines {
   from {

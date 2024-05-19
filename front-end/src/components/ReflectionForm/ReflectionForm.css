@@ -98,15 +98,22 @@ input[type="file"] {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 13px;
   min-height: 40vh;
-  width: 50vw;
+  width: 60vw;
   margin: 0px;
   background-color: white;
   position: relative;
 }
 
 .ql-editor {
-  height: 40vh;
+  height: 40vh !important;
 }
+
+@media (max-width: 1000px) {
+    .ql-container,
+    input {
+      width: 90vw;
+    }
+  }
 
 @media (max-width: 600px) {
   .ql-container,

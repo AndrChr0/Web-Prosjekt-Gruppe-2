@@ -52,7 +52,7 @@ function DiaryReflections() {
       })
       .catch((error) => {
         setLoading(false);
-        setError("Failed to load reflections. Please try again.");
+        // setError("Failed to load reflections. Please try again.");
       });
   }, []);
 
