@@ -1,42 +1,16 @@
-1. Clone repo
-2. Run npm install in:
-   in back-end folder
-   in front end folder
-3. Create .env in backend route folder and add secret
-4. - Open a terminal in backend, run the following commands:
-   - npm install
-   - npm run dev
-5. - Open a terminal in backend, run the following commands:
-   - npm install
-   - npm run dev
+    # Welcome to the Sustainability Diary,
+        your new space for growth and
+        reflection on sustainability! Created as part of NTNU's initiative to
+        integrate sustainability into education, this platform offers you a
+        unique opportunity to document, reflect, and share your sustainability
+        journey. Whether you're a student exploring your thoughts and projects,
+        or a teacher guiding the next generation, the Sustainability Diary is
+        designed to foster a deeper understanding of sustainability practices.
+        Track your progress, and become part of a community dedicated to making
+        a difference. Dive in and start your sustainability diary today, where
+        every entry is a step towards a more sustainable future.
+        Please note that you're exploring the beta version of our site, where
+        we're still fine-tuning features and not all functionalities are fully
+        implemented yet.
 
-6. go to http://localhost:5173/
-7. Start epiphanying sustainability
-
----
-
-.
-
-### Prerequisites
-
-- Docker installed on your machine.
-
-### Running the Application
-
-1. Clone the repository:
-
-git clone https://github.com/AndrChr0/Web-Prosjekt-Gruppe-2.git
-
-2. Build the Docker image: (terminal)
-   docker build -t web-prosjekt-gruppe-2:latest .
-
-3. Run the Docker container:
-   docker run -p 3000:3000 web-prosjekt-gruppe-2:latest
-
-http://localhost:3000` to access the app.
-
----
-
-```
-
-```
+        Visit the site: https://team2.sustainability.it.ntnu.no/
