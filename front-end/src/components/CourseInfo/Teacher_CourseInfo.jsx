@@ -13,12 +13,16 @@ const TeacherCourseInfo = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const { id } = useParams();
+const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
+
+
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     setLoading(true);
     axios
-      .get(`http://localhost:5151/courses/${id}`, {
+      .get(`${apiURL}/courses/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`, // Include JWT token in request headers
         },
@@ -43,7 +47,7 @@ const TeacherCourseInfo = () => {
     setCourse(editedCourse);
     const token = localStorage.getItem("authToken");
     axios
-      .put(`http://localhost:5151/courses/${id}`, editedCourse, {
+      .put(`${apiURL}/courses/${id}`, editedCourse, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

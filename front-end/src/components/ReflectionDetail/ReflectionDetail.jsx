@@ -6,6 +6,11 @@ import axios from "axios";
 import "./ReflectionDetail.css";
 
 function ReflectionDetail() {
+
+  const apiURL = import.meta.env.VITE_URL;
+  // const apiURL = '/api';
+
+
   const { reflectionId } = useParams();
   const navigate = useNavigate();
   const [reflection, setReflection] = useState(null);
@@ -18,7 +23,7 @@ function ReflectionDetail() {
     const token = localStorage.getItem("authToken");
     setLoading(true);
     axios
-      .get(`http://localhost:5151/reflections/${reflectionId}`, {
+      .get(`${apiURL}/reflections/${reflectionId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -40,7 +45,7 @@ function ReflectionDetail() {
   const fetchFeedback = () => {
     const token = localStorage.getItem("authToken");
     axios
-      .get(`http://localhost:5151/feedback?reflectionId=${reflectionId}`, {
+      .get(`${apiURL}/feedback?reflectionId=${reflectionId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -69,15 +74,9 @@ function ReflectionDetail() {
     return feedback.map((item) => (
       <div className="feedback-item" key={item._id}>
         <p>
-          {" "}
-          <b>Teacher's comment:</b>{" "}
+          <b>{item.userId.firstName} {item.userId.lastName}</b>{" "}
         </p>
         <p>{item.content}</p>
-        <p>
-          {" "}
-          <b>Name: </b>
-        </p>
-        <p>{item.userId}</p>
       </div>
     ));
   };
@@ -93,8 +92,7 @@ function ReflectionDetail() {
     <main>
       <div className="Reflection_card">
         <div className="Reflection_card_title">
-          <h2>" {reflection.title} "</h2>
-          <b>By: Student-Name</b>
+          <h2>{reflection.title}</h2>
         </div>
         <div className="Reflection_card_content">
           <p dangerouslySetInnerHTML={{ __html: reflection.content }}></p>
@@ -115,7 +113,7 @@ function ReflectionDetail() {
                     <img
                       onClick={() => handleClick(file)}
                       className="reflection-image"
-                      src={`http://localhost:5151/${file}`}
+                      src={`${apiURL}/${file}`}
                       alt={`Image ${index + 1}`}
                     />
                   </div>
@@ -124,7 +122,7 @@ function ReflectionDetail() {
                 return (
                   <div key={index}>
                     <a
-                      href={`http://localhost:5151/${file}`}
+                      href={`${apiURL}/${file}`}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -138,7 +136,7 @@ function ReflectionDetail() {
                     <video width="320" height="240" controls>
                       <source
                         className="reflection-video"
-                        src={`http://localhost:5151/${file}`}
+                        src={`${apiURL}/${file}`}
                         type="video/mp4"
                       />
                       Your browser does not support the video tag.
@@ -149,7 +147,7 @@ function ReflectionDetail() {
                 return (
                   <div key={index}>
                     <a
-                      href={`http://localhost:5151/${file}`}
+                      href={`${apiURL}/${file}`}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -166,7 +164,7 @@ function ReflectionDetail() {
         {reflection.courseId && (
           <p className="course-id">
             Course:{" "}
-            <Link to={`/courses/${reflection.courseId}`}>Course link</Link>{" "}
+            <Link to={`/courses/${reflection.courseId._id}`}>{reflection.courseId.courseCode} - {reflection.courseId.title}</Link>{" "}
           </p>
         )}
 
@@ -178,7 +176,7 @@ function ReflectionDetail() {
           <div className="popup">
             <div className="popup-content">
               <img
-                src={`http://localhost:5151/${enlargedImage}`}
+                src={`${apiURL}/${enlargedImage}`}
                 alt="Enlarged Image"
               />
               <button className="main-menu-btn" onClick={handleClose}>

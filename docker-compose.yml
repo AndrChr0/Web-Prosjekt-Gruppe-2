@@ -1,4 +1,4 @@
-version: '3.8'
+# version: '3.8'
 services:
   mongo:
     image: mongo:latest
@@ -17,9 +17,11 @@ services:
       # - ./back-end:/app
       # - /app/node_modules
     ports:
-      - "5151:5151"
+      - "8092:8092"
     depends_on:
       - mongo
+    networks:
+      - SD-network
     # environment:
     #   MONGO_URI: ${MONGO_URI}
     #   PORT: 5151
@@ -33,6 +35,12 @@ services:
       - "8082:8082"
     depends_on:
       - back-end
+    networks:
+      - SD-network
+
   
 volumes:
   mongo-data:
+
+networks:
+  SD-network:

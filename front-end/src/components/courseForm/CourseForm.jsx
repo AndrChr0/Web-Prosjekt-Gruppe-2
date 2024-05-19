@@ -4,6 +4,9 @@ import axios from "axios";
 import "./courseForm.css";
 
 const CourseForm = () => {
+const apiURL = import.meta.env.VITE_URL;
+// const apiURL = '/api';
+
   const navigate = useNavigate();
   const [courseError, setCourseError] = useState("");
   const [courseData, setCourseData] = useState({
@@ -35,7 +38,7 @@ const CourseForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5151/courses",
+        `${apiURL}/courses`,
         courseData,
         {
           headers: {
@@ -82,7 +85,7 @@ const CourseForm = () => {
           />
         </label>
 
-        <input className="submit-btn" type="submit" value="Submit" />
+        <button className="main-menu-btn" type="submit" value="Submit"> Add Course </button>
         {courseError && <p className="error">{courseError}</p>}
       </form>
     </div>

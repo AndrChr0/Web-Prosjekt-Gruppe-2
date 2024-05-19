@@ -23,8 +23,8 @@ router.get("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   const { reflectionId } = req.query;
     try {
-        const feedback = await Feedback.find({ reflectionId: reflectionId });
-
+        const feedback = await Feedback.find({ reflectionId: reflectionId })
+        .populate('userId', 'firstName lastName');
         return res.status(200).json({
             count: feedback.length,
             data: feedback,

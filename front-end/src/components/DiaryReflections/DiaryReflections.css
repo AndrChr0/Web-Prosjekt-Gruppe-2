@@ -28,3 +28,9 @@
     text-decoration: underline #fff;
 }
 
+.feedback-symbol span {
+    opacity: .5;
+    font-size: smaller;
+    font-style: italic;
+}
+

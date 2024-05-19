@@ -5,6 +5,8 @@ import "./MyCourses.css";
 import MainMenuButton from "../../components/MainmenuButton/MainMenuButton";
 
 const TeacherCourses = () =>{
+  const apiURL = import.meta.env.VITE_URL;
+  // const apiURL = '/api';
 
     const [courses, setCourses] = useState([]);
     // const [loading, setLoading] = useState(false);
@@ -14,7 +16,7 @@ const TeacherCourses = () =>{
       const token = localStorage.getItem("authToken");
 
       axios
-      .get("http://localhost:5151/courses", {
+      .get(`${apiURL}/courses`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
