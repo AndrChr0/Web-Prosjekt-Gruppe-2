@@ -81,6 +81,8 @@ const RecentReflection = () => {
 
       console.log("Feedback submitted:", res.data.content);
       setShowFeedbackForm(false);
+      setFeedbackText("");
+      fetchFeedback(); 
       sendNotificationOfFeedback(reflection.userId, reflection.title);
     } catch (error) {
       console.error("Error submitting feedback:", error);
