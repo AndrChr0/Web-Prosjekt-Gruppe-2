@@ -162,7 +162,8 @@ h1 {
   padding: 3vh 0 0 35vw;
 }
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
+
   nav ul {
     flex-direction: column;
   }
@@ -176,12 +177,12 @@ h1 {
     text-decoration: underline;
     font-size: 1.5em;
   }
-}
+} */
 
-nav {
+/* nav {
   background-color: var(
     --header-footer-bg-color
-  ); /* Very light gray background */
+  ); 
   padding: 1em 0;
 }
 
@@ -200,11 +201,11 @@ nav li {
 }
 
 nav li .nav-link:hover {
-  color: var(--main-accent-color); /* Blue on hover */
+  color: var(--main-accent-color); 
 }
 
 nav li .nav-link {
-  color: var(--header-footer-text-color); /* Dark gray text */
+  color: var(--header-footer-text-color); 
   text-decoration: none;
   font-size: 1.3em;
   font-weight: bold;
@@ -220,8 +221,8 @@ nav li .nav-link {
 }
 
 .Logout-link button {
-  all: unset; /* removing default button style for logout btn */
-}
+  all: unset; 
+} */
 
 footer {
   width: 100%;

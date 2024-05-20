@@ -1,13 +1,14 @@
 nav {
   background-color: var(
     --header-footer-bg-color
-  ); /* Very light gray background */
+  ); 
   padding: 1em 0;
 }
 
 nav ul {
   display: flex;
   justify-content: space-around;
+  padding: 0;
 }
 
 .nav-main-links {
@@ -20,11 +21,11 @@ nav li {
 }
 
 nav li .nav-link:hover {
-  color: var(--main-accent-color); /* Blue on hover */
+  color: var(--main-accent-color); 
 }
 
 nav li .nav-link {
-  color: var(--header-footer-text-color); /* Dark gray text */
+  color: var(--header-footer-text-color); 
   text-decoration: none;
   font-size: 1.3em;
   font-weight: bold;
@@ -40,24 +41,103 @@ nav li .nav-link {
 }
 
 .Logout-link button {
-  all: unset; /* removing default button style for logout btn */
+  all: unset; 
+}
+
+.hamburger {
+  display: none;
+}
+
+.home-page-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+}
+
+a.nav-link.active {
+  color: var(--main-accent-color);
+}
+
+.nav-logo {
+  color: var(--header-footer-text-color) !important;
 }
 
 @media screen and (max-width: 768px) {
   nav ul {
-    display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 3em;
+    position: fixed;
+    top: 0;
+    width: 100%; 
+    height: 100vh;
+    justify-content: center;
+    background-color: var(--header-footer-bg-color);
+    right: -100%;
+    transition: 250ms;
+    z-index: 100;
+    padding: 0;
   }
+
+  nav ul.active {
+    background-color: var(--header-footer-bg-color);
+    right: 0;
+    z-index: 100;
+    transition:  300ms;  
+  }
+
   nav li {
     text-align: center;
   }
+
   .nav-main-links {
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    justify-content: left;
+    align-content: center;
+
+    gap: 1.8em;
+
+  }
+
+  nav ul.active .nav-main-links {
+    transform: translateX(0);
   }
   .Logout-link {
-    margin-left: 0;
+    padding-top: 2em;
   }
+
+  .hamburger {
+    display: block;
+  
+    top: 0;
+    right: 0;
+    position: fixed;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--header-footer-text-color);
+    z-index: 101;
+    padding-top: .5em;
+    padding-right: .5em;
+  }
+
+  nav {
+    padding: 2em;
+  }
+
+
+.home-page-nav {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2em;
+  
+
 }
+
+}
+
+
+
