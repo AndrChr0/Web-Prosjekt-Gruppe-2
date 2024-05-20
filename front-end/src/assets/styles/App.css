@@ -180,6 +180,7 @@ h1 {
   padding: 3vh 0 0 35vw;
 }
 
+
 @media (max-width: 768px) {
   main {
     margin: 0 5vw;
@@ -203,20 +204,7 @@ h1 {
     text-align: center;
   }
 
-  /* Navigation bar adjustments */
-  nav ul {
-    flex-direction: column;
-  }
-
-  nav li {
-    text-decoration-color: var(--main-text-color);
-    margin-bottom: 2vh;
-  }
-
-  #nav-logo {
-    text-decoration: underline;
-    font-size: 1.5em;
-  }
+ 
 
   .Course-item {
     width: 90%;
@@ -247,48 +235,7 @@ h1 {
   }
 }
 
-nav {
-  background-color: var(--header-footer-bg-color);
-  padding: 1em 0;
-}
 
-nav ul {
-  display: flex;
-  justify-content: space-around;
-}
-
-.nav-main-links {
-  display: flex;
-  gap: 1em;
-}
-
-nav li {
-  list-style-type: none;
-}
-
-nav li .nav-link:hover {
-  color: var(--main-accent-color);
-}
-
-nav li .nav-link {
-  color: var(--header-footer-text-color);
-  text-decoration: none;
-  font-size: 1.3em;
-  font-weight: bold;
-  cursor: pointer;
-  border: 0;
-  padding: 0;
-}
-
-.Logout-link {
-  padding-right: 1em;
-  border-radius: 5px;
-  margin-left: 2em;
-}
-
-.Logout-link button {
-  all: unset;
-}
 
 footer {
   width: 100%;
