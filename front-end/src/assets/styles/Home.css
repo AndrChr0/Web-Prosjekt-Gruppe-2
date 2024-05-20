@@ -126,7 +126,8 @@ button:hover {
   /* Ensure the welcome text and logo fit within the card */
   .home-card-header .welcome-text,
   .home-card-header .remaining-text {
-    word-wrap: break-word;
+    /* word-wrap: break-word; */
+    font-size: 1.2rem;
   }
 
   .move__button {

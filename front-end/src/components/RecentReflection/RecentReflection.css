@@ -135,6 +135,7 @@
     }
     .Reflection_card_title {
         text-align: center;
+        width: 70vw;
     }
     .Reflection_card_content {
         margin: 0;
