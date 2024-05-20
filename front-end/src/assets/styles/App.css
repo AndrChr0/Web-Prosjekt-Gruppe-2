@@ -86,8 +86,9 @@ main {
   display: flex;
   flex-direction: column;
   height: 12vh;
-  width: 100%;
-  max-width: 300px;
+  
+  min-width: 280px;
+  width: 20vw;
   align-items: center;
   justify-content: center;
   margin-bottom: 2em;
@@ -186,10 +187,6 @@ h1 {
     margin: 0 5vw;
   }
 
-  .Course-item {
-    width: 80%;
-  }
-
   .main__home h1 {
     font-size: 2.5em;
   }
@@ -205,10 +202,6 @@ h1 {
   }
 
  
-
-  .Course-item {
-    width: 90%;
-  }
 
   /* Footer adjustments */
   footer {
@@ -230,9 +223,6 @@ h1 {
     font-size: 0.9em;
   }
 
-  .Course-item {
-    width: 100%;
-  }
 }
 
 
