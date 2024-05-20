@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './AddedStudentsInCourse.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddedStudentsInCourse = () => {
   const apiURL = import.meta.env.VITE_URL;
@@ -23,6 +25,29 @@ const AddedStudentsInCourse = () => {
     });
   }, [courseId]);
 
+  const handleRemoveStudent = userId => {
+    axios
+      .put(
+        `${apiURL}/users/${userId}/remove_course`,
+        { courseId },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }
+        }
+      )
+      .then(() => {
+        // Update the list of added students after removing the student
+        setAddedStudents(prevStudents => prevStudents.filter(student => student._id !== userId));
+        // Show success toast
+        toast.success('Student removed from course successfully');
+      })
+      .catch(error => {
+        console.error('Error removing student from course:', error);
+        // Show error toast
+        toast.error('Error removing student from course');
+      });
+  };
+  
+
   return (
     <div>
       <ul className='Student-list'>
@@ -37,6 +62,7 @@ const AddedStudentsInCourse = () => {
             <div>
               <span>{addedStudent.email}</span>
             </div>
+            <button onClick={() => handleRemoveStudent(addedStudent._id)}>Remove</button>
           </li>
         ))}
       </ul>

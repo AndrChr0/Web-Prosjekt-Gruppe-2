@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './ListOfStudents.css';
 
 const ListOfStudents = () => {
@@ -60,16 +62,16 @@ const ListOfStudents = () => {
         }
       )
       .then(() => {
-        alert('Student added to course successfully');
         sendNotification(userId, courseTitle, courseCode);
+        // Reload the window
         window.location.reload();
       })
       .catch(error => {
         console.error('Error adding student to course:', error);
-        alert('Student already in course');
+        toast.error('Student already in course');
       });
   };
-
+  
   const sendNotification = (userId, courseTitle, courseCode) => {
     axios
       .post(
@@ -91,6 +93,10 @@ const ListOfStudents = () => {
   };
 
   const handleSearch = () => {
+    if (searchInput.trim() === '') {
+      toast.warn('Please enter a search query');
+      return;
+    }
     fetchStudents();
   };
 

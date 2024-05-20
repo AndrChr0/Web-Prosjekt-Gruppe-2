@@ -248,5 +248,34 @@ router.put('/:userId/add_course', async (req, res) => {
     }
 });
 
+router.put('/:userId/remove_course', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const { courseId } = req.body;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        // Find the index of the courseId in the user's courses array
+        const index = user.courses.indexOf(courseId);
+        if (index === -1) {
+            return res.status(400).send('User is not in the specified course');
+        }
+
+        // Remove the courseId from the user's courses array
+        user.courses.splice(index, 1);
+        await user.save();
+
+        return res.status(200).send('User removed from course successfully');
+    } catch (error) {
+        console.error('Error removing student from course:', error);
+        res.status(500).send('Server error');
+    }
+});
+
+
+
 
 module.exports = router;
