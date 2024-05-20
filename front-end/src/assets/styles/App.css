@@ -1,13 +1,15 @@
 :root {
-  --main-bg-color: #ffffff; /* White background */
-  --secondary-bg-color: #f5f5f5; /* Very light gray for sections */
-  --main-accent-color: #4a90e2; /* Blue accent color */
-  --main-btn-color: #4a90e2; /* Blue button color */
-  --main-btn-color-hover: #357abd; /* Darker blue for button hover */
-  --main-text-color: #333333; /* Dark gray text */
-  --main-text-color-dark: #2c2b2b; /* Darker gray text */
-  --header-footer-bg-color: #f5f5f5; /* Very light gray for header and footer */
-  --header-footer-text-color: #333333; /* Dark gray for header and footer text */
+  --main-bg-color: #ffffff;
+  --secondary-bg-color: #f5f5f5;
+  --main-accent-color: #004a90; /* Darker blue for better contrast */
+  --main-btn-color: #004a90; /* Darker blue button color */
+  --main-btn-color-hover: #003366; /* Even darker blue on hover */
+  --delete-btn-color: #b30000; /* Darker red delete button */
+  --delete-btn-color-hover: #800000; /* Even darker red on hover */
+  --main-text-color: #333333;
+  --main-text-color-dark: #2c2b2b;
+  --header-footer-bg-color: #f5f5f5;
+  --header-footer-text-color: #333333;
 }
 
 * {
@@ -38,6 +40,7 @@ body {
   flex-direction: column;
 }
 
+/* Common Button Styles */
 button {
   border: none;
   padding: 10px 20px;
@@ -47,10 +50,21 @@ button {
   box-sizing: border-box;
   font-weight: bold;
   background-color: var(--main-btn-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 button:hover {
   background-color: var(--main-btn-color-hover);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+button.delete-button {
+  background-color: var(--delete-btn-color);
+}
+
+button.delete-button:hover {
+  background-color: var(--delete-btn-color-hover);
 }
 
 main {
@@ -72,7 +86,8 @@ main {
   display: flex;
   flex-direction: column;
   height: 12vh;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   align-items: center;
   justify-content: center;
   margin-bottom: 2em;
@@ -102,7 +117,6 @@ main {
 
 .Course-item:hover {
   background-color: var(--secondary-bg-color);
-  /* transition: all 0.2s ease; */
 }
 
 h1 {
@@ -117,6 +131,10 @@ h1 {
   text-decoration: none;
   font-weight: bolder;
   cursor: pointer;
+  flex: 1;
+  text-align: center;
+  max-width: 120px;
+  margin: 0.5em 0;
 }
 
 .main-menu-btn:hover {
@@ -130,27 +148,27 @@ h1 {
 
 .main__home {
   position: relative;
-  width: 100%; /* Set to 100% to ensure it fills the parent container */
-  margin: 0 auto; /* Centers the div within its parent */
+  width: 100%;
+  margin: 0 auto;
   background-color: var(--secondary-bg-color);
   display: flex;
   min-height: 70dvh;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* Changed to center align-items */
+  align-items: center;
   gap: 1em;
-  padding: 0 5vw 4vh 0; /* Add padding instead of using negative margins or left property */
+  padding: 0 5vw 4vh 0;
 }
 
 .main__home h1 {
   color: var(--main-text-color);
-  font-size: 4em; /* Consider using 'rem' for scalability */
+  font-size: 4em;
 }
 
 .main__home p {
   color: var(--main-text-color);
   font-size: 1.2em;
-  max-width: 60%; /* Adjusted for better readability */
+  max-width: 60%;
 }
 
 .main__home p::first-letter {
@@ -162,74 +180,67 @@ h1 {
   padding: 3vh 0 0 35vw;
 }
 
-/* @media (max-width: 600px) {
 
-  nav ul {
-    flex-direction: column;
+@media (max-width: 768px) {
+  main {
+    margin: 0 5vw;
   }
 
-  nav li {
-    text-decoration-color: var(--main-text-color);
-    margin-bottom: 2vh;
+  .Course-item {
+    width: 80%;
   }
 
-  #nav-logo {
-    text-decoration: underline;
-    font-size: 1.5em;
+  .main__home h1 {
+    font-size: 2.5em;
   }
-} */
 
-/* nav {
-  background-color: var(
-    --header-footer-bg-color
-  ); 
-  padding: 1em 0;
+  .main__home p {
+    font-size: 1em;
+    max-width: 90%;
+  }
+
+  .main__home .move__button {
+    padding: 3vh 0 0 0;
+    text-align: center;
+  }
+
+ 
+
+  .Course-item {
+    width: 90%;
+  }
+
+  /* Footer adjustments */
+  footer {
+    padding: 1em 0;
+    height: auto;
+  }
+
+  .footer-text {
+    text-align: center;
+  }
 }
 
-nav ul {
-  display: flex;
-  justify-content: space-around;
+@media (max-width: 600px) {
+  .main__home h1 {
+    font-size: 2em;
+  }
+
+  .main__home p {
+    font-size: 0.9em;
+  }
+
+  .Course-item {
+    width: 100%;
+  }
 }
 
-.nav-main-links {
-  display: flex;
-  gap: 1em;
-}
 
-nav li {
-  list-style-type: none;
-}
-
-nav li .nav-link:hover {
-  color: var(--main-accent-color); 
-}
-
-nav li .nav-link {
-  color: var(--header-footer-text-color); 
-  text-decoration: none;
-  font-size: 1.3em;
-  font-weight: bold;
-  cursor: pointer;
-  border: 0;
-  padding: 0;
-}
-
-.Logout-link {
-  padding-right: 1em;
-  border-radius: 5px;
-  margin-left: 2em;
-}
-
-.Logout-link button {
-  all: unset; 
-} */
 
 footer {
   width: 100%;
   height: 10vh;
-  background-color: var(
-    --header-footer-bg-color
-  ); /* Very light gray background */
+  background-color: var(--header-footer-bg-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -237,6 +248,6 @@ footer {
 }
 
 .footer-text {
-  color: var(--header-footer-text-color); /* Dark gray text */
+  color: var(--header-footer-text-color);
   font-weight: 500;
 }
