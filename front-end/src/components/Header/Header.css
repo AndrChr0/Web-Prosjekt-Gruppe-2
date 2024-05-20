@@ -93,8 +93,10 @@ a.nav-link.active {
   .nav-main-links {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 1em;
+    justify-content: left;
+    align-content: center;
+
+    gap: 1.8em;
 
   }
 
