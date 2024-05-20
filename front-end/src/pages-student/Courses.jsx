@@ -57,13 +57,13 @@ function Courses() {
       <ul className="Courses-list">
         {courses.length > 0 ? (
           courses.map((course) => (
+            <Link to={`/courses/${course._id}`} className='Text-link'>
             <li key={course._id} className="Course-item">
-              <Link to={`/courses/${course._id}`} className='Text-link'>
                 <div>
                   <span><b>{course.courseCode}</b></span> {course.title}
                 </div>
-              </Link>
             </li>
+            </Link>
           ))
         ) : (
           <li>No courses found.</li>

@@ -41,8 +41,7 @@ The Sustainability Diary is a platform created as part of NTNU's initiative to i
     - **Frontend**: Create a `.env` file in the `frontend` directory and add the necessary environment variables:
 
         ```env
-        REACT_APP_API_URL=http://localhost:[NNNN]
-        PORT=[NNNN]
+        VITE_URL=http://localhost:[NNNN]
         ```
 
 3. **Start the services:**

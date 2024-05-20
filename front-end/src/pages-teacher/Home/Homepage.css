@@ -39,15 +39,11 @@
 
 @media screen and (max-width: 768px) {
     .Recent-reflections {
-        width: 100%;
-        background-color: transparent;
+        width: 90vw;
+    }
 
-    }
-    .Recent-reflections h2 {
-        color:var(--main-text-color-dark);
-    }
-    .Recent-reflection div {
-        grid-template-columns: 1fr;
+    .Recent-reflection {
+        width: 70vw;
     }
     
 }

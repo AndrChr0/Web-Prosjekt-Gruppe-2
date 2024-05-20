@@ -1,36 +1,55 @@
 .reflection-card {
-    margin: 1em;
-    padding: 1em;
-    /* border: 1px solid #e0e0e0; */
-    border-radius: 5px;
-    box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    width: 25vw;
+  margin: 1em;
+  padding: 1em;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  width: 90%; /* Changed width to 90% for better responsiveness */
+  max-width: 400px; /* Set a maximum width */
+  box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
 .reflection-card:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
+
 .diary-list {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
+  list-style: none;
+  display: flex;
+  flex-direction: column; /* Change to column for better stacking */
+  align-items: center; /* Center items horizontally */
+  padding: 0; /* Remove default padding */
 }
 
 .link-container {
-    margin-top: 1vh;
-    display: flex;
-    gap: 1em;
-    align-items: center;
+  margin-top: 1vh;
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
 }
 
-.link-container button{
-    text-decoration: underline #fff;
+.link-container button {
+  text-decoration: underline #fff;
+  flex: 1; /* Make buttons take equal space */
+  max-width: 120px; /* Set a maximum width */
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+  .reflection-card {
+    width: 100%;
+    max-width: none; /* Remove maximum width */
+  }
+
+  .link-container {
+    flex-direction: column;
+    gap: 0.5em; /* Reduce gap between buttons */
+  }
 }
 
 .feedback-symbol span {
-    opacity: .5;
-    font-size: smaller;
-    font-style: italic;
+  opacity: 0.5;
+  font-size: smaller;
+  font-style: italic;
 }
-

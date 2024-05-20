@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../components/context/AuthContext";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import "../assets/styles/profilePage.css";
+import React, { useEffect, useState } from "react"
+import { useAuth } from "../components/context/AuthContext"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import "../assets/styles/profilePage.css"
 
 function ProfilePage() {
-  const { currentUser, updateUser, deleteUser, setCurrentUser, logout } = useAuth();
+  const { currentUser, updateUser, deleteUser, setCurrentUser, logout } =
+    useAuth()
   const [editableFields, setEditableFields] = useState({
     firstName: false,
     lastName: false,
     email: false,
     password: false,
-  });
+  })
   const [updatedProfile, setUpdatedProfile] = useState({
     firstName: "",
     lastName: "",
     email: "",
     newPassword: "",
     confirmNewPassword: "",
-  });
+  })
 
   useEffect(() => {
     if (currentUser) {
@@ -26,30 +27,30 @@ function ProfilePage() {
         firstName: currentUser.firstName,
         lastName: currentUser.lastName,
         email: currentUser.email,
-      });
+      })
     }
-  }, [currentUser]);
+  }, [currentUser])
 
   const handleEdit = (field) => {
     setEditableFields((prevEditableFields) => ({
       ...prevEditableFields,
       [field]: true,
-    }));
-  };
+    }))
+  }
 
   const handleCancelEdit = (field) => {
     setEditableFields((prevEditableFields) => ({
       ...prevEditableFields,
       [field]: false,
-    }));
+    }))
     setUpdatedProfile({
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
       email: currentUser.email,
       newPassword: "",
       confirmNewPassword: "",
-    });
-  };
+    })
+  }
 
   const handleSave = async () => {
     const profileUnchanged =
@@ -57,68 +58,70 @@ function ProfilePage() {
       updatedProfile.lastName === currentUser.lastName &&
       updatedProfile.email === currentUser.email &&
       !updatedProfile.newPassword &&
-      !updatedProfile.confirmNewPassword;
+      !updatedProfile.confirmNewPassword
 
     if (profileUnchanged) {
-      toast.error("No changes have been made");
-      return;
+      toast.error("No changes have been made")
+      return
     }
 
     if (editableFields.password) {
       if (updatedProfile.newPassword !== updatedProfile.confirmNewPassword) {
-        toast.error("New password and confirm password do not match");
-        return;
+        toast.error("New password and confirm password do not match")
+        return
       }
-      updatedProfile.password = updatedProfile.newPassword;
+      updatedProfile.password = updatedProfile.newPassword
     }
 
     try {
-      await updateUser(updatedProfile);
+      await updateUser(updatedProfile)
 
       setEditableFields({
         firstName: false,
         lastName: false,
         email: false,
         password: false,
-      });
+      })
 
       setCurrentUser((prevUser) => ({
         ...prevUser,
         firstName: updatedProfile.firstName,
         lastName: updatedProfile.lastName,
         email: updatedProfile.email,
-      }));
+      }))
 
-      toast.success("Profile updated successfully");
+      toast.success("Profile updated successfully")
     } catch (error) {
-      toast.error("Error updating profile: " + error.message);
+      toast.error("Error updating profile: " + error.message)
     }
-  };
+  }
 
   const handleDeleteAccount = async () => {
     try {
-      const confirmation = window.confirm("Are you sure you want to delete your account?");
+      const confirmation = window.confirm(
+        "Are you sure you want to delete your account?"
+      )
       if (confirmation) {
-        await deleteUser();
-        logout();
-        window.location.href = "/register";
-        toast.success("Account deleted successfully");
+        await deleteUser()
+        logout()
+        window.location.href = "/register"
+        toast.success("Account deleted successfully")
       }
     } catch (error) {
-      toast.error("Error deleting user account: " + error.message);
+      toast.error("Error deleting user account: " + error.message)
     }
-  };
+  }
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setUpdatedProfile((prevProfile) => ({
       ...prevProfile,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   if (!currentUser) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   return (
@@ -242,9 +245,7 @@ function ProfilePage() {
                 />
               </div>
             ) : (
-              <span className="profile-value password-input">
-                ************
-              </span>
+              <span className="profile-value password-input">************</span>
             )}
             {!editableFields.password ? (
               <button
@@ -275,7 +276,7 @@ function ProfilePage() {
       </div>
       <ToastContainer />
     </main>
-  );
+  )
 }
 
-export default ProfilePage;
+export default ProfilePage

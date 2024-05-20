@@ -1,6 +1,6 @@
+import "@fortawesome/fontawesome-free/css/all.css"
 import "../src/assets/styles/App.css"
 import "../src/assets/styles/Home.css"
-import "@fortawesome/fontawesome-free/css/all.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLeaf } from "@fortawesome/free-solid-svg-icons"
 import ActionButton from "./components/ActionButton/ActionButton"

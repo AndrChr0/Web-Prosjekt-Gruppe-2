@@ -1,133 +1,177 @@
-import React from "react"
-import { Link, useNavigate } from "react-router-dom"
+import React,{ useState} from "react"
+import { NavLink, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import "./Header.css"
 import "@fortawesome/fontawesome-free/css/all.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faRightFromBracket, faLeaf } from "@fortawesome/free-solid-svg-icons"
+import * as FaIcons from "@fortawesome/free-solid-svg-icons"
+
 
 const Header = () => {
   const { currentUser, logout } = useAuth()
   const navigate = useNavigate()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout() // Use the logout function from AuthContext
     navigate("/")
   }
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleNavLinkClick = () => {
+    setIsMenuOpen(false); 
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      setIsMenuOpen(prevState => !prevState);
+    }
+  };
+  
+
   return (
     <header>
       <nav>
-        <ul>
+      
           {/* Conditional rendering based on currentUser */}
           {!currentUser && (
             <>
-              <div>
+
+              <ul className="home-page-nav">
+
                 <li>
-                  <Link to="/" className="nav-link" id="nav-logo">
+                  <NavLink to="/" className="nav-logo nav-link" id="nav-logo">
                     <FontAwesomeIcon icon={faLeaf} /> Sustainability Diary
-                  </Link>
+                  </NavLink>
                 </li>
-              </div>
-              <div className="login-register-links">
+              
+              
                 <li>
-                  <Link to="/login" className="nav-link" id="login">
+                  <NavLink to="/login" className="nav-link" id="login">
                     Login
-                  </Link>
+                  </NavLink>
                 </li>
-              </div>
+              </ul>
             </>
           )}
           {currentUser?.role === "teacher" && (
             <>
-              <div>
-                <li>
-                  <Link
-                    to="/teacher_dashboard"
-                    className="nav-link"
-                    id="nav-logo"
+
+            <div className="hamburger" onClick={toggleMenu}
+            aria-label="Menu"
+            tabIndex="0"
+            onKeyDown={handleKeyPress}>
+            <FontAwesomeIcon icon={isMenuOpen ? FaIcons.faTimes : FaIcons.faBars} />
+            </div>
+            
+            <ul className={isMenuOpen ? "active" : ""}>
+
+            <div className="logo-wrapper">
+
+              <li>
+                  <NavLink
+                    to="/student_dashboard"
+                    className="nav-logo nav-link"
+          
+                    onClick={handleNavLinkClick}
                   >
                     <FontAwesomeIcon icon={faLeaf} /> Sustainability Diary
-                  </Link>
+                  </NavLink>
                 </li>
               </div>
+
               <div className="nav-main-links">
+
                 <li>
-                  <Link to="/teacher_dashboard" className="nav-link">
+                  <NavLink to="/teacher_dashboard" className="nav-link" onClick={handleNavLinkClick}>
                     Home
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to="/my_courses" className="nav-link">
+                  <NavLink to="/my_courses" className="nav-link" onClick={handleNavLinkClick}>
                     Courses
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to="/submissions" className="nav-link">
+                  <NavLink to="/submissions" className="nav-link" onClick={handleNavLinkClick}>
                     Submissions
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to="/profile-page" className="nav-link">
+                  <NavLink to="/profile-page" className="nav-link" onClick={handleNavLinkClick}>
                     Profile
-                  </Link>
+                  </NavLink>
                 </li>
                 <div className="Logout-link">
                   {currentUser?.role === "teacher" && (
-                    <li>
-                      <button onClick={handleLogout} className="nav-link">
+                    <li tabIndex="0">
+                      <button onClick={handleLogout}  className="nav-link">
                         Log Out <FontAwesomeIcon icon={faRightFromBracket} />
                       </button>
                     </li>
                   )}
                 </div>
               </div>
+              
+              </ul>
 
-              {/* Additional teacher-specific links */}
             </>
           )}
           {currentUser?.role === "student" && (
             <>
-              <div>
-                <li>
-                  <Link
+
+            <div className="hamburger" onClick={toggleMenu}>
+            <FontAwesomeIcon icon={isMenuOpen ? FaIcons.faTimes : FaIcons.faBars} 
+            aria-label="Menu"
+            tabIndex="0"/>
+            </div>
+
+            <ul className={isMenuOpen ? "active" : ""}>
+
+
+              <li>
+                  <NavLink
                     to="/student_dashboard"
-                    className="nav-link"
-                    id="nav-logo"
+                    className="nav-link nav-logo"
+                    onClick={handleNavLinkClick}
                   >
                     <FontAwesomeIcon icon={faLeaf} /> Sustainability Diary
-                  </Link>
+                  </NavLink>
                 </li>
-              </div>
+                 
               <div className="nav-main-links">
                 <li>
-                  <Link to="/student_dashboard" className="nav-link">
+                  <NavLink to="/student_dashboard" className="nav-link" onClick={handleNavLinkClick}>
                     Home
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to="/diary" className="nav-link">
+                  <NavLink to="/diary" className="nav-link" onClick={handleNavLinkClick}>
                     My Diary
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to="/courses" className="nav-link">
+                  <NavLink to="/courses" className="nav-link" onClick={handleNavLinkClick}>
                     Courses
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to="/inbox" className="nav-link">
+                  <NavLink to="/inbox" className="nav-link" onClick={handleNavLinkClick}>
                     Inbox
-                  </Link>
+                  </NavLink>
                 </li>
                 <li>
-                  <Link to="/profile-page" className="nav-link">
+                  <NavLink to="/profile-page" className="nav-link" onClick={handleNavLinkClick}>
                     Profile
-                  </Link>
+                  </NavLink>
                 </li>
                 <div className="Logout-link">
                   {currentUser?.role === "student" && (
-                    <li>
+                    <li tabIndex="0">
                       <button onClick={handleLogout} className="nav-link">
                         Log Out <FontAwesomeIcon icon={faRightFromBracket} />
                       </button>
@@ -135,9 +179,9 @@ const Header = () => {
                   )}
                 </div>
               </div>
+              </ul>
             </>
           )}
-        </ul>
       </nav>
     </header>
   )
