@@ -63,7 +63,7 @@ const Header = () => {
 
             <div className="hamburger" onClick={toggleMenu}
             aria-label="Menu"
-            tabindex="0"
+            tabIndex="0"
             onKeyDown={handleKeyPress}>
             <FontAwesomeIcon icon={isMenuOpen ? FaIcons.faTimes : FaIcons.faBars} />
             </div>
@@ -108,7 +108,7 @@ const Header = () => {
                 </li>
                 <div className="Logout-link">
                   {currentUser?.role === "teacher" && (
-                    <li tabindex="0">
+                    <li tabIndex="0">
                       <button onClick={handleLogout}  className="nav-link">
                         Log Out <FontAwesomeIcon icon={faRightFromBracket} />
                       </button>
@@ -127,7 +127,7 @@ const Header = () => {
             <div className="hamburger" onClick={toggleMenu}>
             <FontAwesomeIcon icon={isMenuOpen ? FaIcons.faTimes : FaIcons.faBars} 
             aria-label="Menu"
-            tabindex="0"/>
+            tabIndex="0"/>
             </div>
 
             <ul className={isMenuOpen ? "active" : ""}>
@@ -171,7 +171,7 @@ const Header = () => {
                 </li>
                 <div className="Logout-link">
                   {currentUser?.role === "student" && (
-                    <li tabindex="0">
+                    <li tabIndex="0">
                       <button onClick={handleLogout} className="nav-link">
                         Log Out <FontAwesomeIcon icon={faRightFromBracket} />
                       </button>
