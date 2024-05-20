@@ -3,14 +3,18 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f8f8f8;
-  width: 500px;
+  background-color: var(
+    --secondary-bg-color
+  ); /* Use the secondary background color */
+  width: 90%;
+  max-width: 500px; /* Ensure a max-width for large screens */
 }
 
 .profile_heading {
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
+  color: var(--main-text-color-dark); /* Use the main text color */
 }
 
 .profile-settings {
@@ -27,7 +31,7 @@
 
 .profile-field p {
   flex-shrink: 0;
-  width: 100px; /* Adjusted width for label */
+  width: 100px;
 }
 
 .profile-value {
@@ -35,36 +39,70 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 3px;
-  width: calc(100% - 180px); /* Adjusted width for input */
+  width: calc(100% - 180px);
 }
 
 .edit-button {
   padding: 8px 12px;
   border-radius: 3px;
-  margin-left: 10px;
+  margin-left: 15px; /* Increase margin for more space */
   font-weight: bold;
+  background-color: var(--main-btn-color); /* Use the main button color */
+  color: white;
 }
 
 .delete-button {
-  background-color: #e74c3c;
+  background-color: var(--delete-btn-color); /* Use the delete button color */
   color: white;
 }
 
 .delete-button:hover {
-  background-color: #b62515;
+  background-color: var(
+    --delete-btn-color-hover
+  ); /* Use the delete button hover color */
 }
 
 .profile-buttons {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.profile-buttons button {
+  margin: 5px 0;
 }
 
 h1 {
   text-align: center;
 }
 
-/* Adjust width of password input field */
 .password-input input {
   width: 100%;
-  margin-top: 5px; /* Added margin to separate inputs */
+  margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+  .profile_container {
+    width: 100%;
+  }
+
+  .profile-field {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-field p,
+  .profile-value {
+    width: 100%;
+  }
+
+  .edit-button {
+    margin-left: 0; /* Remove left margin for better alignment */
+    margin-top: 10px; /* Add top margin for spacing */
+  }
+
+  .profile-buttons {
+    flex-direction: column;
+    gap: 1em;
+  }
 }
