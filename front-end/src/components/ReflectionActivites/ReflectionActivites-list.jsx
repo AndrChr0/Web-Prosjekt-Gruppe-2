@@ -5,23 +5,18 @@ import "./Activites-list.css";
 
 const ReflectionActivites = () => {
   const apiURL = import.meta.env.VITE_URL;
-// const apiURL = '/api';
 
-  
   const [activities, setActivities] = useState([]);
   useEffect(() => {
     axios
       .get(`${apiURL}/activities`)
       .then((res) => {
-        setActivities(res.data.data); 
+        setActivities(res.data.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-
-
-  // I guess we could toggle show hide certain descriptions if needed.
 
   return (
     <div className="Activities-List">
@@ -35,10 +30,10 @@ const ReflectionActivites = () => {
                   <b> {activity.title} </b>
                 </div>
                 <div className="Description-button-row">
-                    <span>{activity.description}</span>
-                    <Link to={ "/new_reflection"}>
+                  <span>{activity.description}</span>
+                  <Link to={"/new_reflection"}>
                     <button>New Reflection</button>
-                    </Link>
+                  </Link>
                 </div>
               </div>
             </li>

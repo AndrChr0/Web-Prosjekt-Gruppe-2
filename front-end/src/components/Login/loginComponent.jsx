@@ -5,18 +5,13 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Login.css";
 
-
-
 const Login = () => {
   const apiURL = import.meta.env.VITE_URL;
-  // const apiURL = '/api';
-  
-  
 
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
-  const { decodeAndSetUser } = useAuth(); // Now using the newly exposed function
+  const { decodeAndSetUser } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,16 +20,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try { 
-      const response = await axios.post(
-        `${apiURL}/users/login`,
-        credentials
-      );
-      localStorage.setItem("authToken", response.data.token); // Storing the token
+    try {
+      const response = await axios.post(`${apiURL}/users/login`, credentials);
+      localStorage.setItem("authToken", response.data.token);
       decodeAndSetUser(response.data.token); // Decode and set user upon successful login
-      // console.log("Login successful:", response.data);
       // Optionally decode role here to navigate accordingly or assume role handling elsewhere
-      const userRole = JSON.parse(atob(response.data.token.split(".")[1])).role; // Ensure role is included in the token
+      const userRole = JSON.parse(atob(response.data.token.split(".")[1])).role;
       navigate(
         userRole === "teacher" ? "/teacher_dashboard" : "/student-dashboard"
       );
@@ -80,26 +71,27 @@ const Login = () => {
 };
 
 // Export the handleSubmit function for testing purpose
-export const handleSubmit = async (credentials, setLoginError, navigate, decodeAndSetUser) => {
-  console.log('Login credentials:', credentials);
-  try { 
-      const response = await axios.post(
-        `${apiURL}/users/login`,
-        credentials
-      );
-      localStorage.setItem("authToken", response.data.token); // Storing the token
-      decodeAndSetUser(response.data.token); // Decode and set user upon successful login
-      console.log("Login successful:", response.data);
-      
-      const userRole = JSON.parse(atob(response.data.token.split(".")[1])).role; // Ensure role is included in the token
-      navigate(
-          userRole === "teacher" ? "/teacher_dashboard" : "/student-dashboard"
-      );
+export const handleSubmit = async (
+  credentials,
+  setLoginError,
+  navigate,
+  decodeAndSetUser
+) => {
+  console.log("Login credentials:", credentials);
+  try {
+    const response = await axios.post(`${apiURL}/users/login`, credentials);
+    localStorage.setItem("authToken", response.data.token); // Storing the token
+    decodeAndSetUser(response.data.token); // Decode and set user upon successful login
+    console.log("Login successful:", response.data);
+
+    const userRole = JSON.parse(atob(response.data.token.split(".")[1])).role; // Ensure role is included in the token
+    navigate(
+      userRole === "teacher" ? "/teacher_dashboard" : "/student-dashboard"
+    );
   } catch (error) {
-      setLoginError("Failed to login. Please check your input and try again.");
-      console.error("Login failed:", error.response?.data || error.message);
+    setLoginError("Failed to login. Please check your input and try again.");
+    console.error("Login failed:", error.response?.data || error.message);
   }
 };
-
 
 export default Login;

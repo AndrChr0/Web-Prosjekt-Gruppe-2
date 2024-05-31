@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { jwtDecode }  from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import "./Profile.css";
 
 const Profile = () => {
@@ -11,8 +11,7 @@ const Profile = () => {
       try {
         const decodedToken = jwtDecode(token);
         const { email } = decodedToken;
-        console.log("Decoded Email: ", email); // Log the email here
-        setUserEmail(email); // Assuming the JWT contains an email field
+        setUserEmail(email);
       } catch (error) {
         console.error("Error decoding token:", error);
       }

@@ -1,18 +1,16 @@
-import "@fortawesome/fontawesome-free/css/all.css"
-import "../src/assets/styles/App.css"
-import "../src/assets/styles/Home.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faLeaf } from "@fortawesome/free-solid-svg-icons"
-import ActionButton from "./components/ActionButton/ActionButton"
-import { useNavigate } from "react-router-dom"
-
-const apiURL = import.meta.env.VITE_URL
+import "@fortawesome/fontawesome-free/css/all.css";
+import "../src/assets/styles/App.css";
+import "../src/assets/styles/Home.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLeaf } from "@fortawesome/free-solid-svg-icons";
+import ActionButton from "./components/ActionButton/ActionButton";
+import { useNavigate } from "react-router-dom";
 
 // Leaf Icon Component
-const LeafIcon = () => <FontAwesomeIcon icon={faLeaf} className="leaf-icon" />
+const LeafIcon = () => <FontAwesomeIcon icon={faLeaf} className="leaf-icon" />;
 
 function Home() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <main className="home-main">
@@ -54,7 +52,7 @@ function Home() {
         </div>
       </div>
     </main>
-  )
+  );
 }
 
-export default Home
+export default Home;

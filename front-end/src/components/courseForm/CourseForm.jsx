@@ -4,8 +4,7 @@ import axios from "axios";
 import "./courseForm.css";
 
 const CourseForm = () => {
-const apiURL = import.meta.env.VITE_URL;
-// const apiURL = '/api';
+  const apiURL = import.meta.env.VITE_URL;
 
   const navigate = useNavigate();
   const [courseError, setCourseError] = useState("");
@@ -37,16 +36,12 @@ const apiURL = import.meta.env.VITE_URL;
     const token = localStorage.getItem("authToken");
 
     try {
-      const response = await axios.post(
-        `${apiURL}/courses`,
-        courseData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Include the JWT token
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${apiURL}/courses`, courseData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the JWT token
+          "Content-Type": "application/json",
+        },
+      });
       console.log("Response:", response.data);
       navigate("/my_courses");
       setCourseData({
@@ -85,7 +80,9 @@ const apiURL = import.meta.env.VITE_URL;
           />
         </label>
 
-        <button className="main-menu-btn" type="submit" value="Submit"> Add Course </button>
+        <button className="main-menu-btn" type="submit" value="Submit">
+          Add Course
+        </button>
         {courseError && <p className="error">{courseError}</p>}
       </form>
     </div>

@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //student pages
 import Home from "./Home";
@@ -197,12 +197,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* routes to teacher pages.  */}
-          {/* Hopefully we can get protected routes for this interface using
-        same paths as student routes - "/" for home and "/courses" course pages. 
-        If not, its not the end of the world.
-        */}
         </Routes>
         <Footer />
       </div>

@@ -7,9 +7,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 function EditReflection() {
-const apiURL = import.meta.env.VITE_URL;
-// const apiURL = '/api';
-
+  const apiURL = import.meta.env.VITE_URL;
 
   const { reflectionId } = useParams();
   const navigate = useNavigate();
@@ -49,17 +47,13 @@ const apiURL = import.meta.env.VITE_URL;
     fetchReflection();
   }, [reflectionId]);
 
-  
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const fetchCourses = async () => {
       try {
-        const response = await axios.get(
-          `${apiURL}/users/profile`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const response = await axios.get(`${apiURL}/users/profile`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
       } catch (error) {
         console.error(error);
         setError(error.message || "An error occurred while fetching courses.");
@@ -83,13 +77,9 @@ const apiURL = import.meta.env.VITE_URL;
     const token = localStorage.getItem("authToken");
     setLoading(true);
     try {
-      await axios.put(
-        `${apiURL}/reflections/${reflectionId}`,
-        reflection,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await axios.put(`${apiURL}/reflections/${reflectionId}`, reflection, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       navigate(`/diary/${reflectionId}`);
     } catch (error) {
       console.error(error);
@@ -131,7 +121,7 @@ const apiURL = import.meta.env.VITE_URL;
           value={reflection.title}
           onChange={handleChange}
         />
-  
+
         <label>Content:</label>
         <ReactQuill
           theme="snow"

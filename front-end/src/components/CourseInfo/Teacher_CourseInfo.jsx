@@ -13,10 +13,7 @@ const TeacherCourseInfo = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const { id } = useParams();
-const apiURL = import.meta.env.VITE_URL;
-// const apiURL = '/api';
-
-
+  const apiURL = import.meta.env.VITE_URL;
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -82,32 +79,31 @@ const apiURL = import.meta.env.VITE_URL;
 
   return (
     <div className="Course-Information">
+      {isEditing ? (
+        <input
+          type="text"
+          name="courseCode"
+          value={editedCourse.courseCode || ""}
+          onChange={handleInputChange}
+          className="edit-input"
+        />
+      ) : (
+        <span>{course.courseCode} </span>
+      )}
+
+      <span>
         {isEditing ? (
-          
           <input
             type="text"
-            name="courseCode"
-            value={editedCourse.courseCode || ""}
+            name="title"
+            value={editedCourse.title || ""}
             onChange={handleInputChange}
             className="edit-input"
           />
         ) : (
-          <span>{course.courseCode} </span>
+          <span>{course.title}</span>
         )}
-
-        <span>
-          {isEditing ? (
-            <input
-              type="text"
-              name="title"
-              value={editedCourse.title || ""}
-              onChange={handleInputChange}
-              className="edit-input"
-            />
-          ) : (
-            <span>{course.title}</span>
-          )}
-        </span>
+      </span>
       {isEditing ? (
         <textarea
           name="description"

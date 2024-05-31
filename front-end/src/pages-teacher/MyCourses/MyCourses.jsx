@@ -4,56 +4,55 @@ import { Link } from "react-router-dom";
 import "./MyCourses.css";
 import MainMenuButton from "../../components/MainmenuButton/MainMenuButton";
 
-const TeacherCourses = () =>{
+const TeacherCourses = () => {
   const apiURL = import.meta.env.VITE_URL;
-  // const apiURL = '/api';
 
-    const [courses, setCourses] = useState([]);
-    // const [loading, setLoading] = useState(false);
-  
-    useEffect(() => {
-      // setLoading(true);
-      const token = localStorage.getItem("authToken");
+  const [courses, setCourses] = useState([]);
 
-      axios
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+
+    axios
       .get(`${apiURL}/courses`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-        .then((res) => {
-          setCourses(res.data.data);
-          // setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error);
-          // setLoading(false);
-        });
-    }, []);
+      .then((res) => {
+        setCourses(res.data.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
-    return(
-        <main>
-            <h1>My Courses</h1>
-            <div className="addCourse-btn">
-                <MainMenuButton
-                    path="/new_course"
-                    buttonName="New Course"
-                ></MainMenuButton>
-            </div>
-            <ul className="Courses-list">
-                {courses.map((course) => (
-                    <div key={course._id}>
-                    <Link className="Text-link" to={`/my_courses/${course._id}`}>
-                        <li className="Course-item">
-                        <div className="course-inner-text">
-                            <span><b>{course.courseCode}</b></span> {course.title} 
-                        </div>
-                        </li>
-                    </Link>
-                    </div>
-                ))}
-            </ul>
-        </main>
-    )}
-    
-    export default TeacherCourses;
+  return (
+    <main>
+      <h1>My Courses</h1>
+      <div className="addCourse-btn">
+        <MainMenuButton
+          path="/new_course"
+          buttonName="New Course"
+        ></MainMenuButton>
+      </div>
+      <ul className="Courses-list">
+        {courses.map((course) => (
+          <div key={course._id}>
+            <Link className="Text-link" to={`/my_courses/${course._id}`}>
+              <li className="Course-item">
+                <div className="course-inner-text">
+                  <span>
+                    <b>{course.courseCode}</b>
+                  </span>{" "}
+                  {course.title}
+                </div>
+              </li>
+            </Link>
+          </div>
+        ))}
+      </ul>
+    </main>
+  );
+};
+
+export default TeacherCourses;

@@ -4,17 +4,14 @@ import { useNavigate, Link } from "react-router-dom";
 import "./Register.css";
 
 const Register = () => {
-
-// const apiURL = '/api';
-const apiURL = import.meta.env.VITE_URL;
-
+  const apiURL = import.meta.env.VITE_URL;
 
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
     role: "student", // Default to 'student'
     firstName: "",
-    lastName: ""
+    lastName: "",
   });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [registrationError, setRegistrationError] = useState("");

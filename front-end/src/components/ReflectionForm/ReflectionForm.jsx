@@ -4,15 +4,10 @@ import "./ReflectionForm.css";
 import ActionButton from "../ActionButton/ActionButton";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
 
 function ReflectionForm() {
-
-
   const apiURL = import.meta.env.VITE_URL;
-// const apiURL = '/api';
-
-
 
   const navigate = useNavigate();
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
@@ -32,7 +27,6 @@ function ReflectionForm() {
       try {
         const token = localStorage.getItem("authToken");
         if (!token) {
-          console.log("No token found");
           return;
         }
 
@@ -47,8 +41,6 @@ function ReflectionForm() {
 
         if (response.data && response.data.courses) {
           setCourses(response.data.courses);
-        } else {
-          console.log("No courses found.");
         }
       } catch (error) {
         console.error(error);
@@ -89,16 +81,12 @@ function ReflectionForm() {
     });
 
     try {
-      await axios.post(
-        `${apiURL}/reflections/`,
-        formDataWithFiles,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axios.post(`${apiURL}/reflections/`, formDataWithFiles, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setFormData({
         title: "",
         content: "",
@@ -129,14 +117,7 @@ function ReflectionForm() {
           required
         />
         <label htmlFor="content">Content:</label>
-        {/* <textarea
-          name="content"
-          cols="30"
-          rows="10"
-          value={formData.content}
-          onChange={handleChange}
-          required
-        ></textarea> */}
+
         <ReactQuill
           theme="snow"
           value={formData.content}

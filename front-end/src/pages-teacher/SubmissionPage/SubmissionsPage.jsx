@@ -1,40 +1,35 @@
-import React, {useState, useEffect} from "react"
-import axios from "axios"
-import { Link } from "react-router-dom"
-import "./Submissions.css"
-import { useSubmissions } from "./useSubmissions"
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import "./Submissions.css";
+import { useSubmissions } from "./useSubmissions";
 
 const SubmissionsPage = () => {
-    
   const apiURL = import.meta.env.VITE_URL;
-// const apiURL = '/api';
 
+  const [reflections, setReflections] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    const [reflections, setReflections] = useState([]);
-    const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    setLoading(true);
+    axios
+      .get(`${apiURL}/reflections/search?visibility=true`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setReflections(res.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
 
-    useEffect(() => {
-      const token = localStorage.getItem("authToken");
-        setLoading(true);
-        axios
-        .get(`${apiURL}/reflections/search?visibility=true`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((res) => {
-        
-
-            setReflections(res.data.data);
-            setLoading(false);
-          })
-          .catch((error) => {
-            console.log(error);
-            setLoading(false);
-          });                   
-      }, []);
-
-    return(
+  return (
     <main>
       {/* RECENT REFLECTIONS */}
       <h1>Student submissions</h1>
@@ -46,14 +41,16 @@ const SubmissionsPage = () => {
               <div>
                 <span>{reflection.courseId.title}</span>
                 <span>{reflection.title}</span>
-                <span>By: {reflection.userId.firstName} {reflection.userId.lastName}</span>
+                <span>
+                  By: {reflection.userId.firstName} {reflection.userId.lastName}
+                </span>
               </div>
             </Link>
           </li>
         ))}
       </ul>
     </main>
-  )
-}
+  );
+};
 
-export default SubmissionsPage
+export default SubmissionsPage;

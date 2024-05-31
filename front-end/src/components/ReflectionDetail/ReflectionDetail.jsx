@@ -6,10 +6,7 @@ import axios from "axios";
 import "./ReflectionDetail.css";
 
 function ReflectionDetail() {
-
   const apiURL = import.meta.env.VITE_URL;
-  // const apiURL = '/api';
-
 
   const { reflectionId } = useParams();
   const navigate = useNavigate();
@@ -74,7 +71,9 @@ function ReflectionDetail() {
     return feedback.map((item) => (
       <div className="feedback-item" key={item._id}>
         <p>
-          <b>{item.userId.firstName} {item.userId.lastName}</b>{" "}
+          <b>
+            {item.userId.firstName} {item.userId.lastName}
+          </b>{" "}
         </p>
         <p>{item.content}</p>
       </div>
@@ -164,7 +163,9 @@ function ReflectionDetail() {
         {reflection.courseId && (
           <p className="course-id">
             Course:{" "}
-            <Link to={`/courses/${reflection.courseId._id}`}>{reflection.courseId.courseCode} - {reflection.courseId.title}</Link>{" "}
+            <Link to={`/courses/${reflection.courseId._id}`}>
+              {reflection.courseId.courseCode} - {reflection.courseId.title}
+            </Link>{" "}
           </p>
         )}
 
@@ -175,10 +176,7 @@ function ReflectionDetail() {
         {enlargedImage && (
           <div className="popup">
             <div className="popup-content">
-              <img
-                src={`${apiURL}/${enlargedImage}`}
-                alt="Enlarged Image"
-              />
+              <img src={`${apiURL}/${enlargedImage}`} alt="Enlarged Image" />
               <button className="main-menu-btn" onClick={handleClose}>
                 Close
               </button>

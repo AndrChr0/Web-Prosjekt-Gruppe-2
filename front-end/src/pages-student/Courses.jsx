@@ -3,39 +3,40 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Courses() {
-  
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const apiURL = import.meta.env.VITE_URL;
-  // const apiURL = '/api';
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const token = localStorage.getItem('authToken');
+        const token = localStorage.getItem("authToken");
         if (!token) {
-          setError('Not authorized. Please login.');
+          setError("Not authorized. Please login.");
           setLoading(false);
           return;
         }
 
-        const response = await axios.get(`${apiURL}/users/profile/user_courses`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        });
+        const response = await axios.get(
+          `${apiURL}/users/profile/user_courses`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-        if(response.data && response.data.courses) {
+        if (response.data && response.data.courses) {
           setCourses(response.data.courses);
         } else {
-          setError('No courses found.');
+          setError("No courses found.");
         }
-        
+
         setLoading(false);
       } catch (error) {
-        setError('Failed to load courses. Please try again.');
+        setError("Failed to load courses. Please try again.");
         setLoading(false);
       }
     };
@@ -57,12 +58,15 @@ function Courses() {
       <ul className="Courses-list">
         {courses.length > 0 ? (
           courses.map((course) => (
-            <Link to={`/courses/${course._id}`} className='Text-link'>
-            <li key={course._id} className="Course-item">
+            <Link to={`/courses/${course._id}`} className="Text-link">
+              <li key={course._id} className="Course-item">
                 <div>
-                  <span><b>{course.courseCode}</b></span> {course.title}
+                  <span>
+                    <b>{course.courseCode}</b>
+                  </span>{" "}
+                  {course.title}
                 </div>
-            </li>
+              </li>
             </Link>
           ))
         ) : (

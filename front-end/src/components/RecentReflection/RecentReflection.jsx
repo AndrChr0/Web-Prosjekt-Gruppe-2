@@ -5,8 +5,7 @@ import "./RecentReflection.css";
 
 const RecentReflection = () => {
   const apiURL = import.meta.env.VITE_URL;
-  // const apiURL = '/api';
-  
+
   const { id } = useParams();
   const [reflection, setReflection] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,7 +19,7 @@ const RecentReflection = () => {
     axios
       .get(`${apiURL}/reflections/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include JWT token in request headers
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
@@ -76,13 +75,12 @@ const RecentReflection = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-        
       );
 
       console.log("Feedback submitted:", res.data.content);
       setShowFeedbackForm(false);
       setFeedbackText("");
-      fetchFeedback(); 
+      fetchFeedback();
       sendNotificationOfFeedback(reflection.userId, reflection.title);
     } catch (error) {
       console.error("Error submitting feedback:", error);
@@ -98,7 +96,7 @@ const RecentReflection = () => {
       axios
         .delete(`${apiURL}/feedback/${feedbackId}`, {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the JWT token
+            Authorization: `Bearer ${token}`,
           },
         })
         .then(() => {
@@ -118,12 +116,9 @@ const RecentReflection = () => {
     return feedback.map((item) => (
       <div className="feedback-item" key={item._id}>
         <p>
-          {" "}
-          <b>My feedback:</b>{" "}
+          <b>My feedback:</b>
         </p>
         <p>{item.content}</p>
-        {/* <p> <b>By: </b></p> */}
-        {/* <p>{item.userId}</p> */}
         <button className="remove-btn" onClick={() => handleDelete(item._id)}>
           Remove
         </button>
@@ -134,7 +129,7 @@ const RecentReflection = () => {
   const sendNotificationOfFeedback = (userId) => {
     axios
       .post(
-        `${apiURL}/notifications` ,
+        `${apiURL}/notifications`,
         {
           content: `You have received feedback on your reflection: "${reflection.title}"`,
           userId: userId,
@@ -151,18 +146,19 @@ const RecentReflection = () => {
       .catch((error) => {
         console.error("Error sending notification:", error);
       });
-  }
-
+  };
 
   return (
     <div className="Reflection_card--wrapper">
       <div className="Reflection_card">
         <div className="Reflection_card_title">
           <h2>{reflection.title}</h2>
-          <p>By: {reflection.userId.firstName} {reflection.userId.lastName}</p>
+          <p>
+            By: {reflection.userId.firstName} {reflection.userId.lastName}
+          </p>
         </div>
         <div className="Reflection_card_content">
-        <p dangerouslySetInnerHTML={{ __html: reflection.content }}></p>
+          <p dangerouslySetInnerHTML={{ __html: reflection.content }}></p>
         </div>
 
         <div className="Reflection-files-area">
@@ -235,10 +231,7 @@ const RecentReflection = () => {
       {enlargedImage && (
         <div className="popup">
           <div className="popup-content">
-            <img
-              src={`${apiURL}/${enlargedImage}`}
-              alt="Enlarged Image"
-            />
+            <img src={`${apiURL}/${enlargedImage}`} alt="Enlarged Image" />
             <button className="main-menu-btn" onClick={handleClose}>
               Close
             </button>
