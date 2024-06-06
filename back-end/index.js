@@ -19,14 +19,13 @@ const PORT = process.env.PORT || 5555;
 const MONGO_URI = process.env.MONGO_URI;
 
 const app = express();
-// app.use(express.json());
 
 const corsOptions = {
   origin: [
     "https://team2-api.sustainability.it.ntnu.no",
     "http://localhost:8082",
     "http://localhost:8092",
-    "https://team2.sustainability.it.ntnu.no"
+    "https://team2.sustainability.it.ntnu.no",
   ],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -34,49 +33,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// app.use(cors());
-// {
-//   "origin": "*",
-//   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   "preflightContinue": false,
-//   "optionsSuccessStatus": 204
-// }
-
-// const corsOptions = {
-//   origin: 'http://localhost:8082',
-//   credentials: true, 
-//   optionsSuccessStatus: 200 
-// };
-
-// app.use(cors(corsOptions));
-
-// Middelware for handeling CORS policy.
-// const corsOptions = {
-//   origin: "http://localhost:8082",
-//   credentials: true
-// }
-// app.use(cors(corsOptions));
-// console.log("MONGO_URI", MONGO_URI);
-// console.log("PORT", PORT);
-// app.use(cors({
-//   optionsSuccessStatus: 200,
-//   origin: function(origin, cb){
-//       if(!origin) return cb(null, {origin: false}); // requests that don't require origin checking
-//       if(origin.startsWith("http://localhost")){
-//           return cb(null, {origin: true}); // mirroring back the origin for localhost
-//       }else if(origin.match(/[https:\/\/team2.sustainability.it.ntnu.no(\/|$)/))]https:\/\/team2.sustainability.it.ntnu.no(\/|$)/)){
-//           return cb(null, {origin: true});
-//       }
-//       console.log("Non-allowed origin: ", origin);
-//       return cb("Unknown origin", {origin: false});
-//   }
-// }));
-
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header( "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
 
 app.use(express.json());
 
